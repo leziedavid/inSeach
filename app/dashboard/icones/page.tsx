@@ -17,6 +17,7 @@ export default function Page() {
     const totalItems = icone.length;
     const totalPages = Math.ceil(totalItems / limit);
 
+    
     // Charger les icônes (simulé)
     useEffect(() => {
         setIsReady(false);
