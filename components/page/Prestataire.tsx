@@ -133,7 +133,12 @@ export default function Prestataire({ services }: PrestataireProps) {
             {/* Pagination */}
             {totalPages > 1 && (
                 <div className="mt-2">
-                    <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+
+                    <Pagination
+                        page={page}
+                        onPageChange={setPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={totalPages} />
                 </div>
             )}
 
@@ -146,9 +151,10 @@ export default function Prestataire({ services }: PrestataireProps) {
                     allSubcategories={fakeSubcategories}
                     mode={selectedServices ? "edit" : "create"}
                     initialData={selectedServices}
+                    OnGetAllServices={() => { }}
                 />
             </MyModal>
         </div>
-        
+
     );
 }

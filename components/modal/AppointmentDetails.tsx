@@ -16,6 +16,8 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({ appointment }) 
         [AppointmentStatus.CANCELLED]: "bg-red-100 text-red-800",
         [AppointmentStatus.COMPLETED]: "bg-blue-100 text-blue-800",
         [AppointmentStatus.REJECTED]: "bg-gray-100 text-gray-800",
+        [AppointmentStatus.REQUESTED]: "bg-gray-100 text-gray-800",
+        
     };
 
     const statusLabels: Record<AppointmentStatus, string> = {
@@ -24,6 +26,7 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({ appointment }) 
         [AppointmentStatus.CANCELLED]: "Annulé",
         [AppointmentStatus.COMPLETED]: "Terminé",
         [AppointmentStatus.REJECTED]: "Rejeté",
+        [AppointmentStatus.REQUESTED]: "En attente",
     };
 
     const scheduledDate = appointment.scheduledAt ? new Date(appointment.scheduledAt) : null;

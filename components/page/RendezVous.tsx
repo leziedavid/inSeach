@@ -356,7 +356,6 @@ export default function RendezVous() {
                 )}
             </div>
 
-
             <Pagination
                 page={page}
                 onPageChange={setPage}

@@ -178,8 +178,8 @@ export default function FomsUser() {
                                 className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-[#155e75]"
                             >
                                 <option value={AccountType.INDIVIDUAL}>Particulier</option>
-                                <option value={AccountType.COMPANY}>Entreprise</option>
-                                <option value={AccountType.ENTERPRISE}>Grande entreprise</option>
+                                <option value={AccountType.SELLER}>Vendeur</option>
+                                <option value={AccountType.ENTERPRISE}>Entreprise</option>
                             </select>
                         </div>
                     </div>

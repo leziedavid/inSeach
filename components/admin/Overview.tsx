@@ -1,8 +1,8 @@
 // Composant Overview corrigé avec le typage proper pour percent
 import React from "react";
 import { motion } from "framer-motion";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,PieChart, Pie, Cell, PieLabelRenderProps,} from "recharts";
-import { Users, ShoppingBag, HandCoins,  CalendarDays, PieChart as PieIcon, LineChart as LineIcon, BarChart2,} from "lucide-react";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, PieLabelRenderProps, } from "recharts";
+import { Users, ShoppingBag, HandCoins, CalendarDays, PieChart as PieIcon, LineChart as LineIcon, BarChart2, } from "lucide-react";
 import AppointmentCalendar from "../page/AppointmentCalendar";
 import { BarPoint, ChartPoint, OverviewProps, OverviewStats, PiePoint } from "@/types/interfaces";
 
@@ -10,11 +10,11 @@ import { BarPoint, ChartPoint, OverviewProps, OverviewStats, PiePoint } from "@/
 // Données par défaut
 // ==========================
 export const defaultStats: OverviewStats = {
-    totalUsers: 2480,
+    totalUser: 2480,
     totalOrders: 1320,
     totalRevenue: 985000,
     totalAppointments: 743,
-};
+} as const;
 
 export const defaultChartData: ChartPoint[] = [
     { date: "Jan", value: 120 },
@@ -40,8 +40,8 @@ export const defaultPieData: PiePoint[] = [
 // ==========================
 // COMPOSANT PRINCIPAL
 // ==========================
-export default function Overview({ stats = defaultStats, chartData = defaultChartData, barData = defaultBarData, pieData = defaultPieData }: OverviewProps) {
-    
+export default function Overview({ stats = defaultStats, chartData = defaultChartData, barData = defaultBarData, pieData = defaultPieData }: OverviewProps = { stats: defaultStats, chartData: defaultChartData, barData: defaultBarData, pieData: defaultPieData }) {
+
     // Fonction de rendu pour les labels du PieChart
     const renderPieLabel = (props: PieLabelRenderProps) => {
         const { name, percent } = props;
@@ -61,18 +61,38 @@ export default function Overview({ stats = defaultStats, chartData = defaultChar
             {/* Statistiques principales */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <MotionWrap>
-                    <StatCard  title="Utilisateurs"  value={stats.totalUsers.toLocaleString()}  icon={<Users className="w-6 h-6" />} />
+                    <StatCard
+                        title="Utilisateurs"
+                        value={(stats?.totalUser ?? 0).toLocaleString()}
+                        icon={<Users className="w-6 h-6" />}
+                    />
                 </MotionWrap>
+
                 <MotionWrap>
-                    <StatCard  title="Commandes"  value={stats.totalOrders.toLocaleString()}  icon={<ShoppingBag className="w-6 h-6" />} />
+                    <StatCard
+                        title="Commandes"
+                        value={(stats?.totalOrders ?? 0).toLocaleString()}
+                        icon={<ShoppingBag className="w-6 h-6" />}
+                    />
                 </MotionWrap>
+
                 <MotionWrap>
-                    <StatCard  title="Revenus"   value={`${stats.totalRevenue.toLocaleString()} FCFA`}   icon={<HandCoins className="w-6 h-6" />}  />
+                    <StatCard
+                        title="Revenus"
+                        value={`${(stats?.totalRevenue ?? 0).toLocaleString()} FCFA`}
+                        icon={<HandCoins className="w-6 h-6" />}
+                    />
                 </MotionWrap>
+
                 <MotionWrap>
-                    <StatCard  title="Rendez-vous"  value={stats.totalAppointments.toLocaleString()}  icon={<CalendarDays className="w-6 h-6" />} />
+                    <StatCard
+                        title="Rendez-vous"
+                        value={(stats?.totalAppointments ?? 0).toLocaleString()}
+                        icon={<CalendarDays className="w-6 h-6" />}
+                    />
                 </MotionWrap>
             </div>
+
 
             {/* Graphiques */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -82,7 +102,7 @@ export default function Overview({ stats = defaultStats, chartData = defaultChar
                             <XAxis dataKey="date" stroke="#888" />
                             <YAxis stroke="#888" />
                             <Tooltip />
-                            <Line type="monotone" dataKey="value" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ fill: "hsl(var(--primary))", strokeWidth: 2 }}  />
+                            <Line type="monotone" dataKey="value" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ fill: "hsl(var(--primary))", strokeWidth: 2 }} />
                         </LineChart>
                     </ResponsiveContainer>
                 </GraphCard>
@@ -93,7 +113,7 @@ export default function Overview({ stats = defaultStats, chartData = defaultChar
                             <XAxis dataKey="name" />
                             <YAxis />
                             <Tooltip />
-                            <Bar dataKey="orders"  fill="hsl(var(--primary))"  radius={[6, 6, 0, 0]} />
+                            <Bar dataKey="orders" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </GraphCard>
@@ -101,9 +121,9 @@ export default function Overview({ stats = defaultStats, chartData = defaultChar
                 <GraphCard title="Répartition des utilisateurs" icon={<PieIcon className="w-5 h-5" />}>
                     <ResponsiveContainer width="100%" height={250}>
                         <PieChart>
-                            <Pie  data={pieData}  cx="50%"  cy="50%"  innerRadius={40}  outerRadius={70}  paddingAngle={5}  dataKey="value"  label={renderPieLabel} >
+                            <Pie data={pieData} cx="50%" cy="50%" innerRadius={40} outerRadius={70} paddingAngle={5} dataKey="value" label={renderPieLabel} >
                                 {pieData.map((entry, index) => (
-                                    <Cell  key={`cell-${index}`}  fill={`hsl(var(--primary) / ${0.6 + index * 0.2})`} />
+                                    <Cell key={`cell-${index}`} fill={`hsl(var(--primary) / ${0.6 + index * 0.2})`} />
                                 ))}
                             </Pie>
                             <Tooltip formatter={(value: number) => [`${value}%`, "Pourcentage"]} />
@@ -154,7 +174,7 @@ interface GraphCardProps {
 
 function GraphCard({ title, icon, children }: GraphCardProps) {
     return (
-        <motion.div  initial={{ opacity: 0, y: 15 }}   animate={{ opacity: 1, y: 0 }}   transition={{ duration: 0.5 }}  >
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}  >
             <div className="">
                 <div className="flex flex-row items-center gap-2 pb-4">
                     {icon}

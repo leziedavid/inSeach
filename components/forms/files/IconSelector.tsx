@@ -42,18 +42,17 @@ const IconSelector = memo(({ selectedIcon, onSelectIcon, page = 0, limit = 8, on
 
     return (
         <div>
-            
+
             <div className="grid grid-cols-4 gap-2 text-center">
                 {icones.map((icon) => (
                     <button
                         key={icon.id}
                         type="button"
                         onClick={() => onSelectIcon(icon.id)}
-                        className={`flex flex-col items-center p-2 border rounded-lg transition-all ${
-                            selectedIcon === icon.id
+                        className={`flex flex-col items-center p-2 border rounded-lg transition-all ${selectedIcon === icon.id
                                 ? "border-[#b07b5e] bg-[#b07b5e]/10 shadow-sm"
                                 : "border-gray-200 hover:border-[#b07b5e]/40 hover:shadow-sm"
-                        }`}
+                            }`}
                     >
                         <Image
                             src={icon.iconUrl}
@@ -66,7 +65,12 @@ const IconSelector = memo(({ selectedIcon, onSelectIcon, page = 0, limit = 8, on
                 ))}
             </div>
 
-            <Pagination page={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+            <Pagination
+                page={page}
+                onPageChange={setCurrentPage}
+                itemsPerPage={limit}
+                totalItems={totalPages} />
+
         </div>
     );
 });
