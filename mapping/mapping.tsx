@@ -39,6 +39,7 @@ export const appointmentStatusLabels: Record<AppointmentStatus, string> = {
     [AppointmentStatus.REJECTED]: "Rejeté",
     [AppointmentStatus.COMPLETED]: "Terminé",
     [AppointmentStatus.CANCELLED]: "Annulé",
+    [AppointmentStatus.REQUESTED]: "Demandé",
 };
 
 export const orderStatusLabels: Record<OrderStatus, string> = {
