@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  inseach-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend-inseach
+    image: frontend-inseach-image
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./storage:/inseach/storage        # dossier pour stockage local si nécessaire
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "ta_valeur_ici"
+      CLERK_SECRET_KEY: "ta_valeur_ici"
+      SIGNING_SECRET: "ta_valeur_ici"
+      NEXT_PUBLIC_WS_URL: "https://api.inseach.com/api/v1"  # utiliser le nom du conteneur backend
+      NEXT_PUBLIC_SERVEUR_URL: "http://109.199.107.23:5000/api/v1"
+      # NEXT_PUBLIC_SERVEUR_URL: "https://api.inseach.com/api/v1"
+    restart: always
+    networks:
+      - microservices-net
+      - dockerfiles_microservices-net
+
+networks:
+  microservices-net:
+    external: true
+  dockerfiles_microservices-net:
+    external: true
