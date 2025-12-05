@@ -17,7 +17,8 @@ services:
       CLERK_SECRET_KEY: "ta_valeur_ici"
       SIGNING_SECRET: "ta_valeur_ici"
       NEXT_PUBLIC_WS_URL: "https://api.inseach.com/api/v1"  # utiliser le nom du conteneur backend
-      NEXT_PUBLIC_SERVEUR_URL: "http://109.199.107.23:5000/api/v1"
+      # NEXT_PUBLIC_SERVEUR_URL: "http://109.199.107.23:5000/api/v1"
+      NEXT_PUBLIC_SERVEUR_URL: "https://dev.peoogo.com/api/v1"
       # NEXT_PUBLIC_SERVEUR_URL: "https://api.inseach.com/api/v1"
     restart: always
     networks:

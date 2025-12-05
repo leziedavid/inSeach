@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
   images: {
 
     remotePatterns: [
+
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
       {
         protocol: "https",
         hostname: "cdn.sanity.io",
@@ -18,6 +23,13 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: '**',
       },
+      //https://dev.peoogo.com/
+
+      {
+        protocol: 'https',
+        hostname: 'dev.peoogo.com',
+      },
+
     ],
 
     unoptimized: true
