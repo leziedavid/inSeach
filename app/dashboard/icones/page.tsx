@@ -10,7 +10,7 @@ import Pagination from "@/components/pagination/Paginations";
 export default function Page() {
     const [icone, setIcone] = useState<Icone[]>([]);
     const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [page, setPage] = useState(1);
     const [isReady, setIsReady] = useState(false);
 
     const limit = 10; // nombre d'icônes par page
@@ -38,10 +38,10 @@ export default function Page() {
     };
 
     // Pagination
-    const paginatedIcons = icone.slice((currentPage - 1) * limit, currentPage * limit);
+    const paginatedIcons = icone.slice((page - 1) * limit, page * limit);
 
     const handlePageChange = (page: number) => {
-        if (page >= 1 && page <= totalPages) setCurrentPage(page);
+        if (page >= 1 && page <= totalPages) setPage(page);
     };
 
     if (!isReady) {
@@ -62,7 +62,7 @@ export default function Page() {
 
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-[1px]">
                         {paginatedIcons.map((icon) => (
-                            <div  key={icon.id} className="relative flex flex-col items-center" >
+                            <div key={icon.id} className="relative flex flex-col items-center" >
                                 {/* Avatar carré */}
                                 <div
                                     onClick={() => onSelectIcon(icon.id)}
@@ -73,12 +73,12 @@ export default function Page() {
                                     md:w-20 md:h-20    /* desktop */
                                     rounded-lg overflow-hidden cursor-pointer
                                     flex items-center justify-center
-                                    border transition-all duration-200 ease-out group ${selectedIcon === icon.id  ? "border-[#b07b5e] ring-2 ring-[#b07b5e]/50 shadow scale-105"   : "border-gray-300 dark:border-gray-700 hover:scale-[1.02]"  }  `}
+                                    border transition-all duration-200 ease-out group ${selectedIcon === icon.id ? "border-[#b07b5e] ring-2 ring-[#b07b5e]/50 shadow scale-105" : "border-gray-300 dark:border-gray-700 hover:scale-[1.02]"}  `}
                                     title={icon.name}  >
                                     <Image src={icon.iconUrl} alt={icon.name} fill className="object-cover" />
 
                                     {/* Bouton supprimer */}
-                                    <div  onClick={(e) => {  e.stopPropagation();  handleDelete(icon.id);   }}
+                                    <div onClick={(e) => { e.stopPropagation(); handleDelete(icon.id); }}
                                         className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full
                                             w-5 h-5 sm:w-6 sm:h-6
                                             flex items-center justify-center
@@ -100,10 +100,10 @@ export default function Page() {
                     {/* Pagination */}
                     <div className="mt-6 flex justify-center">
                         <Pagination
-                            page={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={handlePageChange}
-                        />
+                            page={page}
+                            onPageChange={setPage}
+                            itemsPerPage={limit}
+                            totalItems={totalPages} />
                     </div>
                 </div>
             </div>
