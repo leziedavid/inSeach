@@ -59,7 +59,7 @@ const IconSelector = memo(({ selectedIcon, onSelectIcon, page = 0, limit = 8, on
                             alt={icon.name}
                             width={32}
                             height={32}
-                            className="mb-2 object-contain"
+                            className="mb-2 object-contain" unoptimized
                         />
                     </button>
                 ))}

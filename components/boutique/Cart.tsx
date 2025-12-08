@@ -31,13 +31,7 @@ export default function Cart() {
             {/* EMPTY CART */}
             {cartItems.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-10 text-center">
-                    <Image
-                        src="/empty-cart.png"
-                        width={180}
-                        height={180}
-                        alt="Empty Cart"
-                        className="opacity-80"
-                    />
+                    <Image src="/empty-cart.png"  width={180} height={180}  alt="Empty Cart" className="opacity-80" unoptimized  />
                     <p className="text-gray-600 text-sm mt-4 px-4">
                         Votre panier est vide. Ajoutez des produits pour continuer.
                     </p>
@@ -61,7 +55,7 @@ export default function Cart() {
                                         alt={item.product.name}
                                         fill
                                         className="object-cover w-full h-full"
-                                        onLoadingComplete={(img) => img.classList.remove('animate-pulse')}
+                                        onLoadingComplete={(img) => img.classList.remove('animate-pulse')} unoptimized
                                     />
                                 </div>
 

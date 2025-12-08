@@ -156,7 +156,7 @@ export default function ListeServices({ services }: ServicesProps) {
 
                                         <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-white text-sm font-medium">
                                             {service.iconUrl ? (
-                                                <Image src={service.iconUrl} alt={service.icone?.name || "icon"} width={28} height={28} className={`object-contain ${selectedService === service.id ? "brightness-200 invert" : ""}`} />
+                                                <Image src={service.iconUrl} alt={service.icone?.name || "icon"} width={28} height={28} className={`object-contain ${selectedService === service.id ? "brightness-200 invert" : ""}`} unoptimized />
                                             ) : (
                                                 <span className={`text-sm font-semibold ${selectedService === service.id ? "text-white" : "text-gray-500"}`} >
                                                     ?

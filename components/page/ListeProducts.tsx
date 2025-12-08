@@ -159,6 +159,7 @@ export default function ListeProducts({ products }: ProductsProps) {
                                                 width={28}
                                                 height={28}
                                                 className={`object-contain ${selectedProduct === item.id ? "brightness-200 invert" : ""}`}
+                                                unoptimized
                                             />
                                         ) : (
                                             <span className={`text-sm font-semibold ${selectedProduct === item.id ? "text-white" : "text-gray-500"}`}>

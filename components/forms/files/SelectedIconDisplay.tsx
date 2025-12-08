@@ -22,7 +22,7 @@ const SelectedIconDisplay = memo(({ iconId, icones, onEdit }: SelectedIconDispla
                 alt={icon.name}
                 width={32}
                 height={32}
-                className="object-contain"
+                className="object-contain" unoptimized
             />
 
             <span className="font-medium text-gray-700 flex-1">{icon.name}</span>

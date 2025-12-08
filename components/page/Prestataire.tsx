@@ -88,7 +88,7 @@ export default function Prestataire({ services }: PrestataireProps) {
                                     <div
                                         className={`w-12 h-12 flex items-center justify-center rounded-lg transition-all ${selectedService === service.id ? "bg-[#a06a50]" : "bg-white border border-gray-200"}`} >
                                         {service.icone?.iconUrl ? (
-                                            <Image src={service.icone.iconUrl} alt={service.icone.name} width={28} height={28} className={`object-contain ${selectedService === service.id ? "brightness-200 invert" : ""}`} />
+                                            <Image src={service.icone.iconUrl} alt={service.icone.name} width={28} height={28} className={`object-contain ${selectedService === service.id ? "brightness-200 invert" : ""}`}  unoptimized/>
                                         ) : (
                                             <span className={`text-sm font-semibold ${selectedService === service.id ? "text-white" : "text-gray-500"}`} >
                                                 ?

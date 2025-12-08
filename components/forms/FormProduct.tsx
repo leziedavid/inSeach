@@ -265,7 +265,7 @@ export default function ProductForm({ initialValue, onSubmit }: ProductFormProps
                             const img = mainImages[index] || null;
                             return (
                                 <label key={index} htmlFor={`image${index}`}>
-                                    <Image width={300} height={300} className="h-20 w-full sm:h-20 sm:w-full border border-slate-200 rounded cursor-pointer object-cover" src={img ? (typeof img === "string" ? img : URL.createObjectURL(img)) : "/upload_area.svg"} alt={`Image ${index + 1}`} />
+                                    <Image width={300} height={300} className="h-20 w-full sm:h-20 sm:w-full border border-slate-200 rounded cursor-pointer object-cover" src={img ? (typeof img === "string" ? img : URL.createObjectURL(img)) : "/upload_area.svg"} alt={`Image ${index + 1}`} unoptimized />
                                     <input type="file" accept="image/*" id={`image${index}`} onChange={e => handleImageChange(index, e.target.files ? e.target.files[0] : null)} hidden />
                                 </label>
                             );

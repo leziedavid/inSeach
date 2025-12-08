@@ -40,7 +40,7 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({ appointment }) 
                         src={appointment.service.images}
                         alt={appointment.service.title}
                         fill
-                        className="object-cover"
+                        className="object-cover" unoptimized
                     />
                 </div>
             )}

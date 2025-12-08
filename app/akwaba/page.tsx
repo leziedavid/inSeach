@@ -27,11 +27,7 @@ const step1Schema = z.object({
     location: z.object({
         lat: z.number().nullable().optional(),
         lng: z.number().nullable().optional(),
-
-        country: z
-            .string()
-            .min(1, "Le pays est requis"), // ⬅️ obligatoire + message
-
+        country: z.string() .min(1, "Le pays est requis"),
         city: z.string().nullable().optional(),
         district: z.string().nullable().optional(),
         street: z.string().nullable().optional(),

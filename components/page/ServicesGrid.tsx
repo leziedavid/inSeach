@@ -376,7 +376,7 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
                                     {/* Image dans un carré arrondi */}
                                     <div className="w-12 h-12 mb-1 relative rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                                         {service.iconUrl ? (
-                                            <Image src={service.iconUrl} alt={service.title} width={32} height={32} className={`object-contain transition ${selectedService?.id === service.id ? "brightness-200 invert" : ""}`} />
+                                            <Image src={service.iconUrl} alt={service.title} width={32} height={32} className={`object-contain transition ${selectedService?.id === service.id ? "brightness-200 invert" : ""}`} unoptimized />
                                         ) : (
                                             <span className="text-gray-400 text-sm">?</span>
                                         )}

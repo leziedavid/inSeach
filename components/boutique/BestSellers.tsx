@@ -39,7 +39,7 @@ const BestSellers = ({ products }: BestSellersProps) => {
                                     src={product.images?.[0] || "/placeholder.png"}
                                     alt={product.name}
                                     fill
-                                    className="object-cover w-full h-full"
+                                    className="object-cover w-full h-full" unoptimized
                                 />
                             </div>
 

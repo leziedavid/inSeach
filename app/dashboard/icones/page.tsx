@@ -76,7 +76,7 @@ export default function Page() {
                                     flex items-center justify-center
                                     border transition-all duration-200 ease-out group ${selectedIcon === icon.id ? "border-[#b07b5e] ring-2 ring-[#b07b5e]/50 shadow scale-105" : "border-gray-300 dark:border-gray-700 hover:scale-[1.02]"}  `}
                                     title={icon.name}  >
-                                    <Image src={icon.iconUrl} alt={icon.name} fill className="object-cover" />
+                                    <Image src={icon.iconUrl} alt={icon.name} fill className="object-cover" unoptimized />
 
                                     {/* Bouton supprimer */}
                                     <div onClick={(e) => { e.stopPropagation(); handleDelete(icon.id); }}

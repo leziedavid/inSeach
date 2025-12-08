@@ -79,7 +79,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
                 {/* IMAGE */}
                 {appointment.service.images && (
                     <div className="relative w-full h-40 rounded-t-2xl overflow-hidden">
-                        <Image src={appointment.service.images} alt={appointment.service.title} fill className="object-cover" />
+                        <Image src={appointment.service.images} alt={appointment.service.title} fill className="object-cover" unoptimized />
                     </div>
                 )}
 

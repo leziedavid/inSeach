@@ -119,7 +119,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                     {/* Photo & Videos Section */}
                     <div className="mb-3">
                         <div className="w-full h-40 bg-gray-200 rounded-xl relative overflow-hidden">
-                            <Image src={service.images || "/images/default-service.jpg"} alt={service.title} fill className="object-cover" />
+                            <Image src={service.images || "/images/default-service.jpg"} alt={service.title} fill className="object-cover" unoptimized />
                         </div>
                     </div>
 
@@ -133,7 +133,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                                         alt={service.icone?.name || "icon"}
                                         width={28}
                                         height={28}
-                                        className="object-contain"
+                                        className="object-contain" unoptimized
                                     />
                                 ) : (
                                     <span className="text-sm font-semibold text-white text-gray-500"> ? </span>
