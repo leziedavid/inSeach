@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import FullPageLoader from "@/components/home/FullPageLoader";
 import { reconnectUser } from "@/services/securityService";
+import { Role } from "@/types/interfaces";
 
 
 export default function ConnectPage() {
@@ -35,8 +36,20 @@ export default function ConnectPage() {
                 setSuccess(true);
 
                 if (res.statusCode === 200) {
-                    router.push('/home');
-                    return;
+
+                    const { access_token, refresh_token, user } = res.data;
+                    localStorage.setItem('access_token', access_token);
+                    localStorage.setItem('refresh_token', refresh_token);
+                    document.cookie = `token=${access_token}; path=/`;
+
+                    if (user.role === Role.ADMIN) {
+                        router.push('/dashboard/compte')
+                        return
+                    } else {
+                        router.push('/home')
+                        return
+                    }
+
                 }
 
             } catch (err: any) {
