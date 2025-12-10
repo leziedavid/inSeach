@@ -1,0 +1,3835 @@
+{
+"openapi": "3.0.1",
+"info": {
+"title": "OpenAPI definition",
+"version": "v0"
+},
+"servers": [
+{
+"url": "http://45.149.204.148:7012",
+"description": "Generated server url"
+}
+],
+"tags": [
+{
+"name": "Translations",
+"description": "Gestion des fichiers de traduction"
+},
+{
+"name": "Publicités",
+"description": "Gestion des publicités"
+},
+{
+"name": "Notification",
+"description": "Configuration des canaux de notification"
+},
+{
+"name": "Location",
+"description": "Configuration de la location des entités"
+},
+{
+"name": "Configuration option",
+"description": "Configuration option"
+}
+],
+"paths": {
+"/api/v1/configuration/visibility/update/{id}": {
+"put": {
+"tags": [
+"private",
+"Visibilité des publications"
+],
+"summary": "Mettre à jour la visibilité",
+"description": "Met à jour les informations de visibilité pour un organisme existant.",
+"operationId": "update",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/VisibilityUpdateDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/visibility/update-visibility/{organismId}": {
+"put": {
+"tags": [
+"private",
+"Visibilité des publications"
+],
+"summary": "Changer la visibilité d'un organisme",
+"description": "Change la visibilité d'un organisme spécifié par son ID en fonction des paramètres fournis.",
+"operationId": "changeVisibilityByOrganismId",
+"parameters": [
+{
+"name": "organismId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ChangeVisibilityDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/translations/{id}": {
+"put": {
+"tags": [
+"Translations"
+],
+"summary": "Mettre à jour un fichier de traduction",
+"description": "Upload d'un fichier JSON pour mise à jour d'un fichier existant par ID",
+"operationId": "update_1",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "version",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+},
+{
+"name": "device",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+}
+],
+"requestBody": {
+"content": {
+"multipart/form-data": {
+"schema": {
+"required": [
+"file"
+],
+"type": "object",
+"properties": {
+"file": {
+"type": "string",
+"format": "binary"
+}
+}
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseLanguageFileResponse"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/update/{id}": {
+"put": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Mettre à jour un produit",
+"description": "Met à jour les informations d'un produit existant en utilisant son ID et les nouvelles données fournies.",
+"operationId": "update_2",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProductUpdateDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/payment-method/remove-to-organism": {
+"put": {
+"tags": [
+"private",
+"Méthodes de paiement"
+],
+"summary": "Retirer des méthodes de paiement d'un organisme",
+"description": "Permet de retirer une ou plusieurs méthodes de paiement d'un organisme spécifié.",
+"operationId": "removeToOrganism",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/PaymentMethodRequest"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseVoid"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/payment-method/edit": {
+"put": {
+"tags": [
+"private",
+"Méthodes de paiement"
+],
+"summary": "Modifier le taux de transaction pour une méthode de paiement",
+"description": "Permet de modifier le taux de transaction pour un organisme et une méthode de paiement spécifiés.",
+"operationId": "editRate",
+"parameters": [
+{
+"name": "organismId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "methodId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "rate",
+"in": "query",
+"required": true,
+"schema": {
+"type": "number",
+"format": "float"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseVoid"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/option-data/update/{id}": {
+"put": {
+"tags": [
+"Configuration option"
+],
+"summary": "Modification d'une option",
+"description": "Modification d'une option",
+"operationId": "update_3",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/OptionalDataRegisterDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseOptionalData"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/update-service/{serviceId}": {
+"put": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Modifier un service (configuration notification)",
+"description": "Permet de mettre à jour les informations d'un service spécifié par son ID.",
+"operationId": "updateService",
+"parameters": [
+{
+"name": "serviceId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateService"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/update-service-by-slug/{slug}": {
+"put": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Modifier un service par slug (configuration notification)",
+"description": "Permet de mettre à jour les informations d'un service spécifié par son slug.",
+"operationId": "updateServiceBySlug",
+"parameters": [
+{
+"name": "slug",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateService"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/update-notification-configuration/{id}": {
+"put": {
+"tags": [
+"Notification"
+],
+"summary": "Envoyer, Modifier, Supprimer une notification déjà programmé",
+"description": "Envoyer, Modifier, Supprimer une notification déjà programmé",
+"operationId": "updateNotification",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "method",
+"in": "query",
+"required": true,
+"schema": {
+"type": "string",
+"enum": [
+"SEND",
+"UPDATE",
+"DELETE"
+]
+}
+},
+{
+"name": "message",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "sendDate",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"format": "date-time"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/add-chanel-to-account-type-for-service-by-slug/{serviceId}/{accountType}": {
+"put": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Ajout d'un chanel à un type de compte d'un service (configuration notification)",
+"description": "Ajoute un ou plusieurs canaux à un type de compte spécifique d'un service, spécifié par son ID et le type de compte.",
+"operationId": "addChanelToAccountTypeForService",
+"parameters": [
+{
+"name": "serviceId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "accountType",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "channels",
+"in": "query",
+"required": true,
+"schema": {
+"type": "array",
+"items": {
+"type": "integer",
+"format": "int64"
+}
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/update-tag/{tag}": {
+"put": {
+"tags": [
+"Publicités",
+"private"
+],
+"summary": "Modifier un tag",
+"description": "Permet de modifier un tag existant en fonction du tag passé en paramètre.",
+"operationId": "updateTag",
+"parameters": [
+{
+"name": "tag",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/AddTag"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/update-advertising/{id}": {
+"put": {
+"tags": [
+"Publicités",
+"private"
+],
+"summary": "Modifier une publicité",
+"description": "Permet de modifier une publicité existante avec l'ID spécifié et les nouvelles informations.",
+"operationId": "updateAdvertising",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"requestBody": {
+"content": {
+"multipart/form-data": {
+"schema": {
+"$ref": "#/components/schemas/UpdateAdvertising"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/read-advertising/{id}": {
+"put": {
+"tags": [
+"Publicités"
+],
+"summary": "Lire une pub",
+"description": "Permet de déterminer si une pub a été lu.",
+"operationId": "isReading",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "registrationId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/visibility/create": {
+"post": {
+"tags": [
+"private",
+"Visibilité des publications"
+],
+"summary": "Enregistrer une nouvelle visibilité",
+"description": "Enregistre une nouvelle visibilité pour un organisme en utilisant les informations fournies dans le DTO.",
+"operationId": "register",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/VisibilityRegisterDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/translations": {
+"post": {
+"tags": [
+"Translations"
+],
+"summary": "Créer un fichier de traduction",
+"description": "Upload d'un fichier JSON contenant les traductions",
+"operationId": "create",
+"parameters": [
+{
+"name": "locale",
+"in": "query",
+"required": true,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "version",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+},
+{
+"name": "device",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+}
+],
+"requestBody": {
+"content": {
+"multipart/form-data": {
+"schema": {
+"required": [
+"file"
+],
+"type": "object",
+"properties": {
+"file": {
+"type": "string",
+"format": "binary"
+}
+}
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseLanguageFileResponse"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/forms": {
+"post": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir des données de formulaire pour plusieurs produits",
+"description": "Récupère les données de formulaire pour un ensemble de produits spécifiés par leurs IDs.",
+"operationId": "getFormDataByProductIds",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProductIdDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/create": {
+"post": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Enregistrer un nouveau produit",
+"description": "Enregistre un nouveau produit pour un organisme en utilisant les informations fournies.",
+"operationId": "register_1",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProductRegisterDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/bulk": {
+"post": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Enregistrer plusieurs produits en une seule opération",
+"description": "Enregistre en masse plusieurs produits pour un organisme à partir des données spécifiées dans le BulkProductDto.",
+"operationId": "registerBulk",
+"requestBody": {
+"content": {
+"multipart/form-data": {
+"schema": {
+"$ref": "#/components/schemas/BulkProductDto"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/payment-method/create": {
+"post": {
+"tags": [
+"private",
+"Méthodes de paiement"
+],
+"summary": "Créer une méthode de paiement pour un organisme",
+"description": "Permet de créer une association entre un organisme et des méthodes de paiement spécifiées.",
+"operationId": "create_1",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/PaymentMethodRequest"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseListOrganismPaymentMethod"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/option-data/create": {
+"post": {
+"tags": [
+"Configuration option"
+],
+"summary": "Création d'une option",
+"description": "Création d'une option",
+"operationId": "create_2",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/OptionalDataRegisterDto"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseOptionalData"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/save-form-contact": {
+"post": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Enregistrer un formualire de contacte",
+"description": "Enregistrer les formulaires de contacte sur le site internet",
+"operationId": "saveFormContact",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/AddFormContact"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/configuration-notification": {
+"post": {
+"tags": [
+"Notification"
+],
+"summary": "Configuration des notifs",
+"description": "Configuration de l'envoie des notifications",
+"operationId": "configurationSendNotif",
+"requestBody": {
+"content": {
+"multipart/form-data": {
+"schema": {
+"$ref": "#/components/schemas/ConfigurationNotif"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/add-service": {
+"post": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Ajouter un service (configuration notification)",
+"description": "Permet d'ajouter un nouveau service à la configuration des notifications.",
+"operationId": "addService",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/AddService"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/location": {
+"get": {
+"tags": [
+"private",
+"Location"
+],
+"summary": "Obtenir toutes les localisations d'entités",
+"description": "Permet de récupérer toutes les configurations de localisation pour les entités.",
+"operationId": "getEntityLocation",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+},
+"post": {
+"tags": [
+"private",
+"Location"
+],
+"summary": "Ajouter une localisation d'entité",
+"description": "Permet d'ajouter une nouvelle configuration de localisation pour une entité.",
+"operationId": "addEntityLocation",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/AddEntityLocation"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/location/search": {
+"post": {
+"tags": [
+"private",
+"Location"
+],
+"summary": "Rechercher la localisation d'une entité",
+"description": "Permet de rechercher la localisation d'une entité en fonction des critères fournis.",
+"operationId": "searchLocationOfEntity",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/SearchLocation"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/add-tag": {
+"post": {
+"tags": [
+"Publicités",
+"private"
+],
+"summary": "Ajouter un tag",
+"description": "Permet d'ajouter un nouveau tag à la publicité.",
+"operationId": "addTag",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/AddTag"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/add-advertising": {
+"post": {
+"tags": [
+"Publicités",
+"private"
+],
+"summary": "Ajouter une publicité",
+"description": "Permet d'ajouter une nouvelle publicité avec les informations fournies.",
+"operationId": "addAdvertising",
+"requestBody": {
+"content": {
+"multipart/form-data": {
+"schema": {
+"$ref": "#/components/schemas/AddAdvertising"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/visibility": {
+"get": {
+"tags": [
+"private",
+"Visibilité des publications"
+],
+"summary": "Obtenir toutes les visibilités",
+"description": "Récupère toutes les visibilités disponibles avec pagination et options de tri.",
+"operationId": "findAll",
+"parameters": [
+{
+"name": "page",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 1
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 100
+}
+},
+{
+"name": "sortBy",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "id"
+}
+},
+{
+"name": "sortOrder",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "desc"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/visibility/{id}": {
+"get": {
+"tags": [
+"private",
+"Visibilité des publications"
+],
+"summary": "Obtenir une visibilité par son ID",
+"description": "Récupère la visibilité associée à un identifiant spécifique.",
+"operationId": "findById",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/visibility/organism/{organismId}": {
+"get": {
+"tags": [
+"private",
+"Visibilité des publications"
+],
+"summary": "Obtenir la visibilité d'un organisme",
+"description": "Récupère la visibilité d'un organisme spécifié par son ID.",
+"operationId": "findVisibilityByOrganism",
+"parameters": [
+{
+"name": "organismId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/translations/{locale}": {
+"get": {
+"tags": [
+"Translations"
+],
+"summary": "Obtenir un fichier de traduction",
+"description": "Retourne les traductions pour une locale donnée",
+"operationId": "getByLocale",
+"parameters": [
+{
+"name": "locale",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "device",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseLanguageFileResponse"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/translations/version": {
+"get": {
+"tags": [
+"Translations"
+],
+"summary": "Obtenir la version la plus récente",
+"description": "Retourne la dernière version de fichier de traduction",
+"operationId": "getLatestVersion",
+"parameters": [
+{
+"name": "device",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseInteger"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/translations/devices": {
+"get": {
+"tags": [
+"Translations"
+],
+"summary": "Obtenir les devices disponibles",
+"description": "Retourne toutes les valeurs possibles de l'enum DeviceType",
+"operationId": "getAllDevices",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseString[]"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products": {
+"get": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir tous les produits",
+"description": "Récupère tous les produits avec la possibilité de paginer et de trier les résultats.",
+"operationId": "findAll_1",
+"parameters": [
+{
+"name": "page",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 1
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 100
+}
+},
+{
+"name": "sortBy",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "id"
+}
+},
+{
+"name": "sortOrder",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "desc"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/{id}": {
+"get": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir un produit par son ID",
+"description": "Récupère un produit en utilisant son identifiant unique. Lance une exception si le produit n'est pas trouvé.",
+"operationId": "findById_1",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/organism/{organismId}": {
+"get": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir les produits d'un organisme",
+"description": "Récupère les produits associés à un organisme spécifique en fonction du type et de l'ID de l'organisme.",
+"operationId": "findProductsByOrganismId",
+"parameters": [
+{
+"name": "page",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 1
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 100
+}
+},
+{
+"name": "sortBy",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "id"
+}
+},
+{
+"name": "sortOrder",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "desc"
+}
+},
+{
+"name": "type",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"enum": [
+"NONE",
+"ALL"
+],
+"default": "NONE"
+}
+},
+{
+"name": "organismId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/organism/{organismId}/parent/{parentId}": {
+"get": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir les produits enfants d'un organisme et d'un produit parent",
+"description": "Récupère tous les produits enfants d'un organisme et d'un produit parent spécifiques.",
+"operationId": "findProductsChildrenByOrganismIdAndParentId",
+"parameters": [
+{
+"name": "page",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 1
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 100
+}
+},
+{
+"name": "sortBy",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "id"
+}
+},
+{
+"name": "sortOrder",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "desc"
+}
+},
+{
+"name": "organismId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "parentId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/getArticle/{organismId}": {
+"get": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir le produit parent d'un organisme",
+"description": "Récupère le produit parent d'un organisme spécifique.",
+"operationId": "findProductParent",
+"parameters": [
+{
+"name": "organismId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/get-product": {
+"get": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir un produit par ID d'organisme et ID de produit",
+"description": "Récupère un produit spécifique à partir de l'ID d'un organisme et d'un produit. Lance une exception si le produit n'est pas trouvé.",
+"operationId": "getProductByOrganismIdAndProductId",
+"parameters": [
+{
+"name": "organismId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "productId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/get-product-organism": {
+"get": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Obtenir un produit d'un organisme par ID",
+"description": "Récupère un produit associé à un organisme donné en utilisant l'ID de l'organisme et l'ID du produit.",
+"operationId": "getProductOfOrganismIdAndProductId",
+"parameters": [
+{
+"name": "organismId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "productId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/payment-method/rate": {
+"get": {
+"tags": [
+"private",
+"Méthodes de paiement"
+],
+"summary": "Obtenir le taux pour un organisme et une méthode de paiement",
+"description": "Permet d'obtenir le taux de transaction associé à une méthode de paiement pour un organisme donné.",
+"operationId": "getRateByOrganism",
+"parameters": [
+{
+"name": "organismId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "methodId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseFloat"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/payment-method/all": {
+"get": {
+"tags": [
+"private",
+"Méthodes de paiement"
+],
+"summary": "Obtenir toutes les méthodes de paiement pour un organisme",
+"description": "Récupère la liste complète des méthodes de paiement associées à un organisme donné, avec des informations agrégées.",
+"operationId": "getAllByOrganism",
+"parameters": [
+{
+"name": "organismId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseListPaymentAggregate"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/option-data": {
+"get": {
+"tags": [
+"Configuration option"
+],
+"summary": "Liste des differents options",
+"description": "Liste des differents options",
+"operationId": "findAll_2",
+"parameters": [
+{
+"name": "page",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 1
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"format": "int32",
+"default": 100
+}
+},
+{
+"name": "sortBy",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "id"
+}
+},
+{
+"name": "sortOrder",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"default": "desc"
+}
+},
+{
+"name": "tag",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"enum": [
+"TYPE_OF_STORAGE_OFFERED",
+"AVAILABLE_INFRASTRUCTURE_AND_EQUIPEMENT",
+"PAYMENTS_TERMS",
+"OPTIONAL_SERVICES"
+]
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponsePaginationOptionalData"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/option-data/{id}": {
+"get": {
+"tags": [
+"Configuration option"
+],
+"summary": "Récuperation d'une option",
+"description": "Récuperation d'une option",
+"operationId": "findById_2",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseOptionalData"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/option-data/tags": {
+"get": {
+"tags": [
+"Configuration option"
+],
+"summary": "Les tags",
+"description": "Les tags",
+"operationId": "getTags",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseListTagResponse"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/option-data/all": {
+"get": {
+"tags": [
+"Configuration option"
+],
+"summary": "Liste des differents options",
+"description": "Liste des differents options",
+"operationId": "getAll",
+"parameters": [
+{
+"name": "tag",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"enum": [
+"TYPE_OF_STORAGE_OFFERED",
+"AVAILABLE_INFRASTRUCTURE_AND_EQUIPEMENT",
+"PAYMENTS_TERMS",
+"OPTIONAL_SERVICES"
+]
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseListOptionalData"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-type-account": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Liste des types de comptes (configuration notification)",
+"description": "Récupère la liste des types de comptes disponibles pour les notifications.",
+"operationId": "getTypeAccount",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-type-account-not-associate/{serviceId}": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Liste des types de comptes non associés à un service (configuration notification)",
+"description": "Récupère la liste des types de comptes qui ne sont pas encore associés à un service spécifié par son ID.",
+"operationId": "getTypeAccountNotAssociate",
+"parameters": [
+{
+"name": "serviceId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-type-account-associate/{serviceId}": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Liste des types de comptes associés à un service (configuration notification)",
+"description": "Récupère la liste des types de comptes qui sont déjà associés à un service spécifié par son ID.",
+"operationId": "getTypeAccountAssociate",
+"parameters": [
+{
+"name": "serviceId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-service": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Liste des services (configuration notification)",
+"description": "Récupère la liste de tous les services configurés pour les notifications.",
+"operationId": "getService",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-one-service/{serviceId}": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Informations d'un service (configuration notification)",
+"description": "Récupère les informations détaillées d'un service spécifié par son ID.",
+"operationId": "getOneService",
+"parameters": [
+{
+"name": "serviceId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-one-service-by-slug/{slug}": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Informations d'un service par slug (configuration notification)",
+"description": "Récupère les informations détaillées d'un service spécifié par son slug.",
+"operationId": "getOneServiceBySlug",
+"parameters": [
+{
+"name": "slug",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-one-form-contact": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Information d'un formualire de contacte",
+"description": "Information d'un formulaire de contacte",
+"operationId": "getOneFormContact",
+"parameters": [
+{
+"name": "id",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-notification-configuration": {
+"get": {
+"tags": [
+"Notification"
+],
+"summary": "Liste des notifs configuré",
+"description": "La liste des notifications configurés",
+"operationId": "getNotificationConfiguration",
+"parameters": [
+{
+"name": "send",
+"in": "query",
+"required": false,
+"schema": {
+"type": "boolean",
+"default": false
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-message-chanel-from-service-by-slug/{slug}/{accountType}": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Modèle de message et liste des channels (configuration notification)",
+"description": "Récupère le modèle de message ainsi que la liste des canaux associés à un service, spécifié par son slug et son type de compte.",
+"operationId": "getOneServiceBySlugAndAccountType",
+"parameters": [
+{
+"name": "slug",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "accountType",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-form-contact": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Liste des formualires de contacte",
+"description": "Lister les formulaires de contacte sur le site internet",
+"operationId": "getFormContact",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/get-chanel": {
+"get": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Liste des canaux (configuration notification)",
+"description": "Récupère la liste des canaux configurés pour les notifications.",
+"operationId": "getChanel",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/location/get/{entityId}": {
+"get": {
+"tags": [
+"private",
+"Location"
+],
+"summary": "Obtenir la localisation d'une entité",
+"description": "Permet de récupérer la configuration de localisation d'une entité spécifiée par son ID.",
+"operationId": "getOneLocation",
+"parameters": [
+{
+"name": "entityId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/location/get-base": {
+"get": {
+"tags": [
+"private",
+"Location"
+],
+"summary": "Obtenir les zones d'activité des entités",
+"description": "Permet de récupérer les zones d'activité configurées pour les entités.",
+"operationId": "getLocationBase",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/location/format-location": {
+"get": {
+"tags": [
+"private",
+"Location"
+],
+"summary": "Formater les localités pour mise à jour",
+"description": "Permet de formater les localités d'une entité pour une mise à jour de la configuration de localisation en fonction de l'entité et du pays.",
+"operationId": "formatLocation",
+"parameters": [
+{
+"name": "entityId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "countryId",
+"in": "query",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/bulk/{organismId}": {
+"get": {
+"tags": [
+"private"
+],
+"summary": "Obtenir les détails d'un organisme",
+"description": "Récupère les informations détaillées d'un organisme en fonction de son ID.",
+"operationId": "getDetailsByOrganism",
+"parameters": [
+{
+"name": "organismId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/get-tag": {
+"get": {
+"tags": [
+"Publicités",
+"private"
+],
+"summary": "Liste des tags",
+"description": "Permet de récupérer la liste de tous les tags.",
+"operationId": "getTag",
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/get-one-tag/{tag}": {
+"get": {
+"tags": [],
+"summary": "Informations d'un tag",
+"description": "Permet de récupérer les informations détaillées d'un tag spécifique.",
+"operationId": "getOneTag",
+"parameters": [
+{
+"name": "tag",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/get-one-advertising/{id}": {
+"get": {
+"tags": [
+"Publicités"
+],
+"summary": "Obtenir les informations d'une publicité",
+"description": "Permet de récupérer les informations détaillées d'une publicité en fonction de son ID.",
+"operationId": "getOneAdvertising",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "registrationId",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "origin",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"enum": [
+"WEB",
+"MOBILE"
+]
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/get-advertising": {
+"get": {
+"tags": [
+"Publicités"
+],
+"summary": "Liste des publicités",
+"description": "Permet d'obtenir une liste de toutes les publicités, avec un filtre optionnel par tag.",
+"operationId": "getAdvertising",
+"parameters": [
+{
+"name": "tag",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "origin",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string",
+"enum": [
+"WEB",
+"MOBILE"
+]
+}
+},
+{
+"name": "registrationId",
+"in": "query",
+"required": false,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "isActive",
+"in": "query",
+"required": false,
+"schema": {
+"type": "boolean"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/visibility/delete/{id}": {
+"delete": {
+"tags": [
+"private",
+"Visibilité des publications"
+],
+"summary": "Supprimer une visibilité",
+"description": "Supprime la visibilité associée à un identifiant spécifique.",
+"operationId": "delete",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/products/delete/{id}": {
+"delete": {
+"tags": [
+"private",
+"Produits"
+],
+"summary": "Supprimer un produit configuré",
+"description": "Supprime un produit spécifique en utilisant son ID. Lance une exception si le produit n'est pas trouvé.",
+"operationId": "delete_1",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/notification/delete-chanel-to-account-type-for-service-by-slug/{serviceId}/{accountType}": {
+"delete": {
+"tags": [
+"private",
+"Notification"
+],
+"summary": "Suppression d'un chanel d'un type de compte d'un service (configuration notification)",
+"description": "Supprime un ou plusieurs canaux associés à un type de compte spécifique d'un service, spécifié par son ID et le type de compte.",
+"operationId": "deleteChanelToAccountTypeForService",
+"parameters": [
+{
+"name": "serviceId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+},
+{
+"name": "accountType",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string"
+}
+},
+{
+"name": "channels",
+"in": "query",
+"required": true,
+"schema": {
+"type": "array",
+"items": {
+"type": "integer",
+"format": "int64"
+}
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"$ref": "#/components/schemas/RestApiResponseObject"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/configuration/advertising/delete-advertising/{id}": {
+"delete": {
+"tags": [
+"Publicités",
+"private"
+],
+"summary": "Supprimer une publicité",
+"description": "Permet de supprimer une publicité en fonction de son ID.",
+"operationId": "deleteAdvertising",
+"parameters": [
+{
+"name": "id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int64"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"*/*": {
+"schema": {
+"type": "object"
+}
+}
+}
+}
+}
+}
+}
+},
+"components": {
+"schemas": {
+"VisibilityUpdateDto": {
+"type": "object",
+"properties": {
+"organismId": {
+"type": "integer",
+"format": "int64"
+},
+"visibility": {
+"type": "string",
+"enum": [
+"PRIVATE",
+"PUBLIC"
+]
+}
+}
+},
+"ChangeVisibilityDto": {
+"type": "object",
+"properties": {
+"visibility": {
+"type": "string",
+"enum": [
+"PRIVATE",
+"PUBLIC"
+]
+}
+}
+},
+"LanguageFileResponse": {
+"type": "object",
+"properties": {
+"id": {
+"type": "integer",
+"format": "int64"
+},
+"locale": {
+"type": "string"
+},
+"translations": {
+"type": "object",
+"additionalProperties": {
+"type": "string"
+}
+},
+"version": {
+"type": "integer",
+"format": "int32"
+},
+"device": {
+"type": "string"
+},
+"createdAt": {
+"type": "string"
+},
+"updatedAt": {
+"type": "string"
+}
+}
+},
+"RestApiResponseLanguageFileResponse": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"$ref": "#/components/schemas/LanguageFileResponse"
+}
+}
+},
+"ProductUpdateDto": {
+"type": "object",
+"properties": {
+"organismId": {
+"type": "integer",
+"format": "int64"
+},
+"productId": {
+"type": "integer",
+"format": "int64"
+},
+"parentId": {
+"type": "integer",
+"format": "int64"
+}
+}
+},
+"PaymentMethodRequest": {
+"type": "object",
+"properties": {
+"rate": {
+"type": "number",
+"format": "float"
+},
+"organismId": {
+"type": "integer",
+"format": "int64"
+},
+"methodIds": {
+"type": "array",
+"items": {
+"type": "integer",
+"format": "int64"
+}
+}
+}
+},
+"RestApiResponseVoid": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "object"
+}
+}
+},
+"OptionalDataRegisterDto": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"value": {
+"type": "string"
+},
+"tag": {
+"type": "string",
+"enum": [
+"TYPE_OF_STORAGE_OFFERED",
+"AVAILABLE_INFRASTRUCTURE_AND_EQUIPEMENT",
+"PAYMENTS_TERMS",
+"OPTIONAL_SERVICES"
+]
+}
+}
+},
+"OptionalData": {
+"type": "object",
+"properties": {
+"createdAt": {
+"type": "string",
+"format": "date-time"
+},
+"deleted": {
+"type": "boolean"
+},
+"deletedAt": {
+"type": "string",
+"format": "date-time"
+},
+"updatedAt": {
+"type": "string",
+"format": "date-time"
+},
+"id": {
+"type": "integer",
+"format": "int64"
+},
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"value": {
+"type": "string"
+},
+"tag": {
+"type": "string",
+"enum": [
+"TYPE_OF_STORAGE_OFFERED",
+"AVAILABLE_INFRASTRUCTURE_AND_EQUIPEMENT",
+"PAYMENTS_TERMS",
+"OPTIONAL_SERVICES"
+]
+}
+}
+},
+"RestApiResponseOptionalData": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"$ref": "#/components/schemas/OptionalData"
+}
+}
+},
+"AddElement": {
+"required": [
+"accountType",
+"channels"
+],
+"type": "object",
+"properties": {
+"accountType": {
+"type": "string"
+},
+"channels": {
+"uniqueItems": true,
+"type": "array",
+"items": {
+"type": "integer",
+"format": "int64"
+}
+}
+}
+},
+"UpdateService": {
+"type": "object",
+"properties": {
+"service": {
+"type": "string"
+},
+"message": {
+"type": "string"
+},
+"config": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/AddElement"
+}
+}
+}
+},
+"RestApiResponseObject": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "object"
+}
+}
+},
+"AddTag": {
+"required": [
+"name"
+],
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"typeAdvice": {
+"type": "string",
+"enum": [
+"WEB",
+"MOBILE"
+]
+}
+}
+},
+"UpdateAdvertising": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"image": {
+"type": "string",
+"format": "binary"
+},
+"tag": {
+"type": "string"
+},
+"link": {
+"type": "string"
+},
+"timer": {
+"type": "integer",
+"format": "int64"
+},
+"isActive": {
+"type": "boolean"
+},
+"isTimer": {
+"type": "boolean"
+},
+"timerAt": {
+"type": "string",
+"format": "date-time"
+}
+}
+},
+"VisibilityRegisterDto": {
+"required": [
+"organismId"
+],
+"type": "object",
+"properties": {
+"organismId": {
+"type": "integer",
+"format": "int64"
+},
+"visibility": {
+"type": "string",
+"enum": [
+"PRIVATE",
+"PUBLIC"
+]
+}
+}
+},
+"ProductIdDto": {
+"required": [
+"productId"
+],
+"type": "object",
+"properties": {
+"productId": {
+"type": "integer",
+"format": "int64"
+}
+}
+},
+"ProductRegisterDto": {
+"required": [
+"organismId",
+"productId"
+],
+"type": "object",
+"properties": {
+"organismId": {
+"type": "integer",
+"format": "int64"
+},
+"productId": {
+"type": "integer",
+"format": "int64"
+},
+"parentId": {
+"type": "integer",
+"format": "int64"
+}
+}
+},
+"BulkProductDto": {
+"required": [
+"organismId"
+],
+"type": "object",
+"properties": {
+"organismId": {
+"type": "integer",
+"format": "int64"
+},
+"code": {
+"type": "integer",
+"format": "int32"
+},
+"data": {
+"type": "string"
+}
+}
+},
+"OrganismPaymentMethod": {
+"type": "object",
+"properties": {
+"createdAt": {
+"type": "string",
+"format": "date-time"
+},
+"deleted": {
+"type": "boolean"
+},
+"deletedAt": {
+"type": "string",
+"format": "date-time"
+},
+"updatedAt": {
+"type": "string",
+"format": "date-time"
+},
+"id": {
+"type": "integer",
+"format": "int64"
+},
+"rate": {
+"type": "number",
+"format": "float"
+},
+"methodId": {
+"type": "integer",
+"format": "int64"
+},
+"organismId": {
+"type": "integer",
+"format": "int64"
+}
+}
+},
+"RestApiResponseListOrganismPaymentMethod": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/OrganismPaymentMethod"
+}
+}
+}
+},
+"AddFormContact": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"email": {
+"type": "string"
+},
+"phone": {
+"type": "string"
+},
+"description": {
+"type": "string"
+}
+}
+},
+"ConfigurationLocation": {
+"type": "object",
+"properties": {
+"regionId": {
+"type": "integer",
+"format": "int64"
+},
+"departmentId": {
+"type": "integer",
+"format": "int64"
+},
+"subPrefectureId": {
+"type": "integer",
+"format": "int64"
+},
+"localityId": {
+"type": "integer",
+"format": "int64"
+}
+}
+},
+"ConfigurationNotif": {
+"type": "object",
+"properties": {
+"profileIds": {
+"type": "array",
+"items": {
+"type": "integer",
+"format": "int64"
+}
+},
+"locations": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/ConfigurationLocation"
+}
+},
+"chanel": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"phone": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"file": {
+"type": "string",
+"format": "binary"
+},
+"message": {
+"type": "string"
+},
+"dateTime": {
+"type": "string",
+"format": "date-time"
+}
+}
+},
+"AddService": {
+"required": [
+"message",
+"service"
+],
+"type": "object",
+"properties": {
+"service": {
+"type": "string"
+},
+"message": {
+"type": "string"
+},
+"config": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/AddElement"
+}
+}
+}
+},
+"AddDepartment": {
+"type": "object",
+"properties": {
+"departmentId": {
+"type": "integer",
+"format": "int64"
+},
+"departement": {
+"type": "object",
+"readOnly": true
+},
+"addSubPrefectureList": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/AddSubPrefecture"
+}
+}
+}
+},
+"AddEntityLocation": {
+"type": "object",
+"properties": {
+"entityId": {
+"type": "integer",
+"format": "int64"
+},
+"countryId": {
+"type": "integer",
+"format": "int64"
+},
+"addRegionList": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/AddRegion"
+}
+}
+}
+},
+"AddLocality": {
+"type": "object",
+"properties": {
+"localityId": {
+"type": "integer",
+"format": "int64"
+},
+"locality": {
+"type": "object",
+"readOnly": true
+}
+}
+},
+"AddRegion": {
+"type": "object",
+"properties": {
+"regionId": {
+"type": "integer",
+"format": "int64"
+},
+"region": {
+"type": "object",
+"readOnly": true
+},
+"addDepartmentList": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/AddDepartment"
+}
+}
+}
+},
+"AddSubPrefecture": {
+"type": "object",
+"properties": {
+"subPrefectureId": {
+"type": "integer",
+"format": "int64"
+},
+"subPrefecture": {
+"type": "object",
+"readOnly": true
+},
+"addLocalityList": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/AddLocality"
+}
+}
+}
+},
+"SearchLocation": {
+"type": "object",
+"properties": {
+"entityId": {
+"type": "integer",
+"format": "int64"
+},
+"paysId": {
+"type": "integer",
+"format": "int64"
+},
+"regionId": {
+"type": "integer",
+"format": "int64"
+},
+"departmentId": {
+"type": "integer",
+"format": "int64"
+},
+"subPrefectureId": {
+"type": "integer",
+"format": "int64"
+},
+"localityId": {
+"type": "integer",
+"format": "int64"
+}
+}
+},
+"AddAdvertising": {
+"required": [
+"image",
+"name",
+"tag"
+],
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"image": {
+"type": "string",
+"format": "binary"
+},
+"tag": {
+"type": "string"
+},
+"link": {
+"type": "string"
+},
+"timer": {
+"type": "integer",
+"format": "int64"
+},
+"isActive": {
+"type": "boolean"
+},
+"isTimer": {
+"type": "boolean"
+},
+"timerAt": {
+"type": "string",
+"format": "date-time"
+},
+"onlyReading": {
+"type": "boolean"
+}
+}
+},
+"RestApiResponseInteger": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "integer",
+"format": "int32"
+}
+}
+},
+"RestApiResponseString[]": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+}
+},
+"RestApiResponseFloat": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "number",
+"format": "float"
+}
+}
+},
+"PaymentAggregate": {
+"type": "object",
+"properties": {
+"rate": {
+"type": "number",
+"format": "float"
+},
+"methodId": {
+"type": "integer",
+"format": "int64"
+},
+"organismId": {
+"type": "integer",
+"format": "int64"
+},
+"paymentMethod": {
+"$ref": "#/components/schemas/PaymentMethod"
+}
+}
+},
+"PaymentMethod": {
+"type": "object",
+"properties": {
+"id": {
+"type": "integer",
+"format": "int64"
+},
+"name": {
+"type": "string"
+},
+"code": {
+"type": "string"
+},
+"rate": {
+"type": "number",
+"format": "float"
+},
+"maxAmount": {
+"type": "integer",
+"format": "int64"
+},
+"minAmount": {
+"type": "integer",
+"format": "int64"
+},
+"description": {
+"type": "string"
+},
+"isEnable": {
+"type": "boolean"
+},
+"isInMaintenance": {
+"type": "boolean"
+},
+"paymentOptions": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/PaymentOption"
+}
+}
+}
+},
+"PaymentOption": {
+"type": "object",
+"properties": {
+"id": {
+"type": "integer",
+"format": "int64"
+},
+"name": {
+"type": "string"
+},
+"image": {
+"type": "string"
+},
+"code": {
+"type": "string"
+},
+"rate": {
+"type": "number",
+"format": "float"
+},
+"description": {
+"type": "string"
+},
+"providerCode": {
+"type": "string"
+},
+"instructions": {
+"type": "string"
+},
+"isEnable": {
+"type": "boolean"
+},
+"isInMaintenance": {
+"type": "boolean"
+}
+}
+},
+"RestApiResponseListPaymentAggregate": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/PaymentAggregate"
+}
+}
+}
+},
+"PaginationOptionalData": {
+"type": "object",
+"properties": {
+"total": {
+"type": "integer",
+"format": "int64"
+},
+"total_of_pages": {
+"type": "integer",
+"format": "int32"
+},
+"per_page": {
+"type": "integer",
+"format": "int64"
+},
+"sorts": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"order": {
+"type": "string"
+},
+"current_page": {
+"type": "integer",
+"format": "int32"
+},
+"next_page": {
+"type": "integer",
+"format": "int32"
+},
+"previous_page": {
+"type": "integer",
+"format": "int32"
+},
+"filters": {
+"type": "object",
+"additionalProperties": {
+"type": "string"
+}
+},
+"items": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/OptionalData"
+}
+}
+}
+},
+"RestApiResponsePaginationOptionalData": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"$ref": "#/components/schemas/PaginationOptionalData"
+}
+}
+},
+"RestApiResponseListTagResponse": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/TagResponse"
+}
+}
+}
+},
+"TagResponse": {
+"type": "object",
+"properties": {
+"label": {
+"type": "string"
+},
+"value": {
+"type": "string"
+}
+}
+},
+"RestApiResponseListOptionalData": {
+"type": "object",
+"properties": {
+"statusCode": {
+"type": "integer",
+"format": "int32"
+},
+"statusMessage": {
+"type": "string"
+},
+"data": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/OptionalData"
+}
+}
+}
+}
+}
+}
+}

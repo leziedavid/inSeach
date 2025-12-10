@@ -11,7 +11,7 @@ import { GeoLocationResult } from "@/utils/geolocation";
 export const secureFetch = async (url: string, options: RequestInit = {}): Promise<Response> => {
     await useAuthMiddleware();
     const token = localStorage.getItem("access_token") || "";
-    const headers = {  ...(options.headers || {}), Authorization: `Bearer ${token}`,  };
+    const headers = { ...(options.headers || {}), Authorization: `Bearer ${token}`, };
     return fetch(url, { ...options, headers });
 };
 
@@ -37,6 +37,20 @@ export const login = async (login: string, password: string): Promise<BaseRespon
     });
     return await response.json();
 };
+
+// reconnectUser @Post('reconnect/:id')
+export const reconnectUser = async (id: string): Promise<BaseResponse<any>> => {
+    const response = await fetch(`${getBaseUrl()}/security/reconnect/${id}`, {
+        method: "POST", // POST correct
+        headers: { "Content-Type": "application/json", },
+    });
+
+    if (!response.ok) {
+        throw new Error(`Erreur API : ${response.status}`);
+    }
+    return await response.json();
+};
+
 
 // CREATION DE COMPTE (public) — fetch
 export const register = async (data: Register): Promise<BaseResponse<any>> => {

@@ -13,6 +13,7 @@ import { MessagesData } from "@/components/page/Messages";
 import { Loading } from "@/components/forms/spinner/Loading";
 import { listCategories, listSubcategories } from "@/services/categoryService";
 import { register } from "@/services/securityService";
+import { useRouter } from "next/navigation";
 
 // ===============================
 // SCHÉMAS DE VALIDATION ZOD
@@ -27,7 +28,7 @@ const step1Schema = z.object({
     location: z.object({
         lat: z.number().nullable().optional(),
         lng: z.number().nullable().optional(),
-        country: z.string() .min(1, "Le pays est requis"),
+        country: z.string().min(1, "Le pays est requis"),
         city: z.string().nullable().optional(),
         district: z.string().nullable().optional(),
         street: z.string().nullable().optional(),
@@ -117,6 +118,7 @@ const SecureInput = ({ type = "text", value, onChange, placeholder, className = 
 // ===============================
 export default function FomsUser() {
 
+    const router = useRouter();
     const [step, setStep] = useState(0);
     const [showPassword, setShowPassword] = useState(false);
     const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
@@ -126,6 +128,7 @@ export default function FomsUser() {
     const [isLocLoading, setIsLocLoading] = useState(false);
     const [displayLocation, setDisplayLocation] = useState("Localisation non détectée");
     const [msg, setMsg] = useState<MessagesData[]>([]);
+    const [loader, setLoader] = useState(false);
 
     const [serviceCategories, setServiceCategories] = useState<ServiceCategory[]>([]);
     const [serviceSubcategories, setServiceSubcategories] = useState<ServiceSubcategory[]>([]);
@@ -389,21 +392,25 @@ export default function FomsUser() {
     };
 
     const handleSubmit = async () => {
+        // 🔒 Empêche plusieurs appels API
+        if (loader) return;
+
+        setLoader(true);
 
         try {
-            // Si le mot de passe ne commence pas déjà par "@", on l'ajoute
-            const passwordWithAt = formData.password.startsWith("@") ? formData.password : `@${formData.password}`;
-            const finalData = { ...formData, password: passwordWithAt };
-            console.log("Données soumises:", finalData);
 
+            const passwordWithAt = formData.password.startsWith("@") ? formData.password  : `@${formData.password}`;
             const payload = {
-                ...finalData,
-                location: location ?? null, // ✔ envoi direct de la géo
+                ...formData,
+                password: passwordWithAt,
+                location: location ?? null,
             };
-            console.log("Données soumises:", payload);
 
+            console.log("Données envoyées:", payload);
             const res = await register(payload);
-            if (res.statusCode === 201) {
+            
+            if (res.statusCode === 201 || res.statusCode === 200) {
+
                 setMsg([
                     {
                         id: "reg-001",
@@ -411,27 +418,30 @@ export default function FomsUser() {
                         title: "✅ Inscription réussie",
                         message: "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.",
                         linkText: "Aller à la connexion",
-                        onClick: () => { /** redirection vers la page de connexion */ },
                     },
                 ]);
+
+                setTimeout(() => router.push("/home"), 2000);
+
             } else {
                 setMsg([
                     {
                         id: "reg-002",
                         type: "text",
                         title: "🚨 Erreur d'inscription",
-                        message: res.message || "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
+                        message: res.message || "Une erreur est survenue. Veuillez réessayer.",
                         linkText: "Réessayer",
-                        onClick: () => { /** rester sur la page pour corriger */ },
                     },
                 ]);
             }
 
-            // success…
         } catch (err) {
             console.error(err);
+        } finally {
+            setLoader(false); // 🔓 débloque le bouton
         }
     };
+
 
     // ===============================
     // RENDU DES ÉTAPES
@@ -671,10 +681,15 @@ export default function FomsUser() {
                 )}
 
                 {renderStep()}
+                {/* if setLoader */}
 
-                <Button onClick={next} className="mt-6 w-full bg-[#b07b5e] hover:bg-[#155e75] text-white font-bold py-3 rounded-xl"  >
+                <Button onClick={next} disabled={loader} className={`mt-6 w-full text-white font-bold py-3 rounded-xl  ${loader ? "bg-gray-400 cursor-not-allowed" : "bg-[#b07b5e] hover:bg-[#155e75]"} `} >
                     {step === stepsTotal - 1 ? "Valider" : "Continuer"}
                 </Button>
+
+                {/* <Button   onClick={next} className="mt-6 w-full bg-[#b07b5e] hover:bg-[#155e75] text-white font-bold py-3 rounded-xl"  >
+                    {step === stepsTotal - 1 ? "Valider" : "Continuer"}
+                </Button> */}
 
             </div>
 

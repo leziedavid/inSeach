@@ -80,11 +80,11 @@ const Sellers = () => {
     };
 
     // Formater le prix
-    const formatPrice = (price: number) => {  return price.toLocaleString() + ' ₣'; };
+    const formatPrice = (price: number) => { return price.toLocaleString() + ' ₣'; };
 
     return (
-        <div className="min-h-screen bg-white py-4 px-3">
-            <div className="max-w-md mx-auto">
+        <div className="w-full flex justify-center px-1 md:px-0">
+            <div className="relative overflow-hidden w-full max-w-7xl">
 
                 {/* En-tête avec recherche */}
                 <div className="mb-6">
@@ -98,11 +98,18 @@ const Sellers = () => {
                 </div>
 
                 {/* Catégories rapides en bas */}
+
                 <div className="mt-8 pt-6 border-t border-gray-200">
                     <h3 className="text-sm font-semibold text-gray-700 mb-3">Parcourir par catégorie</h3>
-                    <div className="grid grid-cols-3 gap-2">
+
+                    {/* Grille responsive */}
+                    <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
                         {categories.slice(0, 6).map(category => (
-                            <button  key={category.id} onClick={() => setSelectedCategory(category.name)}  className={`p-2 rounded-lg text-center transition-colors ${selectedCategory === category.name ? 'bg-[#b07b5e] text-white'  : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }`} >
+                            <button
+                                key={category.id}
+                                onClick={() => setSelectedCategory(category.name)}
+                                className={`p-2 rounded-lg text-center transition-colors  ${selectedCategory === category.name ? 'bg-[#b07b5e] text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                            >
                                 <div className="text-lg mb-1">
                                     {category.name.includes("Électronique") && "📱"}
                                     {category.name.includes("Mode") && "👗"}
@@ -110,11 +117,12 @@ const Sellers = () => {
                                     {category.name.includes("Beauté") && "💄"}
                                     {category.name.includes("Sports") && "⚽"}
                                 </div>
-                                <span className="text-xs font-medium">{category.name.split(' ')[0]}</span>
+                                <span className="text-xs font-medium line-clamp-1">{category.name.split(' ')[0]}</span>
                             </button>
                         ))}
                     </div>
                 </div>
+
 
 
                 {/* Filtres rapides */}
@@ -205,20 +213,19 @@ const Sellers = () => {
                     </div>
                 </div>
 
-
-                                    {/* Barre de recherche */}
-                    <div className="relative mb-6">
-                        <input  type="text"  placeholder="Rechercher un produit..." value={searchTerm}  onChange={(e) => setSearchTerm(e.target.value)}  className="p-2 w-full text-sm rounded-lg border border-gray-100 focus:outline-none focus:ring-1 focus:ring-[#155e7533] pl-9"  style={{ fontSize: "16px" }} />
-                        <div className="absolute left-3 top-3 text-gray-400">   🔍 </div>
-                        {searchTerm && (
-                            <button   onClick={() => setSearchTerm('')}  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"  >
-                                ✕
-                            </button>
-                        )}
-                    </div>
+                {/* Barre de recherche */}
+                <div className="relative mb-6">
+                    <input type="text" placeholder="Rechercher un produit..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="p-2 w-full text-sm rounded-lg border border-gray-100 focus:outline-none focus:ring-1 focus:ring-[#155e7533] pl-9" style={{ fontSize: "16px" }} />
+                    <div className="absolute left-3 top-3 text-gray-400">   🔍 </div>
+                    {searchTerm && (
+                        <button onClick={() => setSearchTerm('')} className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"  >
+                            ✕
+                        </button>
+                    )}
+                </div>
 
                 {/* Liste des produits avec pagination */}
-                <ProductList  products={filteredProducts} searchTerm={searchTerm} onResetFilters={resetFilters}  />
+                <ProductList products={filteredProducts} searchTerm={searchTerm} onResetFilters={resetFilters} />
 
             </div>
         </div>

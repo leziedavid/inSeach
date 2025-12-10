@@ -111,13 +111,13 @@ export default function WelcomeAuth() {
             localStorage.setItem('refresh_token', refresh_token);
             document.cookie = `token=${access_token}; path=/`;
             showAlert("bienvenue sur inSeach", "success");
-            setTimeout(() => router.push("/coworking"), 2000);
+            // setTimeout(() => router.push("/home"), 2000);
 
             if (user.role === Role.ADMIN) {
                 router.push('/dashboard/compte')
                 return
             } else {
-                router.push('/coworking')
+                router.push('/home')
                 return
             }
 

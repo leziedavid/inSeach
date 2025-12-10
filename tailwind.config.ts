@@ -18,6 +18,7 @@ const config: Config = {
       },
     },
     extend: {
+
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -52,12 +53,31 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+
+        blue: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        indigo: {
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+        },
       },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -76,12 +96,14 @@ const config: Config = {
           to: { transform: "translateY(0)" },
         },
       },
+
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "slide-in-right": "slide-in-right 0.3s ease forwards",
         "slide-in-bottom": "slide-in-bottom 0.3s ease forwards",
       },
+
     },
   },
   plugins: [require("tailwindcss-animate")],

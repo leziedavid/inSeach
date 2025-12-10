@@ -245,6 +245,7 @@ export interface Appointment {
     providerNotes?: string;
     service: Service;
     rating?: Rating;
+    interventionType?: string;
     createdAt: string;
     updatedAt: string;
 

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { CalendarIcon, Clock, Phone, User, MapPin, Star, ChevronRight } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ import KRichEditor from "@/components/forms/KRichEditor";
 import { Spinner } from "@/components/forms/spinner/Loader";
 import { createAppointment, updateAppointment } from "@/services/appointments";
 import { useAlert } from "@/contexts/AlertContext";
+import FormsIntervention, { InterventionType } from "./FormsIntervention"; // Import du composant FormsIntervention
 
 // ✅ Validation du formulaire
 const appointmentSchema = z.object({
@@ -45,12 +46,16 @@ const generateTimeSlots = (startHour = 8, endHour = 19) => {
     return slots;
 };
 
-const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appointment, parentClose, getUserAppointments }) => {
-
+const ServiceDetails: React.FC<ServiceDetailsProps> = ({
+    service,
+    onClose,
+    appointment,
+    parentClose,
+    getUserAppointments
+}) => {
     const [isLoading, setIsLoading] = useState(false);
-    // const [selectedDate, setSelectedDate] = useState<string>("");
-    const [selectedDate, setSelectedDate] = useState<string>(appointment?.scheduledAt ? appointment.scheduledAt.split("T")[0] : "");
-
+    const [selectedDate, setSelectedDate] = useState<string>( appointment?.scheduledAt ? appointment.scheduledAt.split("T")[0] : "");
+    const [interventionType, setInterventionType] = useState<InterventionType>(null);
     const { showAlert } = useAlert();
 
     // 📅 Générer les créneaux disponibles
@@ -65,45 +70,100 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
         },
     });
 
-    const onSubmit = async (values: AppointmentFormValues) => {
+    // Effet pour gérer la sélection automatique en cas d'urgence
+    useEffect(() => {
+        if (interventionType === "urgence") {
+            // Sélectionner la date d'aujourd'hui
+            const today = new Date().toISOString().split("T")[0];
+            form.setValue("date", today);
+            setSelectedDate(today);
 
+            // Calculer l'heure actuelle + 1 heure
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+
+            // Convertir l'heure en minutes depuis minuit
+            const currentTotalMinutes = currentHour * 60 + currentMinute;
+            const targetTotalMinutes = currentTotalMinutes + 60; // +1 heure
+
+            // Trouver le créneau horaire le plus proche
+            let nearestTimeSlot = timeSlots[0];
+            let smallestDiff = Infinity;
+
+            for (const slot of timeSlots) {
+                const [hours, minutes] = slot.split(":").map(Number);
+                const slotTotalMinutes = hours * 60 + minutes;
+                const diff = Math.abs(slotTotalMinutes - targetTotalMinutes);
+
+                if (diff < smallestDiff && slotTotalMinutes >= targetTotalMinutes) {
+                    smallestDiff = diff;
+                    nearestTimeSlot = slot;
+                }
+            }
+
+            // Si on dépasse les créneaux disponibles, prendre le dernier
+            if (nearestTimeSlot === timeSlots[0] && targetTotalMinutes > 19 * 60) {
+                nearestTimeSlot = timeSlots[timeSlots.length - 1];
+            }
+
+            form.setValue("time", nearestTimeSlot);
+
+        } else if (interventionType === "rdv") {
+            // Réinitialiser pour rendez-vous normal
+            if (!appointment) {
+                form.reset({ date: "",  time: "",  description: ""  });
+                setSelectedDate("");
+            }
+        }
+    }, [interventionType, form, timeSlots, showAlert, appointment]);
+
+    const onSubmit = async (values: AppointmentFormValues) => {
         const playload = {
             serviceId: service.id,
             scheduledAt: new Date(`${values.date}T${values.time}:00`).toISOString(),
             time: values.time,
-            // priceCents: service.basePriceCents,
             priceCents: 0,
             providerNotes: values.description,
+            interventionType: interventionType // Ajouter le type d'intervention
         };
 
         try {
             setIsLoading(true);
             let res;
-            if(appointment?.id) {
+            if (appointment?.id) {
                 res = await updateAppointment(appointment.id, playload);
             } else {
                 res = await createAppointment(playload);
             }
             if (res.statusCode === 201) {
-                showAlert(res.message || `Rendez-vous confirmé le ${values.date} à ${values.time}`, "success");
+                showAlert(
+                    `Rendez-vous ${interventionType === "urgence" ? "d'urgence" : ""} confirmé le ${values.date} à ${values.time}`,
+                    "success"
+                );
                 onClose();
                 parentClose?.();
                 getUserAppointments?.();
-            }else  if (res.statusCode === 200) {
-                showAlert(res.message || `Rendez-vous mis à jour le ${values.date} à ${values.time}`, "success");
+            } else if (res.statusCode === 200) {
+                showAlert(
+                    `Rendez-vous ${interventionType === "urgence" ? "d'urgence" : ""} mis à jour le ${values.date} à ${values.time}`,
+                    "success"
+                );
                 onClose();
                 parentClose?.();
                 getUserAppointments?.();
-            }else {
+            } else {
                 showAlert(res.message || "Une erreur est survenue.", "error");
             }
 
             form.reset();
             setSelectedDate("");
+            setInterventionType(null);
             setIsLoading(false);
 
         } catch (error) {
             console.error("Erreur lors de la prise de rendez-vous :", error);
+            showAlert("Une erreur est survenue lors de la prise de rendez-vous.", "error");
         } finally {
             setIsLoading(false);
         }
@@ -111,15 +171,19 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
 
     return (
         <div className="bg-white p-1 max-w-md mx-auto mt-4">
-
-            {/* Profile & About Section — uniquement si ce n’est pas une modification */}
+            {/* Profile & About Section — uniquement si ce n'est pas une modification */}
             {!appointment && (
                 <>
-
                     {/* Photo & Videos Section */}
                     <div className="mb-3">
                         <div className="w-full h-40 bg-gray-200 rounded-xl relative overflow-hidden">
-                            <Image src={service.images || "/images/default-service.jpg"} alt={service.title} fill className="object-cover" unoptimized />
+                            <Image
+                                src={service.images || "/images/default-service.jpg"}
+                                alt={service.title}
+                                fill
+                                className="object-cover"
+                                unoptimized
+                            />
                         </div>
                     </div>
 
@@ -133,7 +197,8 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                                         alt={service.icone?.name || "icon"}
                                         width={28}
                                         height={28}
-                                        className="object-contain" unoptimized
+                                        className="object-contain"
+                                        unoptimized
                                     />
                                 ) : (
                                     <span className="text-sm font-semibold text-white text-gray-500"> ? </span>
@@ -153,7 +218,9 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                                     <span className="text-xs text-gray-600">(120 Avis)</span>
                                 </div>
                                 <MapPin className="w-4 h-4 text-[#b07b5e]" />
-                                <span className="text-gray-700 text-xs font-medium">{service.location?.street ?? " "}</span>
+                                <span className="text-gray-700 text-xs font-medium">
+                                    {service.location?.street ?? " "}
+                                </span>
                             </div>
 
                             {/* Nom + Téléphone */}
@@ -167,7 +234,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                     </div>
 
                     {/* About Me Section */}
-                    <div className="mb-0">
+                    <div className="mb-4">
                         <div className="bg-white p-4">
                             <p
                                 dangerouslySetInnerHTML={{ __html: service?.description ?? "" }}
@@ -178,7 +245,35 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                 </>
             )}
 
-            {/* 🗓️ Formulaire */}
+            {/* Formulaire de sélection du type d'intervention - seulement pour les nouveaux RDV */}
+            {!appointment && (
+                <div className="mb-6">
+                    <FormsIntervention
+                        onSelectionChange={setInterventionType}
+                        initialValue={null}
+                    />
+                </div>
+            )}
+
+            {/* Avertissement pour les interventions d'urgence */}
+            {interventionType === "urgence" && (
+                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-start gap-2">
+                        <span className="text-blue-500">ℹ️</span>
+                        <div>
+                            <p className="text-blue-800 text-sm font-medium">
+                                Intervention d'urgence sélectionnée
+                            </p>
+                            <p className="text-blue-700 text-xs mt-1">
+                                Date et heure ajustées automatiquement pour une intervention rapide.
+                                {form.getValues("time") && ` Intervention prévue à ${form.getValues("time")}.`}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 🗓️ Formulaire de réservation */}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                     {/* 📅 Date */}
@@ -187,11 +282,28 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                         name="date"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Date du rendez-vous</FormLabel>
+                                <FormLabel>
+                                    Date du rendez-vous
+                                    {interventionType === "urgence" && " (automatique)"}
+                                </FormLabel>
                                 <FormControl>
                                     <div className="relative">
                                         <CalendarIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                                        <Input type="date"  {...field} min={new Date().toISOString().split("T")[0]} onChange={(e) => { field.onChange(e); setSelectedDate(e.target.value); }} className={cn("pl-10 cursor-pointer appearance-none", "focus:ring-2 focus:ring-[#b07b5e] focus:border-[#b07b5e]")} />
+                                        <Input
+                                            type="date"
+                                            {...field}
+                                            min={new Date().toISOString().split("T")[0]}
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                setSelectedDate(e.target.value);
+                                            }}
+                                            className={cn(
+                                                "pl-10 cursor-pointer appearance-none",
+                                                "focus:ring-2 focus:ring-[#b07b5e] focus:border-[#b07b5e]",
+                                                interventionType === "urgence" && "bg-gray-100 cursor-not-allowed"
+                                            )}
+                                            disabled={interventionType === "urgence"}
+                                        />
                                     </div>
                                 </FormControl>
                                 <FormMessage />
@@ -208,17 +320,40 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <Clock className="h-4 w-4 text-[#b07b5e]" />
-                                        Choisissez un créneau horaire
+                                        {interventionType === "urgence"
+                                            ? "Créneau horaire d'urgence"
+                                            : "Choisissez un créneau horaire"}
                                     </FormLabel>
                                     <FormControl>
-                                        <div className="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto p-2 bg-gray-50 rounded-lg">
-                                            {timeSlots.map((slot) => (
-                                                <button key={slot} type="button" onClick={() => field.onChange(slot)}
-                                                    className={cn("py-2 px-3 rounded-lg text-sm font-medium transition-all", "border hover:scale-105", field.value === slot ? "bg-[#b07b5e] text-white border-[#b07b5e] shadow-md" : "bg-white text-gray-700 border-gray-300 hover:border-[#b07b5e] hover:text-[#b07b5e]")} >
-                                                    {slot}
-                                                </button>
-                                            ))}
-                                        </div>
+                                        {interventionType === "urgence" ? (
+                                            <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                                                <p className="text-gray-700 font-medium">
+                                                    {field.value || "Calcul en cours..."}
+                                                </p>
+                                                <p className="text-gray-600 text-sm mt-1">
+                                                    Créneau ajusté automatiquement pour une intervention rapide
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto p-2 bg-gray-50 rounded-lg">
+                                                {timeSlots.map((slot) => (
+                                                    <button
+                                                        key={slot}
+                                                        type="button"
+                                                        onClick={() => field.onChange(slot)}
+                                                        className={cn(
+                                                            "py-2 px-3 rounded-lg text-sm font-medium transition-all",
+                                                            "border hover:scale-105",
+                                                            field.value === slot
+                                                                ? "bg-[#b07b5e] text-white border-[#b07b5e] shadow-md"
+                                                                : "bg-white text-gray-700 border-gray-300 hover:border-[#b07b5e] hover:text-[#b07b5e]"
+                                                        )}
+                                                    >
+                                                        {slot}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -232,33 +367,52 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ service, onClose, appoi
                         name="description"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Décrivez votre besoin (facultatif)</FormLabel>
+                                <FormLabel>
+                                    Décrivez votre besoin {interventionType === "urgence" && " (pour urgence)"}
+                                </FormLabel>
                                 <FormControl>
-                                    <KRichEditor value={field.value || ""} onChange={field.onChange} maxLength={200} />
+                                    <KRichEditor
+                                        value={field.value || ""}
+                                        onChange={field.onChange}
+                                        maxLength={200}
+                                        placeholder={
+                                            interventionType === "urgence"
+                                                ? "Décrivez l'urgence rapidement..."
+                                                : "Décrivez votre besoin..."
+                                        }
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
                     />
 
                     {/* 🌀 Bouton ou Loader */}
-
-
                     {isLoading ? (
                         <div className="flex justify-center py-4">
                             <Spinner />
                         </div>
                     ) : (
-                        <Button type="submit" disabled={!selectedDate || !form.watch("time")} className={cn("w-full font-semibold transition-all",
-                            !selectedDate || !form.watch("time") ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-[#b07b5e] hover:bg-[#9c6e55] text-white")} >
-                            Confirmer le rendez-vous
+                        <Button
+                            type="submit"
+                            disabled={(!selectedDate || !form.watch("time")) && interventionType !== "urgence"}
+                            className={cn(
+                                "w-full font-semibold transition-all",
+                                ((!selectedDate || !form.watch("time")) && interventionType !== "urgence")
+                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    : interventionType === "urgence"
+                                        ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white"
+                                        : "bg-[#b07b5e] hover:bg-[#9c6e55] text-white"
+                            )}
+                        >
+                            {interventionType === "urgence"
+                                ? "Confirmer l'intervention d'urgence"
+                                : "Confirmer le rendez-vous"}
                         </Button>
                     )}
-
                 </form>
             </Form>
-
         </div>
-    )
-}
+    );
+};
 
 export default ServiceDetails;

@@ -90,7 +90,7 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
         };
 
         startAutoSlide();
-        
+
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
@@ -101,10 +101,10 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
     // GESTION DE LA TRANSITION
     const handleTransition = (callback: () => void) => {
         if (isTransitioning) return;
-        
+
         setIsTransitioning(true);
         callback();
-        
+
         setTimeout(() => {
             setIsTransitioning(false);
         }, 700); // Durée de la transition CSS
@@ -131,24 +131,24 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
             <div className="relative overflow-hidden w-full h-[210px] rounded-xl shadow-md">
 
                 {/* SLIDER */}
-                <div 
+                <div
                     className="flex transition-transform duration-700 ease-out will-change-transform"
-                    style={{ 
+                    style={{
                         transform: `translateX(-${currentIndex * 100}%)`,
                     }}
                 >
                     {SlidersData.map((Slider, index) => {
                         const imageUrl = Slider.image || '/assets/default-bg.jpg';
                         const isImageLoaded = loadedImages.has(imageUrl);
-                        
+
                         // Précharger les images adjacentes
-                        const shouldRender = Math.abs(index - currentIndex) <= 1 || 
-                                            (currentIndex === 0 && index === SlidersData.length - 1) ||
-                                            (currentIndex === SlidersData.length - 1 && index === 0);
+                        const shouldRender = Math.abs(index - currentIndex) <= 1 ||
+                            (currentIndex === 0 && index === SlidersData.length - 1) ||
+                            (currentIndex === SlidersData.length - 1 && index === 0);
 
                         return (
-                            <div 
-                                key={Slider.id} 
+                            <div
+                                key={Slider.id}
                                 className="w-full flex-shrink-0 h-[210px] md:h-[310px] lg:h-[390px] xl:h-[430px] relative"
                             >
                                 {/* LOADING PLACEHOLDER */}
@@ -158,10 +158,9 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
 
                                 {/* BACKGROUND IMAGE - Optimisé */}
                                 {shouldRender && (
-                                    <div 
-                                        className={`absolute inset-0 bg-cover bg-center rounded-xl dark:brightness-90 transition-opacity duration-300 ${
-                                            isImageLoaded ? 'opacity-100' : 'opacity-0'
-                                        }`}
+                                    <div
+                                        className={`absolute inset-0 bg-cover bg-center rounded-xl dark:brightness-90 transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'
+                                            }`}
                                         style={{
                                             backgroundImage: `url(${imageUrl})`,
                                             backgroundSize: 'cover',
@@ -194,9 +193,8 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
                                             {Array.from({ length: 5 }, (_, index) => (
                                                 <span
                                                     key={index}
-                                                    className={`text-base md:text-2xl ${
-                                                        index < Slider.rating ? 'text-yellow-400' : 'text-gray-300'
-                                                    }`}
+                                                    className={`text-base md:text-2xl ${index < Slider.rating ? 'text-yellow-400' : 'text-gray-300'
+                                                        }`}
                                                 >
                                                     ★
                                                 </span>
@@ -224,7 +222,7 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
                 {/* NAV BUTTONS */}
                 {SlidersData.length > 1 && (
                     <>
-                        <button 
+                        <button
                             onClick={prevSlide}
                             disabled={isTransitioning}
                             className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/60 dark:bg-black/30 dark:hover:bg-black/50 backdrop-blur-md p-2 rounded-full opacity-40 hover:opacity-90 transition disabled:opacity-20"
@@ -234,7 +232,7 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
                             </svg>
                         </button>
 
-                        <button 
+                        <button
                             onClick={nextSlide}
                             disabled={isTransitioning}
                             className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/60 dark:bg-black/30 dark:hover:bg-black/50 backdrop-blur-md p-2 rounded-full opacity-40 hover:opacity-90 transition disabled:opacity-20"
@@ -256,11 +254,10 @@ const MySlider: React.FC<SliderProps> = ({ Sliders = [] }) => {
                                     handleTransition(() => setCurrentIndex(index));
                                 }
                             }}
-                            className={`h-1.5 rounded-full transition-all duration-300 ${
-                                index === currentIndex 
-                                    ? 'w-8 bg-white' 
+                            className={`h-1.5 rounded-full transition-all duration-300 ${index === currentIndex
+                                    ? 'w-8 bg-white'
                                     : 'w-1.5 bg-white/50 hover:bg-white/70'
-                            }`}
+                                }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}

@@ -561,7 +561,10 @@
   height: 0;
 }
 
-/* @keyframes fade-in {
+/* nouveau  */
+
+
+@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -572,6 +575,30 @@
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.4s ease-in-out;
-} */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.6s ease-out;
+}
+
+/* Style pour les toggle switches */
+input:checked + label {
+  background-color: #2563eb;
+}
+
+input:checked + label .dot {
+  transform: translateX(24px);
+}
