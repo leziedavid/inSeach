@@ -33,7 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={`${poppins.variable} ${raleway.variable} ${opensans.variable} antialiased`}>
-        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" disableTransitionOnChange>
 
           <div className="flex flex-col min-h-screen">
             <main className="flex-1">
