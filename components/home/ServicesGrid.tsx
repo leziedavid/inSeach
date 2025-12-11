@@ -270,10 +270,6 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
                     <div className="w-50 h-1 bg-[#b07b5e] mt-2"></div>
                 </div>
 
-                <button className="bg-[#b07b5e] p-2.5 rounded-full hover:bg-[#a06a50] transition shadow-md">
-                    <Search className="w-3 h-3 text-white" />
-                </button>
-
             </div>
 
             {/* 🔍 Zone de recherche avec suggestions */}

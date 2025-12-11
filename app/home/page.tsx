@@ -11,7 +11,7 @@ export default function Page() {
     const [status, setStatus] = useState<string>(" Chargement...");
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 5000);
+        const timer = setTimeout(() => setLoading(false), 500);
         return () => clearTimeout(timer);
 
     }, []);

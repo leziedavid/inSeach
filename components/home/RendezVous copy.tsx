@@ -11,8 +11,7 @@ import Erreurs from "./Erreurs";
 import { getUserInfos } from "@/app/middleware";
 import { addRatingOfAppointment, listAppointments, updateStatut } from "@/services/appointments";
 import { useAlert } from "@/contexts/AlertContext";
-// ✅ Correct
-import { Badge } from "@/components/ui/badge";
+
 
 
 export default function RendezVous() {
@@ -176,14 +175,14 @@ export default function RendezVous() {
         setCompletionTarget(null);
     }
 
-    // Mapping statut → variant accepté par ton Badge
-    const statusVariantMap: Record<AppointmentStatus, "default" | "destructive" | "outline" | "secondary"> = {
+    // Mapping statut -> variant du Badge
+    const statusVariantMap: Record<AppointmentStatus, "secondary" | "destructive" | "success" | "warning"> = {
         [AppointmentStatus.PENDING]: "secondary",
         [AppointmentStatus.REQUESTED]: "secondary",
-        [AppointmentStatus.CONFIRMED]: "default", // remplace "success" par "default"
+        [AppointmentStatus.CONFIRMED]: "success",
         [AppointmentStatus.REJECTED]: "destructive",
-        [AppointmentStatus.COMPLETED]: "default", // remplace "success" par "default"
-        [AppointmentStatus.CANCELLED]: "outline", // remplace "warning" par "outline"
+        [AppointmentStatus.COMPLETED]: "success",
+        [AppointmentStatus.CANCELLED]: "warning",
     };
 
     // -------------------------------------------------------------------
@@ -195,11 +194,35 @@ export default function RendezVous() {
         // PROVIDER, ADMIN, SELLER
         const isStaff = userRole === Role.PROVIDER || userRole === Role.ADMIN || userRole === Role.SELLER;
 
-        // Badge du statut
-
         switch (rdv.status) {
 
             case AppointmentStatus.PENDING:
+
+                if (isStaff) {
+                    return (
+                        <div className="flex gap-3">
+                            <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)} className="flex items-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] px-2 py-1 rounded-full transition" >
+                                <XCircle className="w-3 h-3 text-gray-500" />
+                                Refuser
+                            </button>
+
+                            <button onClick={() => updateStatus(rdv, AppointmentStatus.CONFIRMED)} className="flex items-center gap-1 bg-green-100 hover:bg-green-200 text-green-700 text-[10px] px-2 py-1 rounded-full transition" >
+                                <CheckCircle className="w-3 h-3 text-green-600" />
+                                Accepter
+                            </button>
+                        </div>
+                    );
+                }
+                return (
+                    <div className="flex gap-3">
+                        <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)}
+                            className="flex items-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] px-2 py-1 rounded-lg transition" >
+                            <XCircle className="w-3 h-3 text-gray-500" />
+                            Refuser
+                        </button>
+                    </div>
+                );
+
             case AppointmentStatus.REQUESTED:
 
                 if (isStaff) {
@@ -278,18 +301,18 @@ export default function RendezVous() {
 
             case AppointmentStatus.REJECTED:
 
-            // case AppointmentStatus.CANCELLED:
-            //     return (
-            //         <div className="flex items-center gap-1 bg-red-200 hover:bg-red-200 text-red-800 text-[10px] px-2 py-1 rounded-full transition">
-            //             <Trash2 className="w-3 h-3 text-red-800" />
-            //             Annuler
-            //         </div>
-            //     );
+            case AppointmentStatus.CANCELLED:
+                // Tous les rôles peuvent voir Annuler pour leurs propres commandes
+                return (
+                    <div className="flex items-center gap-1 bg-red-200 hover:bg-red-200 text-red-800 text-[10px] px-2 py-1 rounded-full transition">
+                        <Trash2 className="w-3 h-3 text-red-800" />
+                        Annuler
+                    </div>
+                );
 
             default:
                 return null;
         }
-
     };
 
     return (
@@ -342,27 +365,12 @@ export default function RendezVous() {
                                 </div>
 
                                 {/* Actions + Eye */}
-                                {/* Actions + Badge + Eye */}
-                                <div className="flex items-end justify-between mt-2 w-full">
-
-                                    {/* GAUCHE */}
-                                    <div className="flex">
-                                        {renderActions(rdv)}
-                                    </div>
-
-                                    {/* DROITE */}
-                                    <div className="flex items-center gap-2">
-                                        <Badge variant={statusVariantMap[rdv.status] || "secondary"}>
-                                            {statusLabels[rdv.status]}
-                                        </Badge>
-
-                                        <button  onClick={() => handleAppointmentSelect(rdv)} className="bg-white hover:bg-[#b07b5e] rounded-full shadow p-1.5 text-gray-500 hover:text-white" >
-                                            <Eye className="w-4 h-4" />
-                                        </button>
-                                    </div>
-
+                                <div className="flex items-center justify-between mt-3">
+                                    {renderActions(rdv)}
+                                    <button onClick={() => handleAppointmentSelect(rdv)} className="bg-white hover:bg-[#b07b5e] rounded-full shadow p-1.5 text-gray-500 hover:text-white" >
+                                        <Eye className="w-4 h-4" />
+                                    </button>
                                 </div>
-
                             </div>
                         );
                     })

@@ -66,13 +66,7 @@ export default function Header({ tabs = [], activeTab, onTabChange }: HeaderProp
             <div className="flex items-center gap-3">
                 <div className="w-11 h-11 bg-[#b07b5e33] rounded-full flex items-center justify-center overflow-hidden relative">
                     {images.map((img, index) => (
-                        <Image
-                            key={img}
-                            src={img}
-                            alt="Avatar"
-                            width={44}
-                            height={44}
-                            className={`object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-500 ease-in-out ${index === currentImageIndex ? "opacity-100" : "opacity-0"}`} />
+                        <Image key={img} src={img} alt="Avatar" width={44} height={44} className={`object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-500 ease-in-out ${index === currentImageIndex ? "opacity-100" : "opacity-0"}`} />
                     ))}
                 </div>
 
@@ -109,7 +103,7 @@ export default function Header({ tabs = [], activeTab, onTabChange }: HeaderProp
                 </Link>
 
                 <button onClick={() => setOpen(true)} className="relative bg-[#b07b5e] p-2.5 rounded-full transition" >
-                    <MessageCircleMore className="w-4 h-4 text-white animate-bounce" />
+                    <Image src="/notification1.svg" alt="Service" width={26} height={26} />
                     {unreadMessages > 0 && (
                         <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold text-white bg-red-500 rounded-full">
                             {unreadMessages}

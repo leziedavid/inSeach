@@ -83,14 +83,15 @@ export default function CardTabs() {
 
                     {/* Sous-tabs pour filtrer le contenu */}
                     {visibleTabs.length > 1 && (
-                        <div className="flex items-center justify-center dark:bg-gray-800 rounded-xl p-1 mt-3 mb-2">
+                        <div className="flex items-center justify-center dark:bg-gray-800 rounded-xl p-1 mt-3 mb-2 space-x-2">
                             {visibleTabs.map(tab => (
-                                <button key={tab.key} onClick={() => setSelectedTab(tab.key)} className={`px-4 py-1 rounded-full text-sm font-medium transition mx-1 ${selectedTab === tab.key ? "bg-[#b07b5e] text-white" : "text-gray-600"}`} >
+                                <button key={tab.key} onClick={() => setSelectedTab(tab.key)} className={`px-4 py-1 rounded-full text-sm font-medium transition mx-1 ${selectedTab === tab.key ? "bg-[#b07b5e] text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-600 hover:text-gray-800 dark:hover:text-gray-200" }`}  >
                                     {tab.label}
                                 </button>
                             ))}
                         </div>
                     )}
+
 
                     {/* Contenu dynamique */}
                     {selectedTab === "PRESTA" && visibleTabs.some(t => t.key === "PRESTA") && (

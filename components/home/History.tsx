@@ -1,24 +1,16 @@
 "use client"
 
 import { useState, ReactNode, useEffect } from "react"
-import { Phone, MessageCircle, MessageSquareText, FileText } from "lucide-react"
+import { FileText } from "lucide-react"
 import { cn } from "@/lib/utils"
 import RendezVous from "./RendezVous"
 import RechargeModal from "../modal/RechargeModal"
-import { AlertData } from "./AlertPlayer"
 import { Button } from "../ui/button"
 import AppointmentCalendar from "./AppointmentCalendar"
 import { HistoryCard } from "./HistoryCard"
 import { Role } from "@/types/interfaces"
 import { getUserInfos } from "@/app/middleware"
 
-interface RdvItem {
-    id: string
-    name: string
-    icon: ReactNode
-    value: string
-    subtext?: string
-}
 
 export default function History() {
 
@@ -84,14 +76,17 @@ export default function History() {
                 {/* Onglets */}
                 {/* PRIX AFICHIER UNIQUEMENT SI LE ROLE EST PROVIDER */}
                 {userRole === Role.PROVIDER && (
-                    <div className="flex bg-gray-80 dark:bg-gray-800 rounded-xl p-1">
-                        <button onClick={() => setActiveTab("rdv")} className={cn("flex-1 py-2 rounded-lg text-sm font-medium transition", activeTab === "rdv" ? "bg-[#b07b5e] dark:bg-gray-900 shadow-sm text-white" : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200")} >
+                    <div className="flex bg-gray-80 dark:bg-gray-800 rounded-xl p-1 space-x-2">
+                        <button  onClick={() => setActiveTab("rdv")}
+                            className={cn( "flex-1 py-2 rounded-lg text-sm font-medium transition",  activeTab === "rdv" ? "bg-[#b07b5e] dark:bg-gray-900 shadow-sm text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200" )} >
                             Rendez-vous
                         </button>
-                        <button onClick={() => setActiveTab("histo")} className={cn("flex-1 py-2 rounded-lg text-sm font-medium transition", activeTab === "histo" ? "bg-[#b07b5e] dark:bg-gray-900 shadow-sm text-white" : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200")}  >
+                        <button onClick={() => setActiveTab("histo")}
+                            className={cn( "flex-1 py-2 rounded-lg text-sm font-medium transition",  activeTab === "histo" ? "bg-[#b07b5e] dark:bg-gray-900 shadow-sm text-white"  : "bg-gray-200 dark:bg-gray-700 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200" )} >
                             Historique
                         </button>
                     </div>
+
                 )}
 
                 {/* Contenu onglet */}

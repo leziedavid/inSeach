@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { MapPin, Calendar, Clock, User, FileText, Phone, Mail, SquarePen, Star } from 'lucide-react';
+import { MapPin, CheckCircle, Eye, XCircle, Clock, User, FileText, Phone, Mail, SquarePen, Star, Trash2, Calendar } from 'lucide-react';
 import Image from "next/image";
 import { Appointment, AppointmentStatus, Role } from "@/types/interfaces";
 import ServiceDetails from '../forms/ServiceDetails';
 import MyModal from '../modal/MyModal';
 import { getUserInfos } from '@/app/middleware';
+import { updateStatut } from '@/services/appointments';
+import { useAlert } from '@/contexts/AlertContext';
 
 interface JobDetailsProps {
     appointment: Appointment;
@@ -19,12 +21,13 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
     const [activeTab, setActiveTab] = useState<'details' | 'client'>('details');
     const [isEditing, setIsEditing] = useState(false);
     const [open, setOpen] = useState(false)
+    const { showAlert } = useAlert();
     // Simuler le rôle connecté
     const [userRole, setUserRole] = useState<Role>(Role.USER);
 
     /** Couleurs douces (iOS-style) */
     const statusColors: Record<AppointmentStatus, string> = {
-        [AppointmentStatus.CONFIRMED]: "bg-green-50 text-green-700",
+        [AppointmentStatus.CONFIRMED]: "bg-green-50 text-[#b07b5e]",
         [AppointmentStatus.REQUESTED]: "bg-yellow-50 text-yellow-700",
         [AppointmentStatus.PENDING]: "bg-yellow-50 text-yellow-700",
         [AppointmentStatus.CANCELLED]: "bg-red-50 text-red-700",
@@ -42,6 +45,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
     };
 
     const scheduledDate = appointment.scheduledAt ? new Date(appointment.scheduledAt) : null;
+
     const formattedDate = scheduledDate?.toLocaleDateString('fr-FR', {
         weekday: 'long',
         year: 'numeric',
@@ -65,13 +69,146 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
         setOpen(true);
     };
 
+
+
+    // -------------------------------------------------------------------
+    // 🔹 Mettre à jour le statut
+    // -------------------------------------------------------------------
+
+    const updateStatus = async (rdv: Appointment, newStatus: AppointmentStatus) => {
+
+        if (newStatus !== AppointmentStatus.COMPLETED) {
+
+            const res = await updateStatut(rdv.id, newStatus);
+
+            if (res.statusCode === 200) {
+                showAlert(res.message || `Statut mis à jour avec succès`, "success");
+            } else {
+                showAlert(res.message || "Une erreur est survenue.", "error");
+            }
+
+            getUserAppointments();
+        }
+
+        // if (newStatus === AppointmentStatus.COMPLETED) {
+        //     setCompletionTarget(rdv);
+        //     setOpenCompletionForm(true);
+        //     setfinalStatus(newStatus);
+        // }
+
+    };
+
+
+    // -------------------------------------------------------------------
+    // 🔥 Rendu des actions selon le statut et le rôle
+    // -------------------------------------------------------------------
+    const renderActions = (rdv: Appointment) => {
+        // USER et CLIENT
+        const isClient = userRole === Role.USER || userRole === Role.CLIENT;
+        // PROVIDER, ADMIN, SELLER
+        const isStaff = userRole === Role.PROVIDER || userRole === Role.ADMIN || userRole === Role.SELLER;
+
+        switch (rdv.status) {
+
+            case AppointmentStatus.PENDING:
+
+
+                if (isStaff) {
+                    return (
+                        <>
+                            <div className="flex gap-2 w-full max-w-sm mx-auto">
+                                <button
+                                    onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)}
+                                    className="flex-1 flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition"
+                                >
+                                    <XCircle className="w-3.5 md:w-4 h-3.5 md:h-4 text-white" />
+                                    <span className="truncate">Refuser</span>
+                                </button>
+
+                                <button onClick={() => updateStatus(rdv, AppointmentStatus.CONFIRMED)}
+                                    className="flex-1 flex items-center justify-center gap-1 bg-[#b07b5e] hover:bg-[#b07b5e]/80 text-white text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition" >
+                                    <CheckCircle className="w-3.5 md:w-4 h-3.5 md:h-4 text-white" />
+                                    <span className="truncate">Accepter</span>
+                                </button>
+                            </div>
+                        </>
+
+                    );
+                }
+
+                return (
+                    <div className="w-full max-w-sm mx-auto">
+                        <button
+                            onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)}
+                            className="w-full flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition">
+                            <XCircle className="w-3.5 md:w-4 h-3.5 md:h-4 text-white" />
+                            <span className="truncate">Refuser</span>
+                        </button>
+                    </div>
+                );
+
+            case AppointmentStatus.REQUESTED:
+
+
+                if (isStaff) {
+                    return (
+                        <>
+                            <div className="flex gap-2 w-full max-w-sm mx-auto">
+                                <button
+                                    onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)}
+                                    className="flex-1 flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition"
+                                >
+                                    <XCircle className="w-3.5 md:w-4 h-3.5 md:h-4 text-white" />
+                                    <span className="truncate">Refuser</span>
+                                </button>
+
+                                <button onClick={() => updateStatus(rdv, AppointmentStatus.CONFIRMED)}
+                                    className="flex-1 flex items-center justify-center gap-1 bg-[#b07b5e] hover:bg-[#b07b5e]/80 text-white text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition" >
+                                    <CheckCircle className="w-3.5 md:w-4 h-3.5 md:h-4 text-white" />
+                                    <span className="truncate">Accepter</span>
+                                </button>
+                            </div>
+                        </>
+
+                    );
+                }
+
+                return (
+                    <div className="w-full max-w-sm mx-auto">
+                        <button
+                            onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)}
+                            className="w-full flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition">
+                            <XCircle className="w-3.5 md:w-4 h-3.5 md:h-4 text-white" />
+                            <span className="truncate">Refuser</span>
+                        </button>
+                    </div>
+                );
+
+            case AppointmentStatus.REJECTED:
+
+            case AppointmentStatus.CANCELLED:
+                // Tous les rôles peuvent voir Annuler pour leurs propres commandes
+                return (
+                    <div className="flex items-center gap-1 bg-red-200 hover:bg-red-200 text-red-800 text-[10px] px-2 py-1 rounded-full transition">
+                        <Trash2 className="w-3 h-3 text-red-800" />
+                        Annuler
+                    </div>
+                );
+
+            default:
+                return null;
+        }
+    };
+
+
     return (
         <div className="bg-white p-3">
 
             {/* Heure minimaliste */}
-            <div className="text-right text-gray-400 text-xs mb-3">
+            <div className="text-right text-gray-400 text-sm mb-3">
                 {new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
             </div>
+
 
             {/* CARD PRINCIPALE */}
             <div className="bg-white rounded-2xl overflow-hidden">
@@ -111,7 +248,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
                                 return (
                                     <>
                                         <p className="font-medium">{loc.country}</p>
-                                        <p className="text-xs text-gray-500">
+                                        <p className="text-sm text-gray-500">
                                             {loc.city}, {loc.district}
                                         </p>
                                     </>
@@ -174,7 +311,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
                             {/* NOTES */}
                             {appointment.rating && (
                                 <>
-                                    <div className="p-3 bg-yellow-50 rounded-xl text-xs">
+                                    <div className="p-3 bg-yellow-50 rounded-xl text-sm">
                                         <span className="font-medium text-yellow-700">Note. du clients</span>
 
                                         <div className="flex items-center gap-1 mb-1 mt-2">
@@ -191,25 +328,24 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
 
 
                             {/* DESCRIPTION */}
-                            <div className="p-3 bg-gray-50 rounded-xl text-xs">
+                            <div className="p-3 bg-gray-50 rounded-xl text-sm">
                                 <h3 className="font-medium text-gray-700 mb-1">Description</h3>
                                 <p className="text-gray-600" dangerouslySetInnerHTML={{ __html: appointment.service?.description ?? '' }} />
                             </div>
 
 
                             {appointment.providerNotes && (
-                                <div className="p-3 bg-yellow-50 rounded-xl text-xs">
+                                <div className="p-3 bg-yellow-50 rounded-xl text-sm">
                                     <div className="flex items-center gap-1 mb-1">
                                         <FileText className="w-3 h-3 text-yellow-600" />
                                         <span className="font-medium text-yellow-700">Notes</span>
                                     </div>
-                                    <p
-                                        className="text-yellow-800"
-                                        dangerouslySetInnerHTML={{ __html: appointment?.providerNotes ?? '' }}
-                                    />
+                                    <p className="text-yellow-800" dangerouslySetInnerHTML={{ __html: appointment?.providerNotes ?? '' }} />
                                 </div>
                             )}
 
+                            {/* ajouter les bouton daction ici */}
+                            {renderActions(appointment)}
                         </div>
                     )}
 
@@ -228,7 +364,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
                                         <h3 className="text-base font-semibold text-gray-900">
                                             {appointment.client.name}
                                         </h3>
-                                        <p className="text-gray-600 text-xs">{appointment.client.phone}</p>
+                                        <p className="text-gray-600 text-sm">{appointment.client.phone}</p>
                                     </div>
                                 </div>
 
@@ -248,7 +384,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
                             </div>
 
                             {/* INFO RDV */}
-                            <div className="bg-blue-50 rounded-xl p-3 text-xs">
+                            <div className="bg-blue-50 rounded-xl p-3 text-sm">
                                 <h4 className="font-medium text-blue-900 mb-1">Informations</h4>
                                 <div className="space-y-1 text-blue-800">
                                     <p>Créé le {new Date(appointment.createdAt).toLocaleDateString('fr-FR')}</p>
@@ -273,7 +409,6 @@ const JobDetails: React.FC<JobDetailsProps> = ({ appointment, parentClose, getUs
                     />
                 </MyModal>
             )}
-
 
         </div>
     );

@@ -7,7 +7,7 @@ interface FullPageLoaderProps {
     duration?: number; // en ms
 }
 
-export default function FullPageLoader({ status, duration = 3000 }: FullPageLoaderProps) {
+export default function FullPageLoader({ status, duration = 500 }: FullPageLoaderProps) {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {

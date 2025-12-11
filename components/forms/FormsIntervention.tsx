@@ -298,10 +298,10 @@ export default function FormsIntervention({
                     <div className="flex items-start gap-1.5">
                         <AlertCircle className="w-2.5 h-2.5 text-amber-600 flex-shrink-0 mt-0.5 sm:w-3 sm:h-3" />
                         <div>
-                            <h4 className="text-[10px] font-semibold text-amber-900 mb-0.5 sm:text-xs">
+                            <h4 className="text-[12px] font-semibold text-amber-900 mb-0.5 sm:text-sm">
                                 Info importante
                             </h4>
-                            <p className="text-[9px] text-amber-800 leading-tight sm:text-[10px]">
+                            <p className="text-[12px] text-amber-800 leading-tight sm:text-[12px]">
                                 Interventions 0h-6h : ajustements possibles
                             </p>
                         </div>
@@ -312,13 +312,9 @@ export default function FormsIntervention({
             {/* Indicateur de sélection - ultra compact */}
             {selectedType && (
                 <div className="text-center pt-1">
-                    <div className={`text-[10px] py-1.5 px-2 rounded-md font-medium ${selectedType === "urgence"
-                        ? "bg-red-100 text-red-800 border border-red-200"
-                        : "bg-blue-100 text-blue-800 border border-blue-200"
+                    <div className={`text-[12px] py-1.5 px-2 rounded-md font-medium ${selectedType === "urgence" ? "bg-red-100 text-red-800 border border-red-200" : "bg-blue-100 text-blue-800 border border-blue-200"
                         }`}>
-                        {selectedType === "urgence"
-                            ? "✓ Urgence sélectionnée"
-                            : "✓ RDV sélectionné"}
+                        {selectedType === "urgence"  ? "✓ Urgence sélectionnée" : "✓ RDV sélectionné"}
                     </div>
                 </div>
             )}

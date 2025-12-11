@@ -143,18 +143,7 @@ export default function ListeServices({ services }: ServicesProps) {
                                 key={service.id} // ✅ clé unique
                                 className="bg-white rounded-lg p-4 border border-[#b07b5e]/80 shadow-xs hover:shadow-sm transition-all cursor-pointer flex flex-col items-center text-center relative"
                             >
-                                {/* Actions icons - en haut à droite */}
-                                <div className="absolute top-2 right-2 flex items-center space-x-1 transition-opacity z-10">
-                                    <button className="p-1 hover:bg-gray-200 rounded transition-colors" onClick={() => handlePin(service.id)}>
-                                        {service.pinned ? <PinIcon size={18} color="#155e75" /> : <PinIcon size={18} />}
-                                    </button>
-                                    <button onClick={() => clicEdit(service)} className="p-1 hover:bg-gray-200 rounded transition-colors">
-                                        <EditIcon size={16} color="#b07b5e" />
-                                    </button>
-                                    <button onClick={() => handleDelete(service)} className="p-1 hover:bg-gray-200 rounded transition-colors">
-                                        <TrashIcon size={16} color="#ff0000ff" />
-                                    </button>
-                                </div>
+
 
                                 {/* Image */}
                                 <div className="w-16 h-16 mb-2 relative rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
@@ -176,6 +165,35 @@ export default function ListeServices({ services }: ServicesProps) {
                                 <h3 className="font-medium text-gray-800 text-sm md:text-[13px] leading-tight mb-1 line-clamp-2">
                                     {truncateText(service.title, 50)}
                                 </h3>
+
+
+                                {/* Actions icons - en haut à droite */}
+                                <div className="flex items-center space-x-2">
+                                    <button
+                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                                        onClick={() => handlePin(service.id)}
+                                    >
+                                        {service.pinned
+                                            ? <PinIcon size={18} color="#155e75" />
+                                            : <PinIcon size={18} />
+                                        }
+                                    </button>
+
+                                    <button
+                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                                        onClick={() => clicEdit(service)}
+                                    >
+                                        <EditIcon size={16} color="#b07b5e" />
+                                    </button>
+
+                                    <button
+                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                                        onClick={() => handleDelete(service)}
+                                    >
+                                        <TrashIcon size={16} color="#ff0000ff" />
+                                    </button>
+                                </div>
+
                             </div>
                         ))}
                     </div>
@@ -194,7 +212,7 @@ export default function ListeServices({ services }: ServicesProps) {
             </div>
 
 
-            <ModalDelete isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  onConfirm={handleConfirmDelete} itemId={selectedId} title="Supprimer ce service ?" />
+            <ModalDelete isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleConfirmDelete} itemId={selectedId} title="Supprimer ce service ?" />
 
             {/* Modal */}
             <MyModal open={open} onClose={() => setOpen(false)} mode="mobile">
