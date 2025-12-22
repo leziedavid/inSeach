@@ -8,6 +8,16 @@
 
 @theme {
 
+
+    /* Brand */
+  --color-brand-primary: hsl(var(--brand-primary));
+  --color-brand-secondary: hsl(var(--brand-secondary));
+
+    /* (optionnel) foregrounds */
+  --color-brand-primary-foreground: #ffffff;
+  --color-brand-secondary-foreground: #ffffff;
+  
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -68,6 +78,11 @@
 
 @layer base {
   :root {
+
+        /* Brand colors */
+    --brand-primary: 29 32% 53%;   /* #b07b5e */
+    --brand-secondary: 195 69% 27%; /* #155e75 */
+
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -96,6 +111,10 @@
   }
 
   .dark {
+        /* Optionnel : mêmes couleurs ou ajustées */
+    --brand-primary: 29 32% 53%;
+    --brand-secondary: 195 69% 35%;
+
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -125,15 +144,16 @@
 
 @layer utilities {
   :root {
-    --font-poppins: "Poppins", sans-serif;
+    --font-mono:Menlo,
   }
 
   body {
-    font-family: var(--font-poppins);
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    font-family: var(--font-mono);
+    -ms-overflow-style: none; /* IE scrollbar */
+    scrollbar-width: none; /* Firefox scrollbar */
   }
 }
+
 
 @layer base {
   * {

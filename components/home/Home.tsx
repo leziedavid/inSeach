@@ -29,7 +29,7 @@ export default function Home() {
     return (
         <>
 
-            <div className="min-h-screen bg-[#f8f8f8] text-black relative overflow-hidden">
+            <div className="min-h-screen bg-[#f8f8f8] text-black relative overflow-hidden " >
 
                 {/* Header */}
                 <Header tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
@@ -38,7 +38,7 @@ export default function Home() {
                     <div className="relative overflow-hidden w-full max-w-5xl">
                         {activeTab === "home" && <MySlider />}
 
-                        <div className="flex-1 overflow-y-auto px-6 pb-24 hide-scrollbar">
+                        <div className="flex-1 overflow-y-auto px-6 pb-24 hide-scrollbar " >
                             {activeTab === "home" && <CardTabs />}
                             {activeTab === "history" && <History />}
                             {activeTab === "support" && <Support />}
@@ -47,7 +47,6 @@ export default function Home() {
                     </div>
 
                 </div>
-
 
                 {/* Footer petit */}
                 <div className="text-center text-[9px] sm:text-[10px] bg-[#f8f8f8] text-gray-500 space-y-0.5 pt-2 mt-8">

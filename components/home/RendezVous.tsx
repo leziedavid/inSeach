@@ -352,11 +352,14 @@ export default function RendezVous() {
 
                                     {/* DROITE */}
                                     <div className="flex items-center gap-2">
-                                        <Badge variant={statusVariantMap[rdv.status] || "secondary"}>
-                                            {statusLabels[rdv.status]}
-                                        </Badge>
+                                        {rdv.status !== "REQUESTED" && rdv.status !== "PENDING" && (
+                                            <Badge variant={statusVariantMap[rdv.status] || "secondary"}>
+                                                {statusLabels[rdv.status]}
+                                            </Badge>
+                                        )}
 
-                                        <button  onClick={() => handleAppointmentSelect(rdv)} className="bg-white hover:bg-[#b07b5e] rounded-full shadow p-1.5 text-gray-500 hover:text-white" >
+
+                                        <button onClick={() => handleAppointmentSelect(rdv)} className="bg-white hover:bg-[#b07b5e] rounded-full shadow p-1.5 text-gray-500 hover:text-white" >
                                             <Eye className="w-4 h-4" />
                                         </button>
                                     </div>

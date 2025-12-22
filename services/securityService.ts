@@ -82,6 +82,16 @@ export const getMyInfo = async (): Promise<BaseResponse<User>> => {
     return await response.json();
 };
 
+export const getMyData = async (): Promise<BaseResponse<User>> => {
+    const token = localStorage.getItem("access_token") || "";
+    const res = await fetch(`${getBaseUrl()}/security/me`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json", Authorization: `Bearer ${token}`,  },
+    });
+    return await res.json();
+
+};
+
 // =====================
 // LISTE PAGINÉE DES UTILISATEURS
 // signature exacte demandée : (page: number, limit: number)

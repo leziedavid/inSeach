@@ -74,7 +74,7 @@ export const deleteService = async (id: string): Promise<BaseResponse<any>> => {
 export const listServices = async (page?: number, limit?: number): Promise<BaseResponse<Pagination<Service>>> => {
     const q = `?page=${page ?? 1}&limit=${limit ?? 10}`;
     try {
-        const res = await secureFetch(`${getBaseUrl()}/service${q}`, { method: "GET" });
+        const res = await fetch(`${getBaseUrl()}/service${q}`, { method: "GET" });
         return await res.json();
     } catch (error) {
         console.error("Erreur lors de la récupération des services :", error);
@@ -103,7 +103,7 @@ export const getByUserId = async (page: number, limit: number): Promise<BaseResp
 ============================================ */
 export const filterServices = async (params: any): Promise<BaseResponse<Pagination<Service>>> => {
     try {
-        const res = await secureFetch(`${getBaseUrl()}/service/filter-services`, {
+        const res = await fetch(`${getBaseUrl()}/service/filter-services`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(params),

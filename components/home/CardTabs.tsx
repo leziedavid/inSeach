@@ -79,7 +79,7 @@ export default function CardTabs() {
 
 
             <div className="w-full flex justify-center px-1 md:px-0">
-                <div className="relative overflow-hidden w-full max-w-4xl">
+                <div className="relative overflow-hidden w-full max-w-8xl">
 
                     {/* Sous-tabs pour filtrer le contenu */}
                     {visibleTabs.length > 1 && (
@@ -91,7 +91,6 @@ export default function CardTabs() {
                             ))}
                         </div>
                     )}
-
 
                     {/* Contenu dynamique */}
                     {selectedTab === "PRESTA" && visibleTabs.some(t => t.key === "PRESTA") && (

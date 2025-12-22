@@ -116,7 +116,7 @@ export default function WelcomeAuth() {
                 router.push('/dashboard/compte')
                 return
             } else {
-                router.push('/home')
+                router.push('/')
                 return
             }
 

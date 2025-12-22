@@ -177,13 +177,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                     {/* Photo & Videos Section */}
                     <div className="mb-12 relative">
                         <div className="w-full h-40 bg-gray-200 rounded-xl overflow-hidden">
-                            <Image
-                                src={service.images || "/images/default-service.jpg"}
-                                alt={service.title}
-                                fill
-                                className="object-cover"
-                                unoptimized
-                            />
+                            <Image src={service.images || "/images/default-service.jpg"} alt={service.title} fill  className="object-cover" unoptimized  />
                         </div>
 
                         {/* Profile Section - superposée */}
@@ -191,14 +185,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                             {/* Avatar */}
                             <div className="w-16 h-16 rounded-full flex-shrink-0 overflow-hidden border-4 border-white dark:border-gray-800 shadow-md">
                                 {service.iconUrl ? (
-                                    <Image
-                                        src={service.iconUrl}
-                                        alt={service.icone?.name || "icon"}
-                                        width={64}
-                                        height={64}
-                                        className="object-cover"
-                                        unoptimized
-                                    />
+                                    <Image src={service.iconUrl} alt={service.icone?.name || "icon"} width={64}  height={64}  className="object-cover"  unoptimized  />
                                 ) : (
                                     <div className="flex items-center justify-center w-full h-full bg-gray-300 text-gray-500 text-xl font-bold">
                                         ?
@@ -208,7 +195,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
 
                             {/* Infos du service */}
                             <div className="flex-1 ml-4">
-                                <h2 className="font-semibold text-gray-900 dark:text-white text-lg uppercase">{service.title}</h2>
+                                <h2 className="font-semibold text-gray-900 dark:text-white text-sm uppercase">{service.title}</h2>
 
                                 <div className="flex items-center gap-3 mt-1 text-sm text-gray-600 dark:text-gray-300">
                                     <div className="flex items-center gap-1">
@@ -236,27 +223,23 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
 
                     {/* About Me Section */}
                     <div className="mb-4">
                         <div className="bg-white p-4">
-                            <p
-                                dangerouslySetInnerHTML={{ __html: service?.description ?? "" }}
-                                className="text-gray-700 leading-relaxed"
-                            />
+                            <p dangerouslySetInnerHTML={{ __html: service?.description ?? "" }}   className="text-gray-700 leading-relaxed"  />
                         </div>
                     </div>
+
                 </>
             )}
 
             {/* Formulaire de sélection du type d'intervention - seulement pour les nouveaux RDV */}
             {!appointment && (
                 <div className="mb-6">
-                    <FormsIntervention
-                        onSelectionChange={setInterventionType}
-                        initialValue={null}
-                    />
+                    <FormsIntervention  onSelectionChange={setInterventionType}  initialValue={null}  />
                 </div>
             )}
 
@@ -298,10 +281,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                                             type="date"
                                             {...field}
                                             min={new Date().toISOString().split("T")[0]}
-                                            onChange={(e) => {
-                                                field.onChange(e);
-                                                setSelectedDate(e.target.value);
-                                            }}
+                                            onChange={(e) => {  field.onChange(e); setSelectedDate(e.target.value);   }}
                                             className={cn( "pl-10 cursor-pointer appearance-none",  "focus:ring-2 focus:ring-[#b07b5e] focus:border-[#b07b5e]",  interventionType === "urgence" && "bg-gray-100 cursor-not-allowed"
                                             )}
                                             disabled={interventionType === "urgence"}
@@ -322,9 +302,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <Clock className="h-4 w-4 text-[#b07b5e]" />
-                                        {interventionType === "urgence"
-                                            ? "Créneau horaire d'urgence"
-                                            : "Choisissez un créneau horaire"}
+                                        {interventionType === "urgence"  ? "Créneau horaire d'urgence"  : "Choisissez un créneau horaire"}
                                     </FormLabel>
                                     <FormControl>
                                         {interventionType === "urgence" ? (
@@ -346,9 +324,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                                                         className={cn(
                                                             "py-2 px-3 rounded-lg text-sm font-medium transition-all",
                                                             "border hover:scale-105",
-                                                            field.value === slot
-                                                                ? "bg-[#b07b5e] text-white border-[#b07b5e] shadow-md"
-                                                                : "bg-white text-gray-700 border-gray-300 hover:border-[#b07b5e] hover:text-[#b07b5e]"
+                                                            field.value === slot ? "bg-[#b07b5e] text-white border-[#b07b5e] shadow-md" : "bg-white text-gray-700 border-gray-300 hover:border-[#b07b5e] hover:text-[#b07b5e]"
                                                         )}
                                                     >
                                                         {slot}
@@ -377,11 +353,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                                         value={field.value || ""}
                                         onChange={field.onChange}
                                         maxLength={200}
-                                        placeholder={
-                                            interventionType === "urgence"
-                                                ? "Décrivez l'urgence rapidement..."
-                                                : "Décrivez votre besoin..."
-                                        }
+                                        placeholder={  interventionType === "urgence" ? "Décrivez l'urgence rapidement..."  : "Décrivez votre besoin..."  }
                                     />
                                 </FormControl>
                             </FormItem>
@@ -394,21 +366,9 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({
                             <Spinner />
                         </div>
                     ) : (
-                        <Button
-                            type="submit"
-                            disabled={(!selectedDate || !form.watch("time")) && interventionType !== "urgence"}
-                            className={cn(
-                                "w-full font-semibold transition-all",
-                                ((!selectedDate || !form.watch("time")) && interventionType !== "urgence")
-                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                    : interventionType === "urgence"
-                                        ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white"
-                                        : "bg-[#b07b5e] hover:bg-[#9c6e55] text-white"
-                            )}
-                        >
-                            {interventionType === "urgence"
-                                ? "Confirmer l'intervention d'urgence"
-                                : "Confirmer le rendez-vous"}
+                        <Button   type="submit"  disabled={(!selectedDate || !form.watch("time")) && interventionType !== "urgence"}
+                            className={cn( "w-full font-semibold transition-all",  ((!selectedDate || !form.watch("time")) && interventionType !== "urgence")  ? "bg-gray-300 text-gray-500 cursor-not-allowed"  : interventionType === "urgence"  ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white" : "bg-[#b07b5e] hover:bg-[#9c6e55] text-white"  )} >
+                            {interventionType === "urgence"  ? "Confirmer l'intervention d'urgence"  : "Confirmer le rendez-vous"}
                         </Button>
                     )}
                 </form>

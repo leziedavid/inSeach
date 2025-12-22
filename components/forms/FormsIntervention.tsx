@@ -48,20 +48,12 @@ export default function FormsIntervention({
                     <div className="p-6 md:p-8 space-y-6">
                         {/* Urgence Option */}
                         <div
-                            className={`relative border-2 rounded-xl p-5 md:p-6 cursor-pointer transition-all duration-300 ${selectedType === "urgence"
-                                ? "border-blue-500 bg-blue-50 shadow-md"
-                                : "border-gray-200 hover:border-blue-300 hover:bg-gray-50"
-                                }`}
-                            onClick={() => handleSelect("urgence")}
-                        >
+                            className={`relative border-2 rounded-xl p-5 md:p-6 cursor-pointer transition-all duration-300 ${selectedType === "urgence" ? "border-blue-500 bg-blue-50 shadow-md" : "border-gray-200 hover:border-blue-300 hover:bg-gray-50"  }`}
+                            onClick={() => handleSelect("urgence")}  >
                             <div className="flex items-start gap-4">
                                 <div className="flex-shrink-0">
                                     <div
-                                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${selectedType === "urgence"
-                                            ? "border-blue-500 bg-blue-500"
-                                            : "border-gray-300"
-                                            }`}
-                                    >
+                                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${selectedType === "urgence"  ? "border-blue-500 bg-blue-500"  : "border-gray-300"  }`}  >
                                         {selectedType === "urgence" && (
                                             <div className="w-2 h-2 rounded-full bg-white"></div>
                                         )}
@@ -198,13 +190,7 @@ export default function FormsIntervention({
             {/* Options côte à côte - layout optimisé pour mobile */}
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 {/* Option Urgence */}
-                <div
-                    className={`relative border rounded-lg p-2 cursor-pointer transition-all duration-150 min-h-[70px] sm:min-h-[80px] ${selectedType === "urgence"
-                        ? "border-red-500 bg-red-50 shadow-sm"
-                        : "border-gray-200 hover:border-red-300 hover:bg-gray-50"
-                        }`}
-                    onClick={() => handleSelect("urgence")}
-                >
+                <div  className={`relative border rounded-lg p-2 cursor-pointer transition-all duration-150 min-h-[70px] sm:min-h-[80px] ${selectedType === "urgence" ? "border-red-500 bg-red-50 shadow-sm"  : "border-gray-200 hover:border-red-300 hover:bg-gray-50"  }`}  onClick={() => handleSelect("urgence")}  >
                     <div className="flex flex-col h-full">
                         {/* En-tête avec icône et badge */}
                         <div className="flex items-start justify-between mb-1">

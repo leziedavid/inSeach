@@ -13,12 +13,16 @@ export default function Page() {
     useEffect(() => {
         const timer = setTimeout(() => setLoading(false), 500);
         return () => clearTimeout(timer);
+
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 bg-cover bg-center" >
+
+        <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
             {loading && <FullPageLoader status={status} />}
+
             {!loading && (
+
                 <Home />
             )}
         </div>
