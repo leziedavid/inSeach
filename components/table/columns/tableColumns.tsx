@@ -12,10 +12,7 @@ import {
 // ===========================
 // Switch de statut générique
 // ===========================
-type StatusSwitchProps<T> = {
-    type: "user" | "appointment" | "order" | "transaction";
-    status: T;
-};
+type StatusSwitchProps<T> = {  type: "user" | "appointment" | "order" | "transaction";  status: T; };
 
 export const StatusSwitch = <T,>({ type, status }: StatusSwitchProps<T>) => {
     const [checked, setChecked] = useState(() => {

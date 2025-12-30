@@ -201,7 +201,7 @@ export const logout = (): void => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         refreshTokenPromise = null; // 🔓 on reset la promesse
-        window.location.href = '/welcome'; // Redirige vers login
+        window.location.href = '/'; // Redirige vers login
     }
 }
 

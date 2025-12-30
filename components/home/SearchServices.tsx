@@ -390,7 +390,7 @@ export default function SearchServices() {
                 ) : service.length > 0 ? (
                     <>
                         {/* Grille responsive */}
-                        {/* <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-3">
                             {service.map((service) => (
                                 <div key={service.id} onClick={() => handleSelectService(service)} className={`bg-white rounded-lg p-4 border border-[#b07b5e]/80 shadow-xs hover:shadow-sm transition-all cursor-pointer flex flex-col items-center text-center ${selectedService?.id === service.id ? "ring-2 ring-[#a06a50]" : ""} `} >
                                     <div className="w-16 h-16 mb-2 relative rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
@@ -406,18 +406,15 @@ export default function SearchServices() {
                                     </h3>
                                 </div>
                             ))}
-                        </div> */}
+                        </div>
 
 
                         {/* Grille responsive */}
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-3">
+                        {/* <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-3">
                             {Array.from({ length: 12 }).map((_, index) => {
-                                // On prend le service existant ou un objet par défaut
                                 const currentService = service[0] || { id: index, title: "Service exemple", iconUrl: "" }
-
                                 return (
                                     <div  key={index} onClick={() => handleSelectService(currentService)} className={`bg-white rounded-lg p-4 border border-[#b07b5e]/80 shadow-xs hover:shadow-sm transition-all cursor-pointer flex flex-col items-center text-center ${selectedService?.id === currentService.id ? "ring-2 ring-[#a06a50]" : ""}`} >
-                                        {/* Image */}
                                         <div className="w-16 h-16 mb-2 relative rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                                             {currentService.iconUrl ? (
                                                 <Image  src={currentService.iconUrl}  alt={currentService.title}  width={40}  height={40}  className={`object-contain transition ${selectedService?.id === currentService.id ? "brightness-200 invert" : ""}`}  unoptimized  />
@@ -426,14 +423,13 @@ export default function SearchServices() {
                                             )}
                                         </div>
 
-                                        {/* Texte */}
                                         <h3 className="font-medium text-gray-800 text-sm md:text-[13px] leading-tight mb-1 line-clamp-2">
                                             {truncateText(currentService.title, 50)}
                                         </h3>
                                     </div>
                                 )
                             })}
-                        </div>
+                        </div> */}
 
                     </>
                 ) : (
