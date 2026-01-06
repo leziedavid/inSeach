@@ -11,10 +11,10 @@ import MyModal from "../modal/MyModal";
 import { filterServices, listServices } from "@/services/allService";
 import { searchSubcategoriesByName } from "@/services/categoryService";
 import { getUserInfos } from "@/app/middleware";
-import Erreurs from "../page/Erreurs";
 import ModalDelete from "./ModalDelete";
 import { useRouter } from "next/navigation";
 import { getMyData } from "@/services/securityService";
+import Erreurs from "./Erreurs";
 
 // Props du composant
 interface ServicesGridProps {
