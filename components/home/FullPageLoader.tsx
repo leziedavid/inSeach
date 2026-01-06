@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface FullPageLoaderProps {
     status?: string;
@@ -20,20 +21,33 @@ export default function FullPageLoader({ status, duration = 500 }: FullPageLoade
     if (!visible) return null;
 
     return (
-        <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-50 z-50">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-50">
+
             {/* Cercle loader */}
             <div className="relative w-24 h-24">
-                <div className="absolute inset-0 border-4 border-bg-[#b07b5e] border-t-[#b07b5e] rounded-full animate-spin"></div>
-                <div className="absolute inset-0 flex items-center justify-center font-bold text-4xl text-[#b07b5e]">
-                    In
+                {/* Cercle animé */}
+                <div className="absolute inset-0 rounded-full border-4 border-[#b07b5e]/30 border-t-[#b07b5e] animate-spin" />
+
+                {/* Image centrée */}
+                <div className="absolute inset-3 flex items-center justify-center">
+                    <Image
+                        src="/agent-builder1.gif"
+                        alt="Recherche intelligente"
+                        width={64}
+                        height={64}
+                        className="object-contain"
+                        priority
+                        unoptimized
+                    />
                 </div>
             </div>
 
-            {/* Texte status au-dessus */}
+            {/* Texte status */}
             {status && (
-                <p className="text-gray-600 text-center mb-4 font-medium">{status}</p>
+                <p className="mt-4 text-center font-medium text-gray-600">
+                    {status}
+                </p>
             )}
-
         </div>
     );
 }

@@ -10,7 +10,7 @@ import { getMyData } from "@/services/securityService";
 import { Role, ServiceType } from "@/types/interfaces";
 import SearchPrestations from "@/components/home/SearchPrestations";
 import FullPageLoader from "@/components/home/FullPageLoader";
-
+import Image from "next/image";
 
 interface Company {
   name: string;
@@ -120,6 +120,7 @@ export default function Home() {
           <HomeHeader off={off} activeTab={activeTab} onTabChange={setActiveTab} userId={users?.id} />
 
           <div className="min-h-screen bg-[#f8f8f8] text-black relative overflow-x-hidden flex flex-col">
+
             {/* Header users */}
 
             {/* <pre>{JSON.stringify(currentUser, null, 2)}</pre> */}
@@ -130,8 +131,25 @@ export default function Home() {
             {/* ✅ CONTENU POUR UTILISATEUR NON AUTHENTIFIÉ */}
             <div className="relative z-10 flex flex-col items-center px-6 mt-6 mb-32 w-full">
 
+
               {off ? (
                 <>
+
+                  {/* IMAGE ANIMÉE BIEN CENTRÉE */}
+
+                  <div className="flex justify-center items-center w-full mb-6">
+                    <Image
+                      src="/homepage-hero-animation-lf.avif"
+                      alt="Recherche intelligente"
+                      width={120}
+                      height={10}
+                      className="w-120 h-full object-contain"
+                      style={{ margin: 0, padding: 0 }}
+                      priority
+                      unoptimized
+                    />
+                  </div>
+
                   {/* SEARCH MODE TABS */}
                   {visibleTabs.length > 1 && (
                     <div className="flex gap-4 mb-3 rounded-full bg-gray-200 p-1 text-sm md:text-base">
@@ -151,6 +169,21 @@ export default function Home() {
               ) : (
 
                 <>
+
+                  {/* IMAGE ANIMÉE BIEN CENTRÉE */}
+                  <div className="flex justify-center items-center w-full mb-6">
+                    <Image
+                      src="/homepage-hero-animation-lf.avif"
+                      alt="Recherche intelligente"
+                      width={120}
+                      height={10}
+                      className="w-120 h-full object-contain"
+                      style={{ margin: 0, padding: 0 }}
+                      priority
+                      unoptimized
+                    />
+                  </div>
+
                   <div className="flex gap-4 mb-3 rounded-full bg-gray-200 p-1 text-sm md:text-base">
 
                     <button className={`px-4 py-2 rounded-full font-medium ${searchMode === "ENTREPRISE" ? "bg-brand-primary hover:bg-brand-secondary text-white" : "text-gray-700"}`} onClick={() => setSearchMode("ENTREPRISE")} >
@@ -161,7 +194,6 @@ export default function Home() {
                       Services
                     </button>
                   </div>
-
 
                   <div className="flex flex-col items-start space-y-4">
                     <h1 className="text-3xl sm:text-2xl md:text-5xl font-medium leading-tight max-w-full sm:max-w-lg md:max-w-2xl break-words">
