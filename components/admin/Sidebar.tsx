@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Users, FileText, Settings, PieChart, MessageSquare, Bell, Image, CloudUpload, ArrowLeftRight, CalendarArrowUp, ClipboardClock, HandPlatter } from 'lucide-react';
-import { LogoInSeach } from '../page/LogoInSeach';
+import { LogoInSeach } from '../home/LogoInSeach';
 
 interface SidebarProps {
     isOpen: boolean;

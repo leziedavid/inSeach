@@ -3,8 +3,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, PieLabelRenderProps, } from "recharts";
 import { Users, ShoppingBag, HandCoins, CalendarDays, PieChart as PieIcon, LineChart as LineIcon, BarChart2, } from "lucide-react";
-import AppointmentCalendar from "../page/AppointmentCalendar";
 import { BarPoint, ChartPoint, OverviewProps, OverviewStats, PiePoint } from "@/types/interfaces";
+import AppointmentCalendar from "../home/AppointmentCalendar";
 
 // ==========================
 // Données par défaut

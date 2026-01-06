@@ -2,7 +2,7 @@
 
 import { HelpCircle, Settings, SidebarIcon, Sparkles, User } from 'lucide-react';
 import React from 'react';
-import { LogoInSeach } from '../page/LogoInSeach';
+import { LogoInSeach } from '../home/LogoInSeach';
 
 // Types
 interface HeaderProps {

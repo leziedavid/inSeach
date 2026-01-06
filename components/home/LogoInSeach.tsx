@@ -1,45 +1,51 @@
-import { Search } from "lucide-react"
+"use client";
 
-export const LogoInSeach = () => (
-    <div className="flex justify-center items-center mb-3 sm:mb-4">
-        <div className="relative flex items-end">
-            {/* Icône – alignée au pied du "i" */}
+import { Search } from "lucide-react";
+import React from "react";
+
+type LogoInSeachProps = {
+    size?: number;
+    colorFrom?: string;
+    colorTo?: string;
+    iconColor?: string;
+    isOpen?: boolean; // Nouvelle prop
+};
+
+export const LogoInSeach: React.FC<LogoInSeachProps> = ({
+    size = 32,
+    colorFrom = "#b07b5e",
+    colorTo = "#155e75",
+    iconColor = "#b07b5e",
+    isOpen = true, // par défaut ouvert
+}) => {
+    const textSize = `${size}px`;
+    const iconSize = size * 0.7;
+    const iconOffsetY = size * 0.12;
+
+    return (
+        <div className="flex items-center gap-1 select-none">
+            {/* ICONE */}
             <Search
-                className="
-          absolute
-          bottom-4
-          left-2
-          w-6 h-6 sm:w-8 sm:h-8
-          text-[#b07b5e]
-          animate-pulse
-        "
+                style={{
+                    width: iconSize,
+                    height: iconSize,
+                    color: iconColor,
+                    transform: `translateY(${iconOffsetY}px)`,
+                }}
             />
 
-            {/* Texte MOBILE : "in" */}
-            <h1
-                className="
-          sm:hidden
-          text-transparent bg-clip-text
-          bg-gradient-to-r from-[#b07b5e] to-[#155e75]
-          font-black text-3xl tracking-tight select-none
-          pl-8
-        "
+            {/* TEXTE CONDITIONNEL */}
+            <span
+                className="font-extrabold tracking-wide"
+                style={{
+                    fontSize: textSize,
+                    backgroundImage: `linear-gradient(to right, ${colorFrom}, ${colorTo})`,
+                    WebkitBackgroundClip: "text",
+                    color: "transparent",
+                }}
             >
-                in
-            </h1>
-
-            {/* Texte DESKTOP : "inSeach" */}
-            <h1
-                className="
-          hidden sm:block
-          text-transparent bg-clip-text
-          bg-gradient-to-r from-[#b07b5e] to-[#155e75]
-          font-black text-4xl tracking-tight select-none
-          pl-10
-        "
-            >
-                inSeach
-            </h1>
+                {isOpen ? "inSeach" : "In"}
+            </span>
         </div>
-    </div>
-)
+    );
+};

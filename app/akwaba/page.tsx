@@ -9,11 +9,11 @@ import MultiSelect from "@/components/forms/MultiSelect";
 import { Spinner } from "@/components/forms/spinner/Loader";
 import Link from "next/link";
 import { GeoLocationResult, getUserLocation } from "@/utils/geolocation";
-import { MessagesData } from "@/components/page/Messages";
 import { Loading } from "@/components/forms/spinner/Loading";
 import { listCategories, listSubcategories } from "@/services/categoryService";
 import { register } from "@/services/securityService";
 import { useRouter } from "next/navigation";
+import { MessagesData } from "@/components/home/Messages";
 
 // ===============================
 // SCHÉMAS DE VALIDATION ZOD
@@ -502,7 +502,7 @@ export default function FomsUser() {
                                 data={[
                                     { id: AccountType.INDIVIDUAL, label: "Particulier" },
                                     { id: AccountType.ENTERPRISE, label: "Entreprise" },
-                                    { id: AccountType.SELLER, label: "Vendeur" },
+                                    // { id: AccountType.SELLER, label: "Vendeur" },
                                 ]}
                                 multiple={false} onSelect={(sel) => handleAccountTypeChange(sel as AccountType)} placeholder="Sélectionner un type de compte" />
                             {validationErrors.accountType && (<p className="text-red-500 text-sm mt-1">{validationErrors.accountType}</p>)}
@@ -702,7 +702,7 @@ export default function FomsUser() {
 
             {/* retour a la page d'accueil */}
             <Link href="/welcome" className="text-sm text-[#b07b5e] hover:underline mt-8" >
-                Retour à l'accueil
+                Retour à la page de connexion
             </Link>
             {/* Footer petit */}
             <div className="text-center text-[9px] sm:text-[10px] text-gray-500 space-y-0.5 pt-2 mt-8">

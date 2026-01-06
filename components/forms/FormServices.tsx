@@ -10,13 +10,13 @@ import { Spinner } from "../forms/spinner/Loader";
 import MultiSelect from "../forms/MultiSelect";
 import ImageUploader from "./ImageUploader";
 import KRichEditor from "./KRichEditor";
-import Messages, { MessagesData } from "../page/Messages";
 import { GeoLocationResult, getUserLocation } from "@/utils/geolocation";
 import { Loading } from "./spinner/Loading";
 import { listIcons } from "@/services/iconsService";
 import IconSelector from "./files/IconSelector";
 import SelectedIconDisplay from "./files/SelectedIconDisplay";
 import { createService, updateService } from "@/services/allService";
+import Messages, { MessagesData } from "../home/Messages";
 
 
 // ========== TYPES & INTERFACES ==========

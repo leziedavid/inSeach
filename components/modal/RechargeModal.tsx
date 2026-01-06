@@ -17,8 +17,8 @@ const rechargeSchema = z.object({
     phone: z
         .string()
         .min(10, "Le numéro doit comporter au moins 10 chiffres")
-        .regex(/^0[0-9]{9}$/, "Le numéro doit être valide (ex: 0700000000)"),
-    amount: z
+        .regex(/^0[0-9]{9}$/, "Le numéro doit être valide (ex: 0700000000)"), 
+        amount: z
         .string()
         .refine((val) => !isNaN(Number(val)) && Number(val) >= 100, {
             message: "Le montant doit être au moins 100 FCFA",

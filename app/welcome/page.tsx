@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useAlert } from "@/contexts/AlertContext";
 import { login } from "@/services/securityService";
 import { Role } from "@/types/interfaces";
+import Link from "next/link";
 
 // Schéma de validation pour le numéro de téléphone
 const phoneSchema = z.object({
@@ -199,6 +200,13 @@ export default function WelcomeAuth() {
                             </button>
                         </form>
 
+                        <div className="text-center text-[9px] sm:text-[10px] text-gray-500 space-y-0.5">
+                            {/* retour a la page d'accueil */}
+                            <Link href="/" className="text-sm text-[#b07b5e] hover:underline " >
+                                Retour à l'accueil
+                            </Link>
+                        </div>
+
                         {/* Lien ouvrir mon compte */}
                         <button onClick={handleOpenAccount} className="w-full text-xs text-[#b07b5e] hover:text-[#a06a50]" >
                             Ouvrir mon compte
@@ -220,7 +228,7 @@ export default function WelcomeAuth() {
                                 Code de sécurité
                             </h2>
                             <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                                Veuillez entrer votre code pin de la cabine
+                                Veuillez entrer votre code pin
                             </p>
                         </div>
 
@@ -289,7 +297,7 @@ export default function WelcomeAuth() {
                             </button>
                             <button onClick={handleBackToHome} className="flex items-center text-[#b07b5e] hover:text-[#a06a50] transition-colors" >
                                 <ArrowLeft className="w-3 h-3 mr-1" />
-                                Revenir à l'accueil
+                                Retour
                             </button>
                         </div>
 

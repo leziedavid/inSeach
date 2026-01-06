@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, X } from "lucide-react";
+import { LogIn, Search, X } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { Spinner } from "../forms/spinner/Loader";
 import Pagination from "../pagination/Paginations";
@@ -10,11 +10,12 @@ import ServiceDetails from "../forms/ServiceDetails";
 import MyModal from "../modal/MyModal";
 import { filterServices, listServices } from "@/services/allService";
 import { searchSubcategoriesByName } from "@/services/categoryService";
-import Erreurs from "../page/Erreurs";
 import { getMyData } from "@/services/securityService";
 import { MessagesData } from "./Messages";
 import { askForUserLocation } from "@/services/location";
-
+import ModalDelete from "./ModalDelete";
+import { useRouter } from "next/navigation";
+import Erreurs from "./Erreurs";
 
 function truncateText(text: string, maxLength = 50) {
     if (!text) return "";
@@ -35,7 +36,8 @@ export default function SearchServices() {
     const [open, setOpen] = useState(false);
     const [service, setServices] = useState<Service[]>([]);
     const [totalPages, setTotalPages] = useState(0);
-
+    const [auth, setAuth] = useState(false);
+    const router = useRouter();
     // États pour les suggestions
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -327,10 +329,19 @@ export default function SearchServices() {
 
     // Sélection d'un service
     const handleSelectService = (data: Service) => {
-        setSelectedService(data);
-        setOpen(true);
+        if (!users?.id) {
+            setAuth(true);
+        } else {
+            setAuth(false);
+            setSelectedService(data);
+            setOpen(true);
+        }
     };
 
+    const handleAuth = async () => {
+        setAuth(false); // fermer le modal
+        router.push("/welcome");
+    };
 
     return (
         <div className="w-full max-w-full">
@@ -458,6 +469,12 @@ export default function SearchServices() {
                     <ServiceDetails service={selectedService} onClose={() => setOpen(false)} />
                 </MyModal>
             )}
+
+
+            <ModalDelete isOpen={auth} onClose={() => setAuth(false)} onConfirm={handleAuth} itemId="0" title="Connexion requise"
+                message="Vous devez vous connecter pour continuer. Voulez-vous vous connecter maintenant ?"
+                cancelText="Annuler" confirmText="Se connecter"
+                confirmIcon={<LogIn className="w-4 h-4" />} />
 
         </div>
     );

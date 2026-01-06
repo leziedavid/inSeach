@@ -12,6 +12,9 @@ import { filterServices, listServices } from "@/services/allService";
 import { searchSubcategoriesByName } from "@/services/categoryService";
 import { getUserInfos } from "@/app/middleware";
 import Erreurs from "../page/Erreurs";
+import ModalDelete from "./ModalDelete";
+import { useRouter } from "next/navigation";
+import { getMyData } from "@/services/securityService";
 
 // Props du composant
 interface ServicesGridProps {
@@ -33,6 +36,8 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
 
     const [selectedService, setSelectedService] = useState<Service | null>(null);
     const [open, setOpen] = useState(false);
+    const [auth, setAuth] = useState(false);
+    const router = useRouter();
 
     const [service, setServices] = useState<Service[]>([]);
     const [totalPages, setTotalPages] = useState(0);
@@ -48,6 +53,16 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [users, setUsers] = useState<AuthUser | null>(null)
     const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+    const [usersData, setusersData] = useState<User | null>(null);
+
+    const getUser = async () => {
+        const user = await getMyData();
+        if (user.statusCode === 200 && user.data) {
+            setusersData(user.data);
+        }else{
+            setusersData(null);
+        }
+    };
 
     // ✅ useEffect après tous les useState
     useEffect(() => {
@@ -257,8 +272,19 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
 
     // Sélection d'un service
     const handleSelectService = (data: Service) => {
-        setSelectedService(data);
-        setOpen(true);
+        if (!usersData?.id) {
+            setAuth(true);
+        } else {
+            setAuth(false);
+            setSelectedService(data);
+            setOpen(true);
+        }
+
+    };
+
+    const handleAuth = async () => {
+        setAuth(false); // fermer le modal
+        router.push("/welcome");
     };
 
     return (
@@ -279,14 +305,11 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
                 <div className="flex space-x-2 items-center">
                     {/* Input avec icône */}
                     <div className="relative flex-1">
-                        <input ref={inputRef} type="text" placeholder="Rechercher un service..." value={search}  onChange={handleSearchInput} onKeyDown={handleKeyDown}
-                            onFocus={() => { if (search.length >= 2 && suggestions.length > 0) { setShowSuggestions(true);  }  }}
-                            className="w-full p-2 text-sm border border-r-1 border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#155e7533] pl-9 focus:border-gray-100"
-                            style={{ fontSize: "16px" }}/>
+                        <input ref={inputRef} type="text" placeholder="Rechercher un service..." value={search} onChange={handleSearchInput} onKeyDown={handleKeyDown} onFocus={() => { if (search.length >= 2 && suggestions.length > 0) { setShowSuggestions(true); } }} className="w-full p-2 text-sm border border-r-1 border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#155e7533] pl-9 focus:border-gray-100" style={{ fontSize: "16px" }} />
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
 
                         {search && (
-                            <button onClick={handleClearSearch}  className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 hover:bg-gray-100 rounded-full transition">
+                            <button onClick={handleClearSearch} className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 hover:bg-gray-100 rounded-full transition">
                                 <X className="w-3.5 h-3.5 text-gray-400" />
                             </button>
                         )}
@@ -362,19 +385,13 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
                             {service.map((service) => (
                                 <div
                                     key={service.id}
-                                    onClick={() => handleSelectService(service)}
+                                    onClick={() => {getUser(); handleSelectService(service);}}
+
                                     className={`bg-white rounded-lg p-4 border border-[#b07b5e]/80 shadow-xs hover:shadow-sm transition-all cursor-pointer flex flex-col items-center text-center ${selectedService?.id === service.id ? "ring-2 ring-[#a06a50]" : ""} `} >
                                     {/* Image */}
                                     <div className="w-16 h-16 mb-2 relative rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                                         {service.iconUrl ? (
-                                            <Image
-                                                src={service.iconUrl}
-                                                alt={service.title}
-                                                width={40}
-                                                height={40}
-                                                className={`object-contain transition ${selectedService?.id === service.id ? "brightness-200 invert" : ""}`}
-                                                unoptimized
-                                            />
+                                            <Image src={service.iconUrl} alt={service.title} width={40} height={40} className={`object-contain transition ${selectedService?.id === service.id ? "brightness-200 invert" : ""}`} unoptimized />
                                         ) : (
                                             <span className="text-gray-400 text-sm">?</span>
                                         )}
@@ -400,10 +417,7 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
                             Aucun service trouvé {search.trim() ? `pour "${search}"` : ""}
                         </p>
                         {search.trim() && (
-                            <button
-                                onClick={handleClearSearch}
-                                className="mt-4 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition text-sm"
-                            >
+                            <button onClick={handleClearSearch} className="mt-4 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition text-sm"  >
                                 Afficher tous les services
                             </button>
                         )}
@@ -426,6 +440,11 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
                     <ServiceDetails service={selectedService} onClose={() => setOpen(false)} />
                 </MyModal>
             )}
+
+            <ModalDelete isOpen={auth} onClose={() => setAuth(false)} onConfirm={handleAuth} itemId="0" title="Connexion requise"
+                message="Vous devez vous connecter pour continuer. Voulez-vous vous connecter maintenant ?"
+                cancelText="Annuler" confirmText="Se connecter" />
+
         </div>
     );
 }

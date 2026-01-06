@@ -1,8 +1,8 @@
 "use client";
 
-import WhatsAppButton from "@/components/page/WhatsAppButton";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import WhatsAppButton from "@/components/home/WhatsAppButton";
 
 export default function Page() {
   const [currentDate, setCurrentDate] = useState("");
@@ -25,7 +25,7 @@ export default function Page() {
         {/* HEADER PERSONNALISÉ avec retour + titre */}
         <div className="flex items-center justify-between w-full px-6 pt-6 pb-3 shrink-0">
           {/* Partie gauche : Retour + Titre */}
-          <Link href="/coworking" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

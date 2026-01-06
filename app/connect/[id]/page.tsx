@@ -46,7 +46,7 @@ export default function ConnectPage() {
                         router.push('/dashboard/compte')
                         return
                     } else {
-                        router.push('/home')
+                        router.push('/')
                         return
                     }
 

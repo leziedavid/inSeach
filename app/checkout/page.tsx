@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import Image from "next/image";
 import { useAlert } from '@/contexts/AlertContext';
-import { MessagesData } from '@/components/page/Messages';
 import { GeoLocationResult, getUserLocation } from '@/utils/geolocation';
 import { AuthUser, UserLocation } from '@/types/interfaces';
 import { getUserInfos } from '../middleware';
+import { MessagesData } from '@/components/home/Messages';
 
 // Types
 type Address = {

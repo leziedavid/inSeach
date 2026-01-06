@@ -5,7 +5,6 @@ import { Menu, UserRound, X, Store } from "lucide-react";
 import Link from "next/link";
 import { LogoInSeach } from "./LogoInSeach";
 import { User } from "@/types/interfaces";
-import { getMyData } from "@/services/securityService";
 import Image from "next/image";
 import { getUserId, getUserName } from "@/app/middleware";
 import QrCodeLogo from "./QrCodeLogo";
@@ -117,14 +116,14 @@ export default function HomeHeader({ activeTab, onTabChange, off, userId }: Head
                             {userId && (
                                 <QrCodeLogo user={userId} />
                             )}
-                            <Link href="/boutique">
+                            {/* <Link href="/boutique">
                                 <div className="flex gap-1 items-center px-3 py-1.5 rounded-full transition-all duration-200 bg-slate-50 shadow-sm hover:bg-slate-100 cursor-pointer">
                                     <Store className="w-4 h-4 text-gray-500" />
                                     <span className="text-sm font-bold tabular-nums tracking-wide text-slate-800">
                                         Boutique
                                     </span>
                                 </div>
-                            </Link>
+                            </Link> */}
 
                             <button onClick={() => setOpen(true)} className="relative bg-[#b07b5e] p-2.5 rounded-full transition hover:bg-[#9a6b4f]"  >
                                 <Image src="/notification1.svg" alt="Notifications" width={26} height={26} />

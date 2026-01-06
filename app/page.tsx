@@ -9,7 +9,6 @@ import { User } from "@/types/interfaces";
 import { getMyData } from "@/services/securityService";
 import { Role, ServiceType } from "@/types/interfaces";
 import SearchPrestations from "@/components/home/SearchPrestations";
-import { Loader } from "lucide-react";
 import FullPageLoader from "@/components/home/FullPageLoader";
 
 

@@ -4,12 +4,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Spinner } from "../forms/spinner/Loader";
 import Pagination from "../pagination/Paginations";
-import Erreurs from '../page/Erreurs';
 import MyModal from '../modal/MyModal';
 import DetailProduit from './DetailProduit';
 import { Product } from '@/types/interfaces';
 import { useCart } from '@/contexts/CartContext';
 import { ShoppingCart } from 'lucide-react';
+import Erreurs from '../home/Erreurs';
 
 interface ProductListProps {
     products: Product[];
