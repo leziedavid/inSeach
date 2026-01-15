@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Pagination from "../pagination/Paginations";
 import { Spinner } from "../forms/spinner/Loader";
-import { useRouter } from "next/navigation";
 import { Amenity, Annonce, User, UserLocation } from "@/types/interfaces";
 import ModalDelete from "./ModalDelete";
 import MyModal from "../modal/MyModal";

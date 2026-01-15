@@ -11,19 +11,29 @@ export const roleLabels: Record<Role, string> = {
     [Role.CLIENT]: "Client",
     [Role.SELLER]: "Vendeur",
     [Role.USER]: "Utilisateur",
+    [Role.MANAGER]: "Gestionnaire",
 };
 
 export const accountTypeLabels: Record<AccountType, string> = {
     [AccountType.SELLER]: "Entreprise",
     [AccountType.INDIVIDUAL]: "Utilisateur",
-    [AccountType.ENTERPRISE]: "Organisation",
+    [AccountType.ENTERPRISE]: "Organisation"
 };
 
+
+    // APPOINTMENT = "APPOINTMENT",
+    // IMMOBILIER = "IMMOBILIER",
+    // RESTAURANT = "RESTAURANT",
+    // ORDER = "ORDER",
+    // PRODUCT = "PRODUCT",
+    // MIXED = "MIXED",
 export const serviceTypeLabels: Record<ServiceType, string> = {
     [ServiceType.APPOINTMENT]: "Prestation de service",
+    [ServiceType.IMMOBILIER]: "Location",
+    [ServiceType.RESTAURANT]: "Restaurant",
     [ServiceType.ORDER]: "Logistique/Livraison/Location",
     [ServiceType.PRODUCT]: "e-Commerce",
-    [ServiceType.MIXED]: "Mixte",
+    [ServiceType.MIXED]: "Mixte"
 };
 
 export const transactionStatusLabels: Record<TransactionStatus, string> = {
