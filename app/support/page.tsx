@@ -92,66 +92,65 @@ export default function Page() {
                     <HomeHeader off={off} activeTab={activeTab} onTabChange={setActiveTab} userId={users?.id} />
 
                     <div className="min-h-screen bg-[#f8f8f8] text-black relative overflow-x-hidden flex flex-col">
-                        {/* Header users */}
 
-                        {/* <pre>{JSON.stringify(currentUser, null, 2)}</pre> */}
-
-                        {/* Background Pattern */}
                         <div className="absolute inset-0 opacity-10 bg-[url('/pattern.png')] bg-cover"></div>
 
                         {/* ✅ CONTENU POUR UTILISATEUR NON AUTHENTIFIÉ */}
-                        <div className="relative z-10 flex flex-col items-center px-6 mt-6 mb-32 w-full">
+                        <div className="relative z-10 flex flex-col w-full px-3 mt-6 mb-32 lg:px-6 lg:items-center">
 
                             {/* Composant actif avec scroll horizontal */}
-                            <div className="w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl mt-2 md:mt-6 px-2 md:px-4 overflow-x-auto pb-4">
+                            <div className="w-full max-w-full px-2 mt-2 pb-4 overflow-x-auto md:mt-6 md:px-4 lg:max-w-2xl lg:mx-auto">
+                                <div className="min-w-0">
+                                    {/* Onglets */}
+                                    <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+                                        <button onClick={() => setActive("contact")}
+                                            className={cn("flex-1 py-2 rounded-lg text-sm font-medium transition", active === "contact" ? "bg-white dark:bg-gray-900 shadow-sm text-teal-700" : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200")}  >
+                                            Contact
+                                        </button>
 
-                                {/* Onglets */}
-                                <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-                                    <button  onClick={() => setActive("contact")}
-                                        className={cn(  "flex-1 py-2 rounded-lg text-sm font-medium transition", active === "contact" ? "bg-white dark:bg-gray-900 shadow-sm text-teal-700"  : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200" )}  >
-                                        Contact
-                                    </button>
+                                        <button onClick={() => setActive("conseil")}
+                                            className={cn("flex-1 py-2 rounded-lg text-sm font-medium transition", active === "conseil" ? "bg-white dark:bg-gray-900 shadow-sm text-teal-700" : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200")} >
+                                            Conseil +
+                                        </button>
+                                    </div>
 
-                                    <button onClick={() => setActive("conseil")}
-                                        className={cn( "flex-1 py-2 rounded-lg text-sm font-medium transition",  active === "conseil"  ? "bg-white dark:bg-gray-900 shadow-sm text-teal-700"  : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200" )} >
-                                        Conseil +
-                                    </button>
+                                    {/* Contenu onglet */}
+                                    {active === "contact" && (
+                                        <div className="flex flex-col gap-3">
+                                            {contacts.map((c) => (
+                                                <a key={c.id} href={c.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:shadow-md transition" >
+                                                    <div className="flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full">
+                                                        {c.icon}
+                                                    </div>
+
+                                                    <div className="flex flex-col text-sm">
+                                                        <span className="font-semibold text-gray-800 dark:text-gray-100">
+                                                            {c.name}
+                                                        </span>
+
+                                                        <span className="text-gray-600 dark:text-gray-400">
+                                                            {c.value}
+                                                        </span>
+
+                                                        {c.subtext && (
+                                                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                                                                {c.subtext}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {active === "conseil" && (
+                                        <div className="text-center text-sm text-gray-500 dark:text-gray-400 py-6">
+                                            Gestion des conseils + (bientôt disponible)
+                                        </div>
+                                    )}
+
                                 </div>
 
-                                {/* Contenu onglet */}
-                                {active === "contact" && (
-                                    <div className="flex flex-col gap-3">
-                                        {contacts.map((c) => (
-                                            <a  key={c.id}  href={c.href}  target="_blank" rel="noopener noreferrer"className="flex items-center gap-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:shadow-md transition" >
-                                                <div className="flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full">
-                                                    {c.icon}
-                                                </div>
-
-                                                <div className="flex flex-col text-sm">
-                                                    <span className="font-semibold text-gray-800 dark:text-gray-100">
-                                                        {c.name}
-                                                    </span>
-
-                                                    <span className="text-gray-600 dark:text-gray-400">
-                                                        {c.value}
-                                                    </span>
-
-                                                    {c.subtext && (
-                                                        <span className="text-xs text-gray-400 dark:text-gray-500">
-                                                            {c.subtext}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </a>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {active === "conseil" && (
-                                    <div className="text-center text-sm text-gray-500 dark:text-gray-400 py-6">
-                                        Gestion des conseils + (bientôt disponible)
-                                    </div>
-                                )}
                             </div>
 
                         </div>

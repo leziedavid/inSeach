@@ -179,65 +179,74 @@ export default function Home() {
             <div className="absolute inset-0 opacity-10 bg-[url('/pattern.png')] bg-cover"></div>
 
             {/* ✅ CONTENU PRINCIPAL */}
-            <div className="relative z-10 flex flex-col items-center px-4 md:px-6 mt-4 md:mt-6 mb-24 md:mb-32 w-full">
-              {/* IMAGE ANIMÉE */}
-              <div className="flex justify-center items-center w-full mb-4 md:mb-6">
-                <Image src="/homepage-hero-animation-lf.avif" alt="Recherche intelligente" width={120} height={10} className="w-120 h-full object-contain" priority unoptimized />
-              </div>
+            <div className="relative z-10 flex flex-col w-full px-3 mt-6 mb-32 lg:px-6 lg:items-center">
 
-              {/* 🆕 SEARCH MODE TABS - Tous visibles avec indicateur d'état */}
-              <div className="w-full mb-3 flex justify-center">
-                <div className="w-full max-w-md">
-                  <div className="flex flex-wrap gap-1 justify-start">
-                    {ALL_TABS.map(tab => (
-                      <button key={tab.key} onClick={() => handleTabClick(tab)} disabled={!tab.isActive} className={`  relative px-3 md:px-4 py-2 rounded-full font-medium  transition-all text-sm md:text-base  ${searchMode === tab.key && tab.isActive ? "bg-brand-primary hover:bg-brand-secondary text-white shadow-sm" : tab.isActive ? "text-gray-700 hover:bg-gray-300 bg-gray-100" : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"}  `}  >  {tab.label}
-                        {!tab.isActive && (
-                          <span className="ml-1 text-xs">🚧</span>
-                        )}
-                      </button>
-                    ))}
+              <div className="w-full max-w-full px-2 mt-2 pb-4 overflow-x-auto md:mt-6 md:px-4 lg:max-w-2xl lg:mx-auto">
+                <div className="min-w-0">
+
+                  {/* IMAGE ANIMÉE */}
+                  <div className="flex justify-center items-center w-full mb-4 md:mb-6">
+                    <Image src="/homepage-hero-animation-lf.avif" alt="Recherche intelligente" width={120} height={10} className="w-120 h-full object-contain" priority unoptimized />
                   </div>
-                </div>
-              </div>
 
-              {/* TEXTE D'ACCUEIL */}
-              <div className="flex flex-col items-center text-center space-y-3 md:space-y-4 mb-4 md:mb-6 px-2">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight max-w-full sm:max-w-lg md:max-w-2xl">
-                  {renderHighlightedTitle(welcomeText.title)}
-                </h1>
+                  {/* 🆕 SEARCH MODE TABS - Tous visibles avec indicateur d'état */}
+                  <div className="w-full mb-3 flex justify-center">
+                    <div className="w-full max-w-md">
+                      <div className="flex flex-wrap gap-1 justify-start">
+                        {ALL_TABS.map(tab => (
+                          <button key={tab.key} onClick={() => handleTabClick(tab)} disabled={!tab.isActive} className={`  relative px-3 md:px-4 py-2 rounded-full font-medium  transition-all text-sm md:text-base  ${searchMode === tab.key && tab.isActive ? "bg-brand-primary hover:bg-brand-secondary text-white shadow-sm" : tab.isActive ? "text-gray-700 hover:bg-gray-300 bg-gray-100" : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"}  `}  >  {tab.label}
+                            {!tab.isActive && (
+                              <span className="ml-1 text-xs">🚧</span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
 
-                <p className="text-gray-600 text-sm md:text-base max-w-md">
-                  {welcomeText.subtitle}
-                </p>
-              </div>
+                  {/* TEXTE D'ACCUEIL */}
+                  <div className="flex flex-col items-center text-center space-y-3 md:space-y-4 mb-4 md:mb-6 px-2">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight max-w-full sm:max-w-lg md:max-w-2xl">
+                      {renderHighlightedTitle(welcomeText.title)}
+                    </h1>
 
-              {/* COMPOSANT DE RECHERCHE ACTIF ou MESSAGE "Coming Soon" */}
-              <div className="w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl mt-2 md:mt-4">
-                {ActiveComponent ? (
-                  <>
-                    <ActiveComponent />
-                    {/* <div className="p-4">
+                    <p className="text-gray-600 text-sm md:text-base max-w-md">
+                      {welcomeText.subtitle}
+                    </p>
+                  </div>
+
+                  {/* COMPOSANT DE RECHERCHE ACTIF ou MESSAGE "Coming Soon" */}
+                  <div >
+                    {ActiveComponent ? (
+                      <>
+                        <ActiveComponent />
+                        {/* <div className="p-4">
                       <ProductCarousel title="Nouveautés" showViewAll={true}  maxProducts={6}  />
                       <ProductCarousel   title="Meilleures ventes"   showViewAll={false}   />
                     </div> */}
-                  </>
+                      </>
 
 
-                ) : (
-                  <div className="bg-white rounded-2xl shadow-lg p-8 text-center border-2 border-dashed border-gray-300">
-                    <div className="text-6xl mb-4">🚧</div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                      Bientôt disponible
-                    </h3>
-                    <p className="text-gray-600">
-                      Cette fonctionnalité est en cours de développement
-                    </p>
+                    ) : (
+                      <div className="bg-white rounded-2xl shadow-lg p-8 text-center border-2 border-dashed border-gray-300">
+                        <div className="text-6xl mb-4">🚧</div>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                          Bientôt disponible
+                        </h3>
+                        <p className="text-gray-600">
+                          Cette fonctionnalité est en cours de développement
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
+
+                </div>
+
               </div>
+
+              <SocialFollow />
             </div>
 
-            <SocialFollow />
           </div>
         </>
       ) : (

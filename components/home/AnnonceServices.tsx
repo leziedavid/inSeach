@@ -217,7 +217,7 @@ export default function AnnonceServices() {
                             <input ref={inputRef}  type="text" value={searchTerm}  onChange={(e) => setSearchTerm(e.target.value)}  onKeyDown={handleKeyDown}
                                 placeholder="Rechercher une annonce, une localisation...."
                                 className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border rounded-md  text-sm md:text-base  text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-300 dark:focus:ring-slate-700  transition "
-                                disabled={isLoading} />
+                                disabled={isLoading} inputMode="text" style={{ fontSize: '16px' }} />
 
                             {searchTerm && (
                                 <button  onClick={handleClearSearch} type="button"  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition"  >
@@ -304,10 +304,7 @@ export default function AnnonceServices() {
                                 : "Aucune annonce disponible pour le moment."}
                         </p>
                         {searchTerm.trim() && (
-                            <button
-                                onClick={handleClearSearch}
-                                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition text-sm font-medium"
-                            >
+                            <button  onClick={handleClearSearch}  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition text-sm font-medium"  >
                                 Afficher toutes les annonces
                             </button>
                         )}

@@ -352,15 +352,10 @@ export default function AnnonceServices() {
 
                 {/* 📄 Pagination */}
                 {totalPages > 1 && (
-                    <Pagination
-                        page={page}
-                        onPageChange={setPage}
-                        itemsPerPage={itemsPerPage}
-                        totalItems={totalPages * itemsPerPage}
-                    />
+                    <Pagination  page={page}   onPageChange={setPage}  itemsPerPage={itemsPerPage}       totalItems={totalPages * itemsPerPage} />
                 )}
 
-                <MyModal open={open} onClose={() => setOpen(false)}>
+                <MyModal open={open} onClose={() => setOpen(false)} mode="mobile">
                     <AnnonceForm initialData={SelectAnnonce || undefined} onClose={() => setOpen(false)} user={users || null} fetchAll={fetchAllAnnonce} onSubmit={handleSubmit} isSubmitting={isLoading} />
                 </MyModal>
 

@@ -121,9 +121,8 @@ const SecureInput = ({ type = "text", value, onChange, placeholder, className = 
     const displayValue = mounted ? value : "";
 
     return (
-        <input  type={type} value={displayValue} onChange={onChange} placeholder={placeholder}
-            className={`flex px-3 py-1 w-full h-11 text-sm rounded-lg shadow-none transition-colors bg-slate-100 text-slate-700 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#b07b5e] disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
-            inputMode={inputMode}  style={{ fontSize: '16px' }}  {...props} />
+        <input  type={type} value={displayValue} onChange={onChange} placeholder={placeholder} className={`flex px-3 py-1 w-full h-11 text-sm rounded-lg shadow-none transition-colors bg-slate-100 text-slate-700 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#b07b5e] disabled:cursor-not-allowed disabled:opacity-50 ${className}`} 
+        inputMode={inputMode}  style={{ fontSize: '16px' }}  {...props} />
     );
 };
 

@@ -68,55 +68,56 @@ export default function Page() {
                         <div className="absolute inset-0 opacity-10 bg-[url('/pattern.png')] bg-cover"></div>
 
                         {/* ✅ CONTENU POUR UTILISATEUR NON AUTHENTIFIÉ */}
-                        <div className="relative z-10 flex flex-col items-center px-6 mt-6 mb-32 w-full">
+                        <div className="relative z-10 flex flex-col w-full px-3 mt-6 mb-32 lg:px-6 lg:items-center">
 
                             {/* Composant actif avec scroll horizontal */}
-                            <div className="w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl mt-2 md:mt-6 px-2 md:px-4 overflow-x-auto pb-4">
+                            <div className="w-full max-w-full px-2 mt-2 pb-4 overflow-x-auto md:mt-6 md:px-4 lg:max-w-2xl lg:mx-auto">
+                                <div className="min-w-0">
 
+                                    {/* 🧍 Profil utilisateur */}
+                                    <UserProfile />
 
-                                {/* 🧍 Profil utilisateur */}
-                                <UserProfile />
-
-                                <div className="space-y-2.5">
-                                    <Card className="rounded-xl shadow-sm border border-gray-200">
-                                        <CardContent className="p-0 divide-y divide-gray-200">
-                                            <div className="flex items-center justify-between px-4 py-2.5">
-                                                <div className="flex items-center gap-2">
-                                                    <FileText className="w-4 h-4 text-gray-600" />
-                                                    <span className="text-sm text-gray-800">Termes et conditions</span>
-                                                </div>
-                                                <Button variant="ghost" size="sm" className="text-[#a06a50] hover:text-blue-700 text-xs px-2 py-1 h-auto" >
-                                                    Consulter
-                                                </Button>
-                                            </div>
-
-                                            <div className="flex items-center justify-between px-4 py-2.5">
-                                                <div className="flex items-center gap-2">
-                                                    <Lock className="w-4 h-4 text-gray-600" />
-                                                    <span className="text-sm text-gray-800">Politique de confidentialité</span>
-                                                </div>
-                                                <Link href="/checkout" className="flex items-center">
+                                    <div className="space-y-2.5">
+                                        <Card className="rounded-xl shadow-sm border border-gray-200">
+                                            <CardContent className="p-0 divide-y divide-gray-200">
+                                                <div className="flex items-center justify-between px-4 py-2.5">
+                                                    <div className="flex items-center gap-2">
+                                                        <FileText className="w-4 h-4 text-gray-600" />
+                                                        <span className="text-sm text-gray-800">Termes et conditions</span>
+                                                    </div>
                                                     <Button variant="ghost" size="sm" className="text-[#a06a50] hover:text-blue-700 text-xs px-2 py-1 h-auto" >
                                                         Consulter
                                                     </Button>
-                                                </Link>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-
-                                    <Card className="rounded-xl shadow-sm border border-gray-200">
-                                        <CardContent className="p-0">
-                                            <div className="flex items-center justify-between px-4 py-2.5">
-                                                <div onClick={logout} className="flex items-center gap-2">
-                                                    <LogOut className="w-4 h-4 text-gray-600" />
-                                                    <span className="text-sm text-gray-800">Déconnexion</span>
                                                 </div>
-                                                <Button onClick={logout} variant="ghost" size="sm" className="text-red-500 hover:text-red-600 text-xs px-2 py-1 h-auto">
-                                                    Déconnecter
-                                                </Button>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+
+                                                <div className="flex items-center justify-between px-4 py-2.5">
+                                                    <div className="flex items-center gap-2">
+                                                        <Lock className="w-4 h-4 text-gray-600" />
+                                                        <span className="text-sm text-gray-800">Politique de confidentialité</span>
+                                                    </div>
+                                                    <Link href="/checkout" className="flex items-center">
+                                                        <Button variant="ghost" size="sm" className="text-[#a06a50] hover:text-blue-700 text-xs px-2 py-1 h-auto" >
+                                                            Consulter
+                                                        </Button>
+                                                    </Link>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card className="rounded-xl shadow-sm border border-gray-200">
+                                            <CardContent className="p-0">
+                                                <div className="flex items-center justify-between px-4 py-2.5">
+                                                    <div onClick={logout} className="flex items-center gap-2">
+                                                        <LogOut className="w-4 h-4 text-gray-600" />
+                                                        <span className="text-sm text-gray-800">Déconnexion</span>
+                                                    </div>
+                                                    <Button onClick={logout} variant="ghost" size="sm" className="text-red-500 hover:text-red-600 text-xs px-2 py-1 h-auto">
+                                                        Déconnecter
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
                                 </div>
                             </div>
 
