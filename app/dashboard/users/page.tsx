@@ -1,31 +1,40 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { User } from "@/types/interfaces";
-import { fakeUsers } from "@/data/fakeServices";
 
 import { Table } from "@/components/table/tables/table";
 import { UserColumns } from "@/components/table/columns/tableColumns";
+import AdminLayout from "@/components/dashboard/AdminLayout/AdminLayout";
+import { fakeUsers } from "@/data/fakeServices";
+import { getAllUsers } from "@/services/securityService";
 
 export default function Page() {
-    const [services, setServices] = useState<User[]>([]);
+    const [users, setUsers] = useState<User[]>(fakeUsers);
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
     const [totalItems, setTotalItems] = useState(0);
     const [isReady, setIsReady] = useState(false);
 
-    // Simuler le chargement
-    useEffect(() => {
-        setIsReady(false); // afficher le loader
-        const timer = setTimeout(() => {
-            setServices(fakeUsers);
-            setTotalItems(fakeUsers.length);
-            setIsReady(true); // masquer le loader
-        }, 1500); // délai simulé (1,5 sec)
 
-        return () => clearTimeout(timer); // cleanup si composant démonté
-    }, []);
+    // nous allos aller chcher tous les users via security
+    const fetchUsers = async () => {
+        setIsReady(true);
+        const response = await getAllUsers(currentPage, limit);
+        if (response.statusCode === 200 && response.data) {
+            setUsers(response.data.data);
+            setTotalItems(response.data.total);
+            setCurrentPage(response.data.page); // ✅ pas besoin de faire un setTimeout
+        } else {
+            console.error("Erreur lors du chargement des users :", response.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+    },
+    [currentPage, limit]);
+
 
     const handleNextPage = () => {
         if (currentPage * limit < totalItems) setCurrentPage(currentPage + 1);
@@ -55,15 +64,15 @@ export default function Page() {
 
     return (
         <AdminLayout>
-            <div className="max-w-full mx-auto px-4 py-12">
-                {/* Ici ton composant de liste de services */}
+            <div className="max-w-full mx-auto">
+                {/* Ici ton composant de liste de users */}
                 <div className="w-full p-4">
-                    <h1 className="text-3xl font-bold mb-2">Gestion des services</h1>
+                    <h1 className="text-3xl font-bold mb-2">Gestion des users</h1>
                 </div>
 
                 <div className="w-full p-4">
                     <Table<User>
-                        data={services.slice((currentPage - 1) * limit, currentPage * limit)}
+                        data={users.slice((currentPage - 1) * limit, currentPage * limit)}
                         columns={UserColumns()}
                         enableMultiple={true}
                         onDelete={handleDelete}

@@ -31,7 +31,7 @@ export default function SearchPrestations() {
     const [open, setOpen] = useState(false);
     const [selectedServices, setSelectedServices] = useState<Service | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const itemsPerPage = 5;
     const [serviceCategories, setServiceCategories] = useState<ServiceCategory[]>([]);
     const [serviceSubcategories, setServiceSubcategories] = useState<ServiceSubcategory[]>([]);
@@ -118,19 +118,22 @@ export default function SearchPrestations() {
 
             <div className="relative w-full mt-4" >
                 {/* En-tête */}
+
                 <div className="mb-2 flex items-center justify-between">
                     <div>
-                        <h1 className="text-sm font-bold text-gray-900">Mes services</h1>
+                        <h1 className="text-sm font-bold text-gray-900"> Mes services</h1>
                         <div className="w-23 h-1 bg-[#b07b5e] mt-2"></div>
                     </div>
-
                     {/* Bouton + */}
-                    <button
-                        onClick={() => { setSelectedServices(null); setOpen(true); }}
-                        className="bg-[#b07b5e] p-2.5 rounded-full hover:bg-gray-200 transition shadow-md"
-                    >
+                    <button onClick={() => {
+                        setSelectedServices(null)
+                        setOpen(true)
+                    }}
+                        className="flex items-center gap-2 bg-[#b07b5e] px-4 py-2.5 rounded-full hover:bg-[#9c6b52] transition shadow-md">
                         <Plus className="w-4 h-4 text-white" />
+                        <span className="text-sm font-bold text-white whitespace-nowrap"> Nouveau service </span>
                     </button>
+
                 </div>
 
             </div>
@@ -144,79 +147,45 @@ export default function SearchPrestations() {
                     </div>
                 ) : serviceList.length > 0 ? (
                     <>
-                        {/* Grille responsive */}
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-3">
+
+
+                        <div className="grid grid-cols-3 auto-rows-auto gap-x-2 gap-y-8">
                             {serviceList.map((service, index) => (
-                                <div key={index} className="bg-white rounded-lg p-4 border border-[#b07b5e]/80 shadow-xs hover:shadow-sm transition-all cursor-pointer flex flex-col items-center text-center ">
-                                    <div className="w-16 h-16 mb-2 relative rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                                        {service.iconUrl ? (
-                                            <Image src={service.iconUrl} alt={service.title} width={40} height={40} className="object-contain transition" unoptimized />
-                                        ) : (
-                                            <span className="text-gray-400 text-sm">?</span>
-                                        )}
-                                    </div>
-
-                                    <h3 className="font-medium text-gray-800 text-sm md:text-[13px] leading-tight mb-1 line-clamp-2">
-                                        {truncateText(service.title, 50)}
-                                    </h3>
-
-                                    {/* Actions icons - en haut à droite */}
-                                    <div className="flex items-center space-x-2">
-                                        <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => handlePin(service.id)} >
-                                            {service.pinned ? <PinIcon size={18} color="#155e75" /> : <PinIcon size={18} />}
-                                        </button>
-
-                                        <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => clicEdit(service)} >
-                                            <EditIcon size={16} color="#b07b5e" />
-                                        </button>
-
-                                        <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => handleDelete(service)} >
-                                            <TrashIcon size={16} color="#ff0000ff" />
-                                        </button>
-                                    </div>
-
-
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Grille responsive */}
-                        {/* <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-3">
-                            {Array.from({ length: 12 }).map((_, index) => {
-                                const currentService = serviceList[0] || { id: index, title: "Service exemple", iconUrl: "" }
-
-                                return (
-                                    <div key={index} className="bg-white rounded-lg p-4 border border-[#b07b5e]/80 shadow-xs hover:shadow-sm transition-all cursor-pointer flex flex-col items-center text-center ">
-                                        <div className="w-16 h-16 mb-2 relative rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                                            {currentService.iconUrl ? (
-                                                <Image src={currentService.iconUrl} alt={currentService.title} width={40} height={40} className="object-contain transition" unoptimized />
+                                <div key={service.id} className="relative rounded-xl transition-all duration-200 overflow-hidden mb-10 bg-cover ">
+                                    <div className="flex flex-col items-center mt-4 mb-4 ">
+                                        {/* Icône */}
+                                        <div className="flex justify-center items-center w-14 h-14 rounded-full bg-slate-100 cursor-pointer transition-all duration-200 hover:scale-[1.05] hover:shadow-lg hover:shadow-slate-100/70 ">
+                                            {service.iconUrl ? (
+                                                <Image src={service.iconUrl} alt={service.title} width={40} height={40} className="object-contain" />
                                             ) : (
                                                 <span className="text-gray-400 text-sm">?</span>
                                             )}
                                         </div>
 
-                                        <h3 className="font-medium text-gray-800 text-sm md:text-[13px] leading-tight mb-1 line-clamp-2">
-                                            {truncateText(currentService.title, 50)}
-                                        </h3>
+                                        {/* Label */}
+                                        <div className="mt-2 text-center">
+                                            <p className="text-[0.8rem] font-medium text-slate-700"> {truncateText(service.title, 50)}  </p>
+                                        </div>
 
+                                        {/* Actions icons - en haut à droite */}
                                         <div className="flex items-center space-x-2">
-                                            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => handlePin(currentService.id)} >
-                                                {currentService.pinned ? <PinIcon size={18} color="#155e75" /> : <PinIcon size={18} />}
+                                            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => handlePin(service.id)} >
+                                                {service.pinned ? <PinIcon size={18} color="#155e75" /> : <PinIcon size={18} />}
                                             </button>
 
-                                            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => clicEdit(currentService)} >
+                                            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => clicEdit(service)} >
                                                 <EditIcon size={16} color="#b07b5e" />
                                             </button>
 
-                                            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => handleDelete(currentService)} >
+                                            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors" onClick={() => handleDelete(service)} >
                                                 <TrashIcon size={16} color="#ff0000ff" />
                                             </button>
                                         </div>
 
                                     </div>
-                                )
-                            })}
-                        </div> */}
+                                </div>
+                            ))}
+                        </div>
 
                     </>
                 ) : (

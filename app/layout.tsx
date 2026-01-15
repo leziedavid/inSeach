@@ -1,5 +1,6 @@
 // app/layout.tsx (ou layout.js si TS non utilisé)
 
+import { InstallPrompt } from "@/components/home/InstallPrompt"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
@@ -39,7 +40,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <main className="flex-1">
               <AlertProvider>
                 <CartProvider>
-                    {children}
+                  {children}
+                  <InstallPrompt /> {/* <- Toast détect mobile */}
                 </CartProvider>
               </AlertProvider>
             </main>
@@ -61,7 +63,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             className: "sonner-toast",
           }}
         />
-        
+
       </body>
     </html>
   )

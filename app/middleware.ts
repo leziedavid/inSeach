@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 export enum Role {
     ADMIN = "ADMIN",
     PROVIDER = "PROVIDER",
+    MANAGER = "MANAGER",
     CLIENT = "CLIENT",
     USER = "USER",
     SELLER = "SELLER",

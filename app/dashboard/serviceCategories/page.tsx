@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import AdminLayout from "@/components/admin/AdminLayout";
 import ServiceCategorys from "@/components/admin/ServiceCategory";
 import ServiceSubcategorys from "@/components/admin/ServiceSubcategory";
 import { CloudDownload } from "lucide-react";
+import AdminLayout from "@/components/dashboard/AdminLayout/AdminLayout";
 
 export default function Page() {
     const [activeTab, setActiveTab] = useState<"category" | "subcategory">("category");
@@ -28,60 +28,39 @@ export default function Page() {
 
     return (
         <AdminLayout>
-            <div className="max-w-full mx-auto px-4 py-1">
+            <div className="max-w-full mx-auto">
                 <div className="w-full p-4">
                     {/* Tabs */}
-                    <div className="flex flex-wrap sm:flex-nowrap border-gray-300 mb-4 gap-2 items-center overflow-x-auto">
+
+                    <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 overflow-x-auto mb-4 px-1 sm:px-0">
+
                         {/* Tabs */}
-                        <button
-                            className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-medium transition-all ${activeTab === "category"
-                                    ? "border-b-2 border-[#b07b5e] text-[#b07b5e]"
-                                    : "text-gray-500 hover:text-gray-700"
-                                }`}
-                            onClick={() => setActiveTab("category")}
-                        >
+                        <button  className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-medium rounded-full transition-all duration-200 ${activeTab === "category"  ? "bg-[#f0e5db] text-[#b07b5e] shadow-inner" : "text-gray-500 hover:bg-gray-100"  }`}  onClick={() => setActiveTab("category")}  >
                             Catégories
                         </button>
-                        <button
-                            className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-medium transition-all ${activeTab === "subcategory"
-                                    ? "border-b-2 border-[#b07b5e] text-[#b07b5e]"
-                                    : "text-gray-500 hover:text-gray-700"
-                                }`}
-                            onClick={() => setActiveTab("subcategory")}
-                        >
+
+                        <button  className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-medium rounded-full transition-all duration-200 ${activeTab === "subcategory"  ? "bg-[#f0e5db] text-[#b07b5e] shadow-inner"  : "text-gray-500 hover:bg-gray-100"   }`}    onClick={() => setActiveTab("subcategory")}  >
                             Sous-catégories
                         </button>
 
                         {/* Bouton Export responsive */}
-                        <button
-                            className="px-3 py-2 sm:px-4 sm:py-1 flex items-center justify-center font-medium text-white bg-green-800 hover:bg-[#9c6a53] transition-all border rounded-full"
-                            onClick={handleFileClick}
-                        >
-                            {/* Afficher texte sur grand écran, icône sur petit */}
+                        <button  className="flex items-center justify-center px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-medium text-white bg-green-700 hover:bg-green-800 rounded-full transition-all duration-200 shadow-md whitespace-nowrap"  onClick={handleFileClick} >
                             <span className="hidden sm:inline">Exporter un fichier</span>
                             <CloudDownload className="w-4 h-4 sm:hidden" />
                         </button>
 
                         {/* Affichage du nom du fichier choisi */}
                         {selectedFileName && (
-                            <span className="ml-2 text-green-600 font-medium truncate max-w-[150px] sm:max-w-[300px]">
+                            <span className="ml-2 text-green-600 font-medium truncate max-w-[120px] sm:max-w-[250px]">
                                 {selectedFileName}
                             </span>
                         )}
-
                         {/* Input file caché */}
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            className="hidden"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={handleFileChange}
-                        />
+                        <input  type="file"  ref={fileInputRef}   className="hidden" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onChange={handleFileChange} />
                     </div>
 
-
                     {/* Contenu des tabs */}
-                    <div className="mt-4">
+                    <div className="">
                         {activeTab === "category" && <ServiceCategorys />}
                         {activeTab === "subcategory" && <ServiceSubcategorys />}
                     </div>

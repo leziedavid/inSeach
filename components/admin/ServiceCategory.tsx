@@ -2,28 +2,37 @@
 
 import React, { useState, useEffect } from "react";
 import { ServiceCategory } from "@/types/interfaces";
-import { fakeCategories } from "@/data/fakeServices";
 import { Table } from "@/components/table/tables/table";
 import { ServiceCategoryColumns } from "@/components/table/columns/tableColumns";
+import { fakeCategories } from "@/data/fackeSimules";
+import { paginateCategories } from "@/services/categoryService";
 
 export default function ServiceCategorys() {
-    const [services, setServices] = useState<ServiceCategory[]>([]);
+
+    const [category, setCategory] = useState<ServiceCategory[]>(fakeCategories);
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
     const [totalItems, setTotalItems] = useState(0);
     const [isReady, setIsReady] = useState(false);
 
-    // Simuler le chargement
-    useEffect(() => {
-        setIsReady(false); // afficher le loader
-        const timer = setTimeout(() => {
-            setServices(fakeCategories);
-            setTotalItems(fakeCategories.length);
-            setIsReady(true); // masquer le loader
-        }, 1500); // délai simulé (1,5 sec)
+    // paginateCategories
+    const getPaginatedCategories = async () => {
+        setIsReady(true); // afficher le loader
+        const response = await paginateCategories(currentPage, limit);
+        if (response.statusCode === 200 && response.data) {
+            setCategory(response.data.data);
+            setTotalItems(response.data.total);
+            setCurrentPage(response.data.page); // ✅ pas besoin de faire un setTimeout
 
-        return () => clearTimeout(timer); // cleanup si composant démonté
-    }, []);
+        } else {
+            console.error("Erreur lors du chargement des categories :", response.message);
+        }
+    };
+
+    useEffect(() => {
+        getPaginatedCategories();
+    }, [currentPage, limit]);
+
 
     const handleNextPage = () => {
         if (currentPage * limit < totalItems) setCurrentPage(currentPage + 1);
@@ -50,15 +59,15 @@ export default function ServiceCategorys() {
     }
 
     return (
-        <div className="max-w-full mx-auto px-4 py-12">
-            {/* Ici ton composant de liste de services */}
+        <div className="max-w-full mx-auto">
+            {/* Ici ton composant de liste de Category */}
             <div className="w-full p-4">
-                <h1 className="text-3xl font-bold mb-2">Gestion des services</h1>
+                <h1 className="text-3xl font-bold mb-2">Gestion des Category</h1>
             </div>
 
             <div className="w-full p-4">
                 <Table<ServiceCategory>
-                    data={services.slice((currentPage - 1) * limit, currentPage * limit)}
+                    data={category}
                     columns={ServiceCategoryColumns()}
                     enableMultiple={true}
                     onDelete={handleDelete}

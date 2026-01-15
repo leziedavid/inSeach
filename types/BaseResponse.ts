@@ -5,6 +5,12 @@ export interface BaseResponse<T> {
     data?: T;
 }
 
+
+export interface NeoFaceResponse<T> {
+    status: number;
+    message: string;
+    response_data?: T;
+}
 // Exemple : structure attendue du body JSON
 export interface PaymentResponse {
     id: string;

@@ -3,6 +3,7 @@ import { getBaseUrl } from "@/types/baseUrl";
 import { Pagination } from "@/types/pagination";
 import { secureFetch } from "@/services/securityService";
 import { Appointment, AppointmentStatus, CalendarResponse } from "@/types/interfaces";
+import { Historytype } from "@/app/history/page";
 
 /* ============================================
 📌 CREATE APPOINTMENT
@@ -108,8 +109,8 @@ export const deleteAppointment = async (id: string): Promise<BaseResponse<any>> 
 /* ============================================
 📌 LISTE PAGINÉE DES APPOINTMENTS
 ============================================ */
-export const listAppointments = async (page?: number, limit?: number): Promise<BaseResponse<Pagination<Appointment>>> => {
-    const q = `?page=${page ?? 1}&limit=${limit ?? 4}`;
+export const listAppointments = async (page?: number, limit?: number,type?: Historytype): Promise<BaseResponse<Pagination<Appointment>>> => {
+    const q = `?page=${page ?? 1}&limit=${limit ?? 4}&types=${type}`;
     try {
         const res = await secureFetch(`${getBaseUrl()}/appointments/listes/user${q}`, { method: "GET", });
         return await res.json();

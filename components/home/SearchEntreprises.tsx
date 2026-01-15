@@ -50,19 +50,24 @@ export default function SearchEntreprises() {
 
     return (
         <div className="w-full max-w-lg">
-            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3 mt-4 w-full">
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Ex: fintech, confection sacs, IA, logistique..."
-                    className="w-full rounded-lg border px-4 py-2 text-sm md:text-base focus:outline-none"
-                    disabled={isLoading}
-                />
-                <button  type="submit"  disabled={isLoading} className="bg-brand-primary hover:bg-brand-secondary text-white px-8 md:px-10 py-2 md:py-2.5 rounded-lg text-sm md:text-base whitespace-nowrap disabled:opacity-50" >
+
+            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3 mt-4 w-full"  >
+                {/* INPUT AVEC ICÔNE */}
+                <div className="relative w-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500"  >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                    <input type="text" value={searchTerm}  onChange={(e) => setSearchTerm(e.target.value)}  placeholder="Ex: fintech, confection sacs, IA, logistique..."  disabled={isLoading} 
+                    className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border rounded-md  text-sm md:text-base  text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-300 dark:focus:ring-slate-700  transition "  />
+                </div>
+
+                {/* BOUTON */}
+                <button type="submit" disabled={isLoading} className="bg-brand-primary hover:bg-brand-secondary text-white px-8 md:px-10 py-2 md:py-2.5 rounded-lg text-sm md:text-base whitespace-nowrap disabled:opacity-50" >
                     {isLoading ? "Recherche..." : "Rechercher →"}
                 </button>
             </form>
+
 
             {error && <p className="text-red-500 mt-4 text-sm">{error}</p>}
 

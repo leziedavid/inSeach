@@ -6,13 +6,15 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import {
     ServiceCategory, ServiceSubcategory, Slider, User, Service, Appointment,
-    Order, Transaction, UserStatus, AppointmentStatus, OrderStatus, TransactionStatus
+    Order, Transaction, UserStatus, AppointmentStatus, OrderStatus, TransactionStatus,
+    Amenity,
+    AnnonceType
 } from "@/types/interfaces";
 
 // ===========================
 // Switch de statut générique
 // ===========================
-type StatusSwitchProps<T> = {  type: "user" | "appointment" | "order" | "transaction";  status: T; };
+type StatusSwitchProps<T> = { type: "user" | "appointment" | "order" | "transaction"; status: T; };
 
 export const StatusSwitch = <T,>({ type, status }: StatusSwitchProps<T>) => {
     const [checked, setChecked] = useState(() => {
@@ -61,7 +63,7 @@ export const StatusSwitch = <T,>({ type, status }: StatusSwitchProps<T>) => {
 // ServiceCategory Columns
 // ===========================
 export const ServiceCategoryColumns = (): any[] => [
-    { key: "id", name: "ID" },
+    // { key: "id", name: "ID" },
     { key: "name", name: "Nom" },
     { key: "description", name: "Description", render: (item: ServiceCategory) => item.description ?? "-" },
     { key: "createdAt", name: "Créé le", render: (item: ServiceCategory) => new Date(item.createdAt).toLocaleDateString() },
@@ -72,7 +74,7 @@ export const ServiceCategoryColumns = (): any[] => [
 // ServiceSubcategory Columns
 // ===========================
 export const ServiceSubcategoryColumns = (): any[] => [
-    { key: "id", name: "ID" },
+    // { key: "id", name: "ID" },
     { key: "name", name: "Nom" },
     { key: "category", name: "Catégorie", render: (item: ServiceSubcategory) => item.categoryId ?? "-" },
     { key: "serviceType", name: "Type de service", render: (item: ServiceSubcategory) => item.serviceType.join(", ") },
@@ -104,8 +106,8 @@ export const UserColumns = (): any[] => [
         key: "images",
         name: "Image",
         render: (item: User) => {
-            const src = item.images ?? "/avatars/avatar.jpg";
-            return <Image src={src} alt={item.name ?? "Avatar"} width={40} height={40} className="object-cover rounded" unoptimized />;
+            const src = item.images ?? "/agent-builder1.gif";
+            return <Image src={src} alt={item.name ?? "Avatar"} width={20} height={20} className="object-cover rounded" unoptimized />;
         },
     },
     { key: "name", name: "Nom" },
@@ -125,7 +127,15 @@ export const UserColumns = (): any[] => [
 // Service Columns
 // ===========================
 export const ServiceColumns = (): any[] => [
-    { key: "id", name: "ID" },
+    // { key: "id", name: "ID" },
+    {
+        key: "images",
+        name: "Image",
+        render: (item: User) => {
+            const src = item.images ?? "/agent-builder1.gif";
+            return <Image src={src} alt={item.name ?? "Avatar"} width={30} height={30} className="object-cover rounded" unoptimized />;
+        },
+    },
     { key: "title", name: "Titre" },
     { key: "provider", name: "Fournisseur", render: (item: Service) => item.provider?.name ?? "-" },
     { key: "serviceType", name: "Type" },
@@ -176,3 +186,35 @@ export const TransactionColumns = (): any[] => [
     { key: "createdAt", name: "Créé le", render: (item: Transaction) => new Date(item.createdAt).toLocaleDateString() },
     { key: "updatedAt", name: "Mis à jour", render: (item: Transaction) => new Date(item.updatedAt).toLocaleDateString() },
 ];
+
+export const CategoryAnnonceColumns = (): any[] => [
+    { key: "label", name: "label" },
+    { key: "value", name: "value" },
+    { key: "description", name: "Description", render: (item: ServiceCategory) => item.description ?? "-" },
+    { key: "createdAt", name: "Créé le", render: (item: ServiceCategory) => new Date(item.createdAt).toLocaleDateString() },
+    { key: "updatedAt", name: "Mis à jour", render: (item: ServiceCategory) => new Date(item.updatedAt).toLocaleDateString() },
+];
+
+export const AnnonceTypeColumns = (): any[] => [
+    { key: "label", name: "label" },
+    { key: "description", name: "Description", render: (item: AnnonceType) => item.description ?? "-" },
+    { key: "createdAt", name: "Créé le", render: (item: Amenity) => item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "-" },
+    { key: "updatedAt", name: "Mis à jour", render: (item: Amenity) => item.updatedAt ? new Date(item.updatedAt).toLocaleDateString() : "-" }
+];
+
+// AmenityColumns
+
+export const AmenityColumns = (): any[] => [
+    {
+        key: "images",
+        name: "icon",
+        render: (item: Amenity) => {
+            const src = item.icon ?? "/agent-builder1.gif";
+            return <Image src={src} alt={item.label ?? "Avatar"} width={20} height={20} className="object-cover rounded" unoptimized />;
+        },
+    },
+    { key: "label", name: "label" },
+    { key: "createdAt", name: "Créé le", render: (item: Amenity) => item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "-" },
+    { key: "updatedAt", name: "Mis à jour", render: (item: Amenity) => item.updatedAt ? new Date(item.updatedAt).toLocaleDateString() : "-" }
+];
+

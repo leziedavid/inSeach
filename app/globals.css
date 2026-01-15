@@ -9,14 +9,14 @@
 @theme {
 
 
-    /* Brand */
+  /* Brand */
   --color-brand-primary: hsl(var(--brand-primary));
   --color-brand-secondary: hsl(var(--brand-secondary));
 
-    /* (optionnel) foregrounds */
+  /* (optionnel) foregrounds */
   --color-brand-primary-foreground: #ffffff;
   --color-brand-secondary-foreground: #ffffff;
-  
+
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -79,9 +79,11 @@
 @layer base {
   :root {
 
-        /* Brand colors */
-    --brand-primary: 29 32% 53%;   /* #b07b5e */
-    --brand-secondary: 195 69% 27%; /* #155e75 */
+    /* Brand colors */
+    --brand-primary: 29 32% 53%;
+    /* #b07b5e */
+    --brand-secondary: 195 69% 27%;
+    /* #155e75 */
 
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -111,7 +113,7 @@
   }
 
   .dark {
-        /* Optionnel : mêmes couleurs ou ajustées */
+    /* Optionnel : mêmes couleurs ou ajustées */
     --brand-primary: 29 32% 53%;
     --brand-secondary: 195 69% 35%;
 
@@ -144,13 +146,15 @@
 
 @layer utilities {
   :root {
-    --font-mono:Menlo,
+    --font-mono: Menlo,
   }
 
   body {
     font-family: var(--font-mono);
-    -ms-overflow-style: none; /* IE scrollbar */
-    scrollbar-width: none; /* Firefox scrollbar */
+    -ms-overflow-style: none;
+    /* IE scrollbar */
+    scrollbar-width: none;
+    /* Firefox scrollbar */
   }
 }
 
@@ -589,6 +593,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -600,6 +605,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -615,10 +621,105 @@
 }
 
 /* Style pour les toggle switches */
-input:checked + label {
+input:checked+label {
   background-color: #2563eb;
 }
 
-input:checked + label .dot {
+input:checked+label .dot {
   transform: translateX(24px);
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  60% {
+    transform: translateY(-10%);
+  }
+
+  80% {
+    transform: translateY(5%);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.6s ease-out forwards;
+}
+
+
+
+/* Dans votre fichier global.css */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  /* slate-300 */
+  border-radius: 3px;
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #475569;
+  /* slate-600 */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+  /* slate-400 */
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
+  /* slate-500 */
+}
+
+
+/* Dans votre fichier global.css */
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animations de transition */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Override pour le bouton de commande fixé */
+.fixed {
+  z-index: 50;
 }

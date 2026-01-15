@@ -6,26 +6,33 @@ import { fakeSubcategories } from "@/data/fakeServices";
 
 import { Table } from "@/components/table/tables/table";
 import { ServiceSubcategoryColumns } from "@/components/table/columns/tableColumns";
+import { paginateSubcategories } from "@/services/categoryService";
 
 export default function ServiceSubcategorys() {
 
-    const [services, setServices] = useState<ServiceSubcategory[]>([]);
+    const [services, setServices] = useState<ServiceSubcategory[]>(fakeSubcategories);
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
     const [totalItems, setTotalItems] = useState(0);
     const [isReady, setIsReady] = useState(false);
 
-    // Simuler le chargement
-    useEffect(() => {
-        setIsReady(false); // afficher le loader
-        const timer = setTimeout(() => {
-            setServices(fakeSubcategories);
-            setTotalItems(fakeSubcategories.length);
-            setIsReady(true); // masquer le loader
-        }, 1500); // délai simulé (1,5 sec)
+    // paginateSubcategories
+    const getPaginatedSubcategories = async () => {
+        setIsReady(true); // afficher le loader
+        const response = await paginateSubcategories(currentPage, limit);
+        if (response.statusCode === 200 && response.data) {
+            setServices(response.data.data);
+            setTotalItems(response.data.total);
+            setCurrentPage(response.data.page); // ✅ pas besoin de faire un setTimeout
 
-        return () => clearTimeout(timer); // cleanup si composant démonté
-    }, []);
+        } else {
+            console.error("Erreur lors du chargement des sous-catégories :", response.message);
+        }
+    };
+
+    useEffect(() => {
+        getPaginatedSubcategories();
+    }, [currentPage, limit]);
 
     const handleNextPage = () => {
         if (currentPage * limit < totalItems) setCurrentPage(currentPage + 1);
@@ -52,7 +59,7 @@ export default function ServiceSubcategorys() {
     }
 
     return (
-        <div className="max-w-full mx-auto px-4 py-12">
+        <div className="max-w-full mx-auto">
             {/* Ici ton composant de liste de services */}
             <div className="w-full p-4">
                 <h1 className="text-3xl font-bold mb-2">Gestion des services</h1>
@@ -60,7 +67,7 @@ export default function ServiceSubcategorys() {
 
             <div className="w-full p-4">
                 <Table<ServiceSubcategory>
-                    data={services.slice((currentPage - 1) * limit, currentPage * limit)}
+                    data={services}
                     columns={ServiceSubcategoryColumns()}
                     enableMultiple={true}
                     onDelete={handleDelete}

@@ -4,13 +4,7 @@ import { useState, useMemo } from "react";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocationDetection } from "@/hooks/useLocationDetection";
-import {
-    AccountType,
-    Role,
-    ServiceCategory,
-    ServiceSubcategory,
-    ServiceType,
-} from "@/types/interfaces";
+import { AccountType,Role, ServiceCategory, ServiceSubcategory, ServiceType,} from "@/types/interfaces";
 import MultiSelect from "./MultiSelect";
 
 // ===============================

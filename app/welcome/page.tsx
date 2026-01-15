@@ -153,169 +153,217 @@ export default function WelcomeAuth() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-
-            {/* Logo "inSeach" ultra bold avec icône chapeau (dégradé #b07b5e → #155e75) */}
-
-            <div className="relative flex items-center mt-8 animate-slide-up ">
-                <Search className="absolute -top-6 left-3 w-8 h-8 text-[#b07b5e] animate-pulse" />
-                <h1 className="  text-transparent bg-clip-text bg-gradient-to-r from-[#b07b5e] to-[#155e75]  font-black text-4xl tracking-tight select-none drop-shadow-sm  ">
-                    inSeach
-                </h1>
+        <div className="min-h-screen bg-slate-100 pt-[5%] px-4">
+            {/* Logo - format carré */}
+            <div className="max-w-sm mx-auto my-8 w-28">
+                {/* Logo "inSeach" ultra bold avec icône chapeau (dégradé #b07b5e → #155e75) */}
+                <div className="relative flex items-center mt-8 animate-slide-up ">
+                    <Search className="absolute -top-6 left-3 w-8 h-8 text-[#b07b5e] animate-pulse" />
+                    <h1 className="  text-transparent bg-clip-text bg-gradient-to-r from-[#b07b5e] to-[#155e75]  font-black text-4xl tracking-tight select-none drop-shadow-sm  ">
+                        inSeach
+                    </h1>
+                </div>
             </div>
 
-            <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-4 sm:p-6 mx-auto mt-3">
+            {/* Carte d'authentification */}
+            <div className="rounded-xl border-slate-200 bg-white text-slate-950 mx-auto max-w-sm border-0 shadow-none shadow-slate-400/20">
+                <div className="py-2"></div>
 
-                {step === "phone" ? (
-                    // Étape 1 : Numéro de téléphone
-                    <div className="space-y-3 sm:space-y-4">
-                        <div>
-                            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-                                Bienvenue 👋
-                            </h2>
-                            <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                                Saisissez votre numéro de téléphone
-                            </p>
-                        </div>
+                <div style={{ opacity: 1 }}>
+                    <div className="p-6 pt-0">
+                        {step === "phone" ? (
+                            // Étape 1 : Numéro de téléphone
+                            <div className="space-y-6">
+                                <div>
+                                    <h1 className="text-2xl font-bold text-slate-800">
+                                        Bienvenue 👋
+                                    </h1>
+                                    <p className="text-sm text-slate-700 mt-1"> Saisissez votre numéro de téléphone </p>
+                                </div>
 
-                        <form onSubmit={handleSubmitPhone(onPhoneSubmit)} className="space-y-3 sm:space-y-4">
-                            <div className="relative">
-                                <input
-                                    type="tel"
-                                    {...registerPhone("phone")}
-                                    placeholder="01 53 68 6819"
-                                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#b07b5e] focus:border-transparent outline-none"
-                                    inputMode="numeric"
-                                    style={{ fontSize: '16px' }}
-                                />
-                                {phoneErrors.phone && (
-                                    <p className="text-red-500 text-xs mt-1 text-center">
-                                        {phoneErrors.phone.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            <button type="submit" disabled={phoneSubmitting} className="w-full bg-[#b07b5e] text-white py-2 px-4 rounded-lg  hover:bg-[#155e75] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm" >
-                                {phoneSubmitting ? "Vérification..." : "Continuer"}
-                            </button>
-                        </form>
-
-                        <div className="text-center text-[9px] sm:text-[10px] text-gray-500 space-y-0.5">
-                            {/* retour a la page d'accueil */}
-                            <Link href="/" className="text-sm text-[#b07b5e] hover:underline " >
-                                Retour à l'accueil
-                            </Link>
-                        </div>
-
-                        {/* Lien ouvrir mon compte */}
-                        <button onClick={handleOpenAccount} className="w-full text-xs text-[#b07b5e] hover:text-[#a06a50]" >
-                            Ouvrir mon compte
-                        </button>
-
-                        {/* Footer petit */}
-                        <div className="text-center text-[9px] sm:text-[10px] text-gray-500 space-y-0.5 pt-2">
-                            <div>Developpé par inSeach | Confidentialité</div>
-                            <div className="text-gray-400">
-                                &copy; 2025 inSeach. Tous droits réservés.
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    // Étape 2 : Code PIN
-                    <div className="text-center space-y-3 sm:space-y-4">
-                        <div>
-                            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-                                Code de sécurité
-                            </h2>
-                            <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                                Veuillez entrer votre code pin
-                            </p>
-                        </div>
-
-                        <form onSubmit={handleSubmitPin(onPinSubmit)} className="space-y-3 sm:space-y-4">
-                            <div className="relative flex flex-col items-center">
-                                {/* Ligne unique avec @, PIN inputs et l'icône œil */}
-                                <div className="flex items-center justify-center space-x-1 sm:space-x-2 mb-2 sm:mb-3">
-                                    {/* Première case grise avec @ fixe */}
-                                    <div className="w-12 h-12 sm:w-10 sm:h-10 bg-gray-200 rounded-lg flex items-center justify-center">
-                                        <span className="text-gray-600 font-semibold text-xs sm:text-sm">@</span>
+                                <form onSubmit={handleSubmitPhone(onPhoneSubmit)} className="space-y-6">
+                                    <div className="space-y-2">
+                                        <input
+                                            type="tel"
+                                            {...registerPhone("phone")}
+                                            placeholder="Ex: 01 53 68 68 19"
+                                            className="flex px-3 py-1 w-full h-11 text-sm rounded-lg shadow-none transition-colors bg-slate-100 text-slate-700 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#b07b5e] disabled:cursor-not-allowed disabled:opacity-50"
+                                            inputMode="numeric"
+                                            style={{ fontSize: '16px' }}
+                                        />
+                                        {phoneErrors.phone && (
+                                            <p className="text-red-500 text-xs mt-1">
+                                                {phoneErrors.phone.message}
+                                            </p>
+                                        )}
                                     </div>
 
-                                    {/* 4 cases pour le code PIN */}
-                                    {[0, 1, 2, 3].map((index) => (
-                                        <input
-                                            key={index}
-                                            ref={(el) => {
-                                                otpRefs.current[index] = el;
-                                            }}
-                                            type={showPassword ? "text" : "password"}
-                                            value={otp[index]}
-                                            onChange={(e) => handleOtpChange(index, e.target.value)}
-                                            onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                                            className="w-12 h-12 sm:w-10 sm:h-10 text-center text-xs sm:text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#b07b5e] focus:border-transparent outline-none"
-                                            inputMode="numeric"
-                                            maxLength={1}
-                                            style={{ fontSize: '16px' }}
+                                    <div className="flex justify-center">
+                                        <button
+                                            type="submit"
+                                            disabled={phoneSubmitting}
+                                            className="items-center justify-center whitespace-nowrap rounded-lg text-sm font-normal transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 text-slate-50 h-11 px-4 py-4 flex flex-1 bg-[#b07b5e] shadow-none hover:bg-[#a06a50] disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            {phoneSubmitting ? "Vérification..." : "Continuer"}
+                                        </button>
+                                    </div>
+                                </form>
 
-                                        />
-                                    ))}
-
-                                    {/* Icône œil alignée sur la même ligne */}
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="ml-1 sm:ml-2 text-[#b07b5e] hover:text-[#a06a50] flex items-center gap-1 text-xs"
+                                {/* Liens additionnels */}
+                                <div className="space-y-3 text-center">
+                                    <Link
+                                        href="/"
+                                        className="text-sm text-[#b07b5e] hover:text-[#a06a50] hover:underline block"
                                     >
-                                        {showPassword ? (
-                                            <EyeOff className="w-6 h-6 sm:w-4 sm:h-4" />
-                                        ) : (
-                                            <Eye className="w-6 h-6 sm:w-4 sm:h-4" />
-                                        )}
+                                        Retour à l'accueil
+                                    </Link>
+
+                                    <button
+                                        onClick={handleOpenAccount}
+                                        className="text-xs text-[#b07b5e] hover:text-[#a06a50]"
+                                    >
+                                        Ouvrir mon compte
                                     </button>
                                 </div>
 
-                                {/* Champ caché pour react-hook-form */}
-                                <input type="hidden" {...registerPin("pin")} />
-
-                                {/* Message d'erreur */}
-                                {pinErrors.pin && (
-                                    <p className="text-red-500 text-xs mt-1 text-center">
-                                        {pinErrors.pin.message}
+                                {/* Footer avec liens légaux */}
+                                <div className="flex justify-center pt-2">
+                                    <span className="flex items-center text-[#b07b5e]">
+                                        <span className="mr-1 text-xs text-slate-600">
+                                            Développé par inSeach |
+                                        </span>
+                                        <Link
+                                            className="text-xs text-[#b07b5e] mr-1 hover:underline"
+                                            href="/docs/terms-of-use"
+                                        >
+                                            CGU
+                                        </Link>
+                                        <span className="text-xs text-slate-600 mr-1">
+                                            |
+                                        </span>
+                                        <Link
+                                            className="text-xs text-[#b07b5e] hover:underline"
+                                            href="/docs/privacy-policy"
+                                        >
+                                            Confidentialité
+                                        </Link>
+                                    </span>
+                                </div>
+                            </div>
+                        ) : (
+                            // Étape 2 : Code PIN
+                            <div className="space-y-6">
+                                <div>
+                                    <h1 className="text-2xl font-bold text-slate-800">
+                                        Code de sécurité
+                                    </h1>
+                                    <p className="text-sm text-slate-700 mt-1">
+                                        Veuillez entrer votre code pin
                                     </p>
-                                )}
+                                </div>
+
+                                <form onSubmit={handleSubmitPin(onPinSubmit)} className="space-y-6">
+                                    <div className="space-y-2">
+                                        {/* Champ OTP */}
+                                        <div className="flex flex-col items-center">
+                                            {/* Ligne unique avec @, PIN inputs et l'icône œil */}
+                                            <div className="flex items-center justify-center space-x-2 mb-3">
+                                                {/* Première case grise avec @ fixe */}
+                                                <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                                                    <span className="text-slate-600 font-semibold text-sm">@</span>
+                                                </div>
+
+                                                {/* 4 cases pour le code PIN */}
+                                                {[0, 1, 2, 3].map((index) => (
+                                                    <input  key={index} ref={(el) => { otpRefs.current[index] = el; }}  type={showPassword ? "text" : "password"}  value={otp[index]}  onChange={(e) => handleOtpChange(index, e.target.value)}
+                                                        onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                                                        className="w-12 h-12 text-center text-sm bg-slate-100 border-0 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#b07b5e]"
+                                                        inputMode="numeric"
+                                                        maxLength={1}
+                                                        style={{ fontSize: '16px' }}
+                                                    />
+                                                ))}
+
+                                                {/* Icône œil alignée sur la même ligne */}
+                                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="ml-2 text-[#b07b5e] hover:text-[#a06a50]" >
+                                                    {showPassword ? (
+                                                        <EyeOff className="w-5 h-5" />
+                                                    ) : (
+                                                        <Eye className="w-5 h-5" />
+                                                    )}
+                                                </button>
+                                            </div>
+
+                                            {/* Champ caché pour react-hook-form */}
+                                            <input type="hidden" {...registerPin("pin")} />
+
+                                            {/* Message d'erreur */}
+                                            {pinErrors.pin && (
+                                                <p className="text-red-500 text-xs mt-1 text-center">
+                                                    {pinErrors.pin.message}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-center">
+                                        <button type="submit"  disabled={pinSubmitting}   className="items-center justify-center whitespace-nowrap rounded-lg text-sm font-normal transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 text-slate-50 h-11 px-4 py-4 flex flex-1 bg-[#b07b5e] shadow-none hover:bg-[#a06a50] disabled:opacity-50 disabled:cursor-not-allowed"  >
+                                            {pinSubmitting ? "Connexion..." : "Me connecter"}
+                                        </button>
+                                    </div>
+                                </form>
+
+                                {/* Liens additionnels pour l'étape PIN */}
+                                <div className="space-y-3 text-center">
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs">
+                                        <button  onClick={handleForgotPin}  className="text-[#b07b5e] hover:text-[#a06a50] transition-colors"  >
+                                            J'ai oublié mon code pin
+                                        </button>
+                                        <button  onClick={handleBackToHome}  className="flex items-center justify-center text-[#b07b5e] hover:text-[#a06a50] transition-colors" >
+                                            <ArrowLeft className="w-3 h-3 mr-1" />
+                                            Retour
+                                        </button>
+                                    </div>
+
+                                    <button  onClick={handleOpenAccount}  className="text-xs text-[#b07b5e] hover:text-[#a06a50]" >
+                                        Ouvrir mon compte
+                                    </button>
+                                </div>
+
+                                {/* Footer avec liens légaux */}
+                                <div className="flex justify-center pt-2">
+                                    <span className="flex items-center text-[#b07b5e]">
+                                        <span className="mr-1 text-xs text-slate-600">
+                                            Développé par inSeach |
+                                        </span>
+                                        <Link
+                                            className="text-xs text-[#b07b5e] mr-1 hover:underline"
+                                            href="/docs/terms-of-use"
+                                        >
+                                            CGU
+                                        </Link>
+                                        <span className="text-xs text-slate-600 mr-1">
+                                            |
+                                        </span>
+                                        <Link
+                                            className="text-xs text-[#b07b5e] hover:underline"
+                                            href="/docs/privacy-policy"
+                                        >
+                                            Confidentialité
+                                        </Link>
+                                    </span>
+                                </div>
                             </div>
-
-                            {/* Bouton de soumission */}
-                            <button type="submit" disabled={pinSubmitting} className="w-full bg-[#b07b5e] text-white py-2 px-4 rounded-lg hover:bg-[#155e75] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm" >
-                                {pinSubmitting ? "Connexion..." : "Me connecter"}
-                            </button>
-                        </form>
-
-                        <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-2 text-xs">
-                            <button onClick={handleForgotPin} className="text-[#b07b5e] hover:text-[#a06a50] transition-colors text-left" >
-                                J'ai oublié mon code pin
-                            </button>
-                            <button onClick={handleBackToHome} className="flex items-center text-[#b07b5e] hover:text-[#a06a50] transition-colors" >
-                                <ArrowLeft className="w-3 h-3 mr-1" />
-                                Retour
-                            </button>
-                        </div>
-
-                        {/* Lien ouvrir mon compte */}
-                        <button onClick={handleOpenAccount} className="w-full text-xs text-[#b07b5e] hover:text-[#a06a50]">
-                            Ouvrir mon compte
-                        </button>
-
-                        {/* Footer petit */}
-                        <div className="text-center text-[9px] sm:text-[10px] text-gray-500 space-y-0.5 pt-2">
-                            <div>Developpé par inSeach | Confidentialité</div>
-                            <div className="text-gray-400">
-                                &copy; 2025 inSeach. Tous droits réservés.
-                            </div>
-                        </div>
+                        )}
                     </div>
-                )}
+                </div>
+            </div>
 
+            {/* Copyright */}
+            <div className="max-w-sm mx-auto mt-6 text-center">
+                <p className="text-xs text-slate-500">
+                    &copy; 2025 inSeach. Tous droits réservés.
+                </p>
             </div>
         </div>
     );

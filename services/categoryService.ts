@@ -159,3 +159,43 @@ export const searchSubcategoriesByName = async (name: string): Promise<BaseRespo
     });
     return await response.json();
 };
+
+// ===============================
+// 📌 CATEGORY PAGINATION
+// ===============================
+export const paginateCategories = async (page?: number, limit?: number): Promise<BaseResponse<PaginationType<any>>> => {
+    try {
+        const query = `?page=${page ?? 1}&limit=${limit ?? 10}`;
+        const res = await fetch(`${getBaseUrl()}/all-categories/with/subcategories/paginations${query}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+            },
+        });
+        return await res.json();
+    } catch (error) {
+        console.error('Erreur lors de la pagination des catégories:', error);
+        throw error;
+    }
+};
+
+// ===============================
+// 📌 SUBCATEGORY PAGINATION
+// ===============================
+export const paginateSubcategories = async (page?: number, limit?: number): Promise<BaseResponse<PaginationType<any>>> => {
+    try {
+        const query = `?page=${page ?? 1}&limit=${limit ?? 10}`;
+        const res = await fetch(`${getBaseUrl()}/all-categories/subcategories/paginations/categoryId${query}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+            },
+        });
+        return await res.json();
+    } catch (error) {
+        console.error('Erreur lors de la pagination des sous-catégories:', error);
+        throw error;
+    }
+};

@@ -1,30 +1,38 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Service } from "@/types/interfaces";
-import { fakeServices } from "@/data/fakeServices";
 import { Table } from "@/components/table/tables/table";
 import { ServiceColumns } from "@/components/table/columns/tableColumns";
+import { listServices } from "@/services/allService";
+import AdminLayout from "@/components/dashboard/AdminLayout/AdminLayout";
+import { fakeServices } from "@/data/fakeServices";
 
 export default function Page() {
-    const [services, setServices] = useState<Service[]>([]);
+    const [services, setServices] = useState<Service[]>(fakeServices);
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
     const [totalItems, setTotalItems] = useState(0);
     const [isReady, setIsReady] = useState(false);
 
-    // Simuler le chargement
-    useEffect(() => {
-        setIsReady(false); // afficher le loader
-        const timer = setTimeout(() => {
-            setServices(fakeServices);
-            setTotalItems(fakeServices.length);
-            setIsReady(true); // masquer le loader
-        }, 1500); // délai simulé (1,5 sec)
+    // nous allos aller chcher tous les users via security
+    const fetchServices = async () => {
+        setIsReady(true);
+        const response = await listServices(currentPage, limit);
+        if (response.statusCode === 200 && response.data) {
+            setServices(response.data.data);
+            setTotalItems(response.data.total);
+            setCurrentPage(response.data.page); // ✅ pas besoin de faire un setTimeout
+            
+        } else {
+            console.error("Erreur lors du chargement des services :", response.message);
+        }
+    };
 
-        return () => clearTimeout(timer); // cleanup si composant démonté
-    }, []);
+    useEffect(() => {
+        fetchServices();
+    },  [currentPage, limit]);
+
 
     const handleNextPage = () => {
         if (currentPage * limit < totalItems) setCurrentPage(currentPage + 1);

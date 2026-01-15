@@ -8,6 +8,7 @@ import { StaticImageData } from "next/image";
 export enum Role {
     ADMIN = "ADMIN",
     PROVIDER = "PROVIDER",
+    MANAGER="MANAGER",
     CLIENT = "CLIENT",
     USER = "USER",
     SELLER = "SELLER",
@@ -21,6 +22,8 @@ export enum AccountType {
 
 export enum ServiceType {
     APPOINTMENT = "APPOINTMENT",
+    IMMOBILIER = "IMMOBILIER",
+    RESTAURANT = "RESTAURANT",
     ORDER = "ORDER",
     PRODUCT = "PRODUCT",
     MIXED = "MIXED",
@@ -233,17 +236,20 @@ export interface Rating {
 export interface Appointment {
     id: string;
     serviceId: string;
+    annonceId?: string;
     providerId: string;
     clientId?: string;
     client: User;
     transactionId?: string;
     scheduledAt?: string;
+    departureDate?: string;
     time?: string;
     durationMins?: number;
     priceCents?: number;
     status: AppointmentStatus;
     providerNotes?: string;
     service: Service;
+    annonce?:Annonce;
     rating?: Rating;
     interventionType?: string;
     createdAt: string;
@@ -385,4 +391,65 @@ export interface CalendarResponse {
     appointmentsByDay: Record<string, Appointment[]>;
     period: CalendarPeriod;
     stats: CalendarStats;
+}
+
+
+// Amenity (équipement)
+export interface Amenity {
+    id: string;
+    label: string;
+    icon: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+// Review (avis)
+export interface Review {
+    id: string;
+    author: string;
+    rating: number; // 1 à 5
+    comment: string;
+}
+
+export interface categoriesAnnonce{
+    id: string;
+    value: string;
+    label: string;
+    certifiedAt?: string;
+}
+
+
+// Annonce principale
+export interface Annonce {
+    id: string;
+    title: string;
+    pinned?: boolean;
+    category: categoriesAnnonce;
+    categoryId: string;
+    location: string;
+    provider?: User;
+    providerId?: string;
+    price: number;
+    rating: number;
+    capacity: number;
+    rooms: number;
+    beds: number;
+    certifiedAt: string;
+    description: string;
+    amenities: Amenity[];
+    typeId: string;
+    type?: AnnonceType;
+    images: string[];
+    review?: Review;
+    appointments?: Appointment[];
+    // Nouvelle localisation fusionnée (typée)
+    gpsLocation?: UserLocation | null;
+}
+export interface AnnonceType {
+    id: string;
+    label: string;
+    description?: string;
+    annonces?: Annonce[];
+    createdAt?: string;
+    updatedAt?: string;
 }

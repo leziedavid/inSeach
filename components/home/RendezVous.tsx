@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Calendar, CheckCircle, Eye, XCircle, Star, Trash2 } from "lucide-react";
+import { Calendar, CheckCircle, Eye, XCircle, Star, Trash2, Phone, MessageCircle } from "lucide-react";
 import Pagination from "../pagination/Paginations";
 import { Spinner } from "../forms/spinner/Loader";
 import { Appointment, AppointmentStatus, Role } from "@/types/interfaces";
@@ -11,11 +11,13 @@ import Erreurs from "./Erreurs";
 import { getUserInfos } from "@/app/middleware";
 import { addRatingOfAppointment, listAppointments, updateStatut } from "@/services/appointments";
 import { useAlert } from "@/contexts/AlertContext";
-// ✅ Correct
-import { Badge } from "@/components/ui/badge";
+import { Historytype } from "@/app/history/page";
 
+interface RendezVousProps {
+    type: Historytype;
+}
 
-export default function RendezVous() {
+export default function RendezVous({ type }: RendezVousProps) {
 
     const { showAlert } = useAlert();
     const [isLoading, setIsLoading] = useState(false);
@@ -176,15 +178,42 @@ export default function RendezVous() {
         setCompletionTarget(null);
     }
 
-    // Mapping statut → variant accepté par ton Badge
-    const statusVariantMap: Record<AppointmentStatus, "default" | "destructive" | "outline" | "secondary"> = {
-        [AppointmentStatus.PENDING]: "secondary",
-        [AppointmentStatus.REQUESTED]: "secondary",
-        [AppointmentStatus.CONFIRMED]: "default", // remplace "success" par "default"
-        [AppointmentStatus.REJECTED]: "destructive",
-        [AppointmentStatus.COMPLETED]: "default", // remplace "success" par "default"
-        [AppointmentStatus.CANCELLED]: "outline", // remplace "warning" par "outline"
+    const statusStyleMap: Record<AppointmentStatus, string> = {
+        PENDING: "bg-amber-100 text-amber-700 border border-amber-200",
+        REQUESTED: "bg-blue-100 text-blue-700 border border-blue-200",
+        CONFIRMED: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+        COMPLETED: "bg-indigo-100 text-indigo-700 border border-indigo-200",
+        REJECTED: "bg-red-100 text-red-700 border border-red-200",
+        CANCELLED: "bg-gray-100 text-gray-600 border border-gray-200",
     };
+
+
+    // affichage des bouton d'allerte
+
+    // Vérifie si le rendez-vous est aujourd'hui et si on est à moins de 30 min avant l'heure
+    const isAppointmentNear = (scheduledAt: string, time: string) => {
+        if (!scheduledAt || !time) return false;
+        const now = new Date();
+        // Date du rendez-vous
+        const scheduledDate = new Date(scheduledAt);
+        // Vérifier si c'est aujourd'hui
+        const isToday =
+            scheduledDate.getFullYear() === now.getFullYear() &&
+            scheduledDate.getMonth() === now.getMonth() &&
+            scheduledDate.getDate() === now.getDate();
+
+        if (!isToday) return false;
+
+        // Heure du rendez-vous
+        const [hours, minutes] = time.split(":").map(Number);
+        const appointmentTime = new Date(scheduledDate);
+        appointmentTime.setHours(hours, minutes, 0, 0);
+        // Calculer la différence en minutes
+        const diffMinutes = (appointmentTime.getTime() - now.getTime()) / 1000 / 60;
+        // Si on est dans la plage -30min à +0min (30 min avant le rendez-vous)
+        return diffMinutes <= 30 && diffMinutes >= 0;
+    };
+
 
     // -------------------------------------------------------------------
     // 🔥 Rendu des actions selon le statut et le rôle
@@ -205,13 +234,13 @@ export default function RendezVous() {
                 if (isStaff) {
                     return (
                         <>
-                            <div className="flex gap-3">
-                                <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)} className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-1 rounded-lg transition" >
+                            <div className="flex gap-2">
+                                <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)} className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1 md:py-1 rounded-lg transition" >
                                     <XCircle className="w-3 h-3 text-white" />
                                     Refuser
                                 </button>
 
-                                <button onClick={() => updateStatus(rdv, AppointmentStatus.CONFIRMED)} className="flex items-center gap-1 bg-[#b07b5e] text-white hover:bg-[#b07b5e]/80 text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-1 rounded-lg transition" >
+                                <button onClick={() => updateStatus(rdv, AppointmentStatus.CONFIRMED)} className="flex items-center gap-1 bg-[#b07b5e] text-white hover:bg-[#b07b5e]/80 text-sm md:text-sm px-2 md:px-3 py-1 md:py-1 rounded-lg transition" >
                                     <CheckCircle className="w-3 h-3 text-white" />
                                     Accepter
                                 </button>
@@ -222,9 +251,9 @@ export default function RendezVous() {
                     );
                 }
                 return (
-                    <div className="w-full flex gap-">
+                    <div className="w-full flex gap-2">
                         <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)}
-                            className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-1 rounded-lg transition" >
+                            className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1 md:py-1 rounded-lg transition" >
                             <XCircle className="w-3 h-3 text-gray-500" />
                             Refuser
                         </button>
@@ -235,14 +264,14 @@ export default function RendezVous() {
 
                 if (isStaff) {
                     return (
-                        <div className="flex gap-3">
+                        <div className="flex gap-2">
 
-                            <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)} className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-1 rounded-lg transition"  >
+                            <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)} className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1 md:py-1 rounded-lg transition"  >
                                 <XCircle className="w-3 h-3 white" />
                                 Refuser
                             </button>
 
-                            <button onClick={() => updateStatus(rdv, AppointmentStatus.COMPLETED)} className="flex items-center gap-1 bg-[#155e75] text-white hover:bg-[#155e75]/80 text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-1 rounded-lg transition"  >
+                            <button onClick={() => updateStatus(rdv, AppointmentStatus.COMPLETED)} className="flex items-center gap-1 bg-[#155e75] text-white hover:bg-[#155e75]/80 text-sm md:text-sm px-2 md:px-3 py-1 md:py-1 rounded-lg transition"  >
                                 <CheckCircle className="w-3 h-3 text-white" />
                                 Terminer
                             </button>
@@ -251,9 +280,9 @@ export default function RendezVous() {
                 }
 
                 return (
-                    <div className="w-full flex gap-">
+                    <div className="w-full flex gap-2">
                         <button onClick={() => updateStatus(rdv, AppointmentStatus.REJECTED)}
-                            className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1.5 md:py-1 rounded-lg transition" >
+                            className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-600 text-sm md:text-sm px-2 md:px-3 py-1 md:py-1 rounded-lg transition" >
                             <XCircle className="w-3 h-3 text-gray-500" />
                             Refuser
                         </button>
@@ -263,7 +292,7 @@ export default function RendezVous() {
             case AppointmentStatus.COMPLETED:
                 if (isClient) {
                     return (
-                        <div className="flex gap-3">
+                        <div className="flex gap-2">
                             <button onClick={() => openRatingForm(rdv)} className="flex items-center gap-1 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-[10px] px-2 py-1 rounded-full transition"  >
                                 <Star className="w-3 h-3 text-yellow-600" />
                                 Noter
@@ -278,14 +307,6 @@ export default function RendezVous() {
 
             case AppointmentStatus.REJECTED:
 
-            // case AppointmentStatus.CANCELLED:
-            //     return (
-            //         <div className="flex items-center gap-1 bg-red-200 hover:bg-red-200 text-red-800 text-[10px] px-2 py-1 rounded-full transition">
-            //             <Trash2 className="w-3 h-3 text-red-800" />
-            //             Annuler
-            //         </div>
-            //     );
-
             default:
                 return null;
         }
@@ -295,6 +316,7 @@ export default function RendezVous() {
     return (
 
         <>
+
             {/* Header */}
             <div className="flex items-center justify-between mb-8 mt-2">
                 <h3 className="font-semibold text-gray-800 text-sm flex items-center gap-2">  <Calendar className="w-4 h-4" /> Rendez-vous </h3>
@@ -315,7 +337,33 @@ export default function RendezVous() {
                         const isDisabled = rdv.status === AppointmentStatus.REJECTED || rdv.status === AppointmentStatus.CANCELLED;
 
                         return (
-                            <div key={i} className={`flex flex-col border rounded-xl p-3 hover:shadow-md transition  bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 ${isDisabled ? "opacity-50 pointer-events-none" : ""} `} >
+                            <div key={i} className={`relative flex flex-col border rounded-xl p-3 hover:shadow-md transition  bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 ${isDisabled ? "opacity-50 pointer-events-none" : ""} `} >
+
+                                {/* 🔥 Boutons Appel / WhatsApp 30 min avant */}
+                                {rdv.scheduledAt && rdv.time && isAppointmentNear(rdv.scheduledAt, rdv.time) && (
+                                    <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
+                                        <button onClick={() => window.open(`tel:${rdv.service.provider?.phone || ""}`)} className="flex items-center gap-1 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg animate-bounce hover:scale-105 transition-transform"  >
+                                            <Phone className="w-3 h-3" />
+                                            Appel
+                                        </button>
+                                        <button onClick={() => window.open(`https://wa.me/${rdv.service.provider?.phone || ""}`)} className="flex items-center gap-1 bg-[#25D366] text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg animate-bounce hover:scale-105 transition-transform" >
+                                            <MessageCircle className="w-3 h-3" />
+                                            WhatsApp
+                                        </button>
+                                    </div>
+                                )}
+                                <div className="absolute top-2 left-2 flex flex-row gap-2 z-10">
+                                    <button onClick={() => window.open(`tel:${rdv.service.provider?.phone || ""}`)} className="flex items-center gap-1 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg animate-bounce hover:scale-105 transition-transform" >
+                                        <Phone className="w-3 h-3" />
+                                        Appel
+                                    </button>
+                                    <button onClick={() => window.open(`https://wa.me/${rdv.service.provider?.phone || ""}`)} className="flex items-center gap-1 bg-[#25D366] text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg animate-bounce hover:scale-105 transition-transform" >
+                                        <MessageCircle className="w-3 h-3" />
+                                        WhatsApp
+                                    </button>
+                                </div>
+
+
                                 {/* TITRE + DATE */}
                                 <div className="flex items-center justify-between">
 
@@ -341,9 +389,8 @@ export default function RendezVous() {
 
                                 </div>
 
-                                {/* Actions + Eye */}
                                 {/* Actions + Badge + Eye */}
-                                <div className="flex items-end justify-between mt-2 w-full">
+                                <div className="flex items-end justify-between gap-x-1 mt-2 w-full">
 
                                     {/* GAUCHE */}
                                     <div className="flex">
@@ -353,11 +400,10 @@ export default function RendezVous() {
                                     {/* DROITE */}
                                     <div className="flex items-center gap-2">
                                         {rdv.status !== "REQUESTED" && rdv.status !== "PENDING" && (
-                                            <Badge variant={statusVariantMap[rdv.status] || "secondary"}>
+                                            <span className={` px-3 py-1  rounded-full text-xs font-medium transition-all duration-200   hover:scale-105    hover:shadow-sm  ${statusStyleMap[rdv.status]} `}>
                                                 {statusLabels[rdv.status]}
-                                            </Badge>
+                                            </span>
                                         )}
-
 
                                         <button onClick={() => handleAppointmentSelect(rdv)} className="bg-white hover:bg-[#b07b5e] rounded-full shadow p-1.5 text-gray-500 hover:text-white" >
                                             <Eye className="w-4 h-4" />
@@ -378,11 +424,7 @@ export default function RendezVous() {
                 )}
             </div>
 
-            <Pagination
-                page={page}
-                onPageChange={setPage}
-                itemsPerPage={itemsPerPage}
-                totalItems={totalPages} />
+            <Pagination page={page} onPageChange={setPage} itemsPerPage={itemsPerPage} totalItems={totalPages} />
 
             {/* Modal détails */}
             {selectedAppointment && (
@@ -417,8 +459,7 @@ export default function RendezVous() {
                             placeholder="Votre commentaire..."
                             rows={4}
                             value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                        />
+                            onChange={(e) => setComment(e.target.value)} />
 
                         <button className="mt-3 bg-[#b07b5e] text-white px-4 py-2 rounded-lg text-sm" onClick={handleSubmitRating} >
                             Envoyer
