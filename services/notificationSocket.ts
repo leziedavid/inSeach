@@ -1,6 +1,5 @@
 import { io, Socket } from "socket.io-client";
 import { getBaseUrl } from "@/types/baseUrl";
-import { PushNotification } from "./pushService";
 
 let socket: Socket | null = null;
 
@@ -13,7 +12,7 @@ export const connectNotificationSocket = (userId: string) => {
     return socket;
 };
 
-export const onNotificationReceived = ( callback: (notification: PushNotification) => void ) => {
+export const onNotificationReceived = ( callback: (notification: any) => void ) => {
     if (!socket) return;
     socket.on("notification", callback);
 };
