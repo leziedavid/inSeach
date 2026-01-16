@@ -723,3 +723,34 @@ html {
 .fixed {
   z-index: 50;
 }
+
+/* alert style push */
+@keyframes slide-in-up-center {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-down {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up-center 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-slide-out-down {
+  animation: slide-out-down 0.35s ease-in forwards;
+}

@@ -1,12 +1,12 @@
 // app/layout.tsx (ou layout.js si TS non utilisé)
 
-import { InstallPrompt } from "@/components/home/InstallPrompt"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { AlertProvider } from "@/contexts/AlertContext"
 import { CartProvider } from "@/contexts/CartContext"
 import localFont from "next/font/local" // si tu veux des fonts locales
+import { PushNotificationsProvider } from "@/providers/PushNotificationsProvider"
 
 const poppins = localFont({
   src: "./fonts/Poppins.woff2",
@@ -40,16 +40,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <main className="flex-1">
               <AlertProvider>
                 <CartProvider>
-                  {children}
-                  <InstallPrompt /> {/* <- Toast détect mobile */}
+                  <PushNotificationsProvider>
+                    {children}
+                  </PushNotificationsProvider>
+                  {/* <InstallPrompt /> */}
                 </CartProvider>
               </AlertProvider>
             </main>
           </div>
         </ThemeProvider>
 
-        <Toaster
-          position="bottom-right"
+        <Toaster position="bottom-right"
           richColors
           closeButton
           toastOptions={{
@@ -61,8 +62,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               fontSize: "14px",
             },
             className: "sonner-toast",
-          }}
-        />
+          }} />
 
       </body>
     </html>

@@ -7,7 +7,6 @@ import SearchServices from "@/components/home/SearchServices";
 import SocialFollow from "@/components/home/SocialFollow";
 import { User } from "@/types/interfaces";
 import { getMyData } from "@/services/securityService";
-import { Role, ServiceType } from "@/types/interfaces";
 import FullPageLoader from "@/components/home/FullPageLoader";
 import Image from "next/image";
 import AnnonceServices from "@/components/home/AnnonceServices";

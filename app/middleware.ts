@@ -240,13 +240,11 @@ export const isSessionStillValid = async (): Promise<boolean> => {
 export const useAuthMiddleware = async (): Promise<DecodedToken | null> => {
     const token = getTokenFromLocalStorage()
     if (token && isTokenValid(token)) return jwtDecode<DecodedToken>(token)
-
     const newToken = await tryRefreshAccessToken()
     if (!newToken || !isTokenValid(newToken)) {
         logout() // ici on redirige car c’est une page privée
         return null
     }
-
     return jwtDecode<DecodedToken>(newToken)
 }
 
